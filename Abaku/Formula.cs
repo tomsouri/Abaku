@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CommonTypes
 {
-    struct Formula
+    public struct Formula
     {
         private string formulaRepresentation { get; }
         public int Score { get; }
