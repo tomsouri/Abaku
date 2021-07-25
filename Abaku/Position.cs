@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Abaku
+namespace CommonTypes
 {
     public struct Position
     {
