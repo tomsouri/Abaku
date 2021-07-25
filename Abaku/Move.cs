@@ -9,12 +9,12 @@ namespace CommonTypes
     public struct Move
     {
         (Digit, Position)[] PlacedStones;
-        public int Evaluation { get; private set; }
+        public int Value { get; private set; }
         public bool IsEvaluated { get; private set; }
         public Move((Digit,Position)[] placedStones)
         {
             PlacedStones = placedStones;
-            Evaluation = 0;
+            Value = 0;
             IsEvaluated = false;
         }
     }
