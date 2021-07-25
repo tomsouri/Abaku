@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CommonTypes
 {
-    struct Digit
+    public struct Digit
     {
         private byte value { get; }
         public Digit(byte val)

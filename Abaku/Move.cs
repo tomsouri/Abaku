@@ -8,10 +8,10 @@ namespace CommonTypes
 {
     public struct Move
     {
-        (byte, Position)[] PlacedStones;
+        (Digit, Position)[] PlacedStones;
         public int Evaluation { get; private set; }
         public bool IsEvaluated { get; private set; }
-        public Move((byte,Position)[] placedStones)
+        public Move((Digit,Position)[] placedStones)
         {
             PlacedStones = placedStones;
             Evaluation = 0;
