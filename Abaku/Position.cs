@@ -15,8 +15,8 @@ namespace CommonTypes
     /// </summary>
     public struct Position : IEquatable<Position>
     {
-        byte Row { get; }
-        byte Column { get; }
+        public byte Row { get; }
+        public byte Column { get; }
         public Position(byte row, byte column)
         {
             Row = row;
