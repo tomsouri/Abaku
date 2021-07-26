@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace CommonTypes
     /// Represents one move in a game of Abaku, that is the array of placed stones (digits) with their positions.
     /// Supports also the move evaluation, that is adding the point score of the move.
     /// </summary>
-    public struct Move
+    public struct Move : IEnumerable<Position>, IEnumerable<(Digit,Position)>
     {
         private readonly (Digit, Position)[] PlacedStones;
 
@@ -24,6 +25,22 @@ namespace CommonTypes
             PlacedStones = placedStones;
             Score = 0;
             IsEvaluated = false;
+        }
+        IEnumerator<Position> IEnumerable<Position>.GetEnumerator()
+        {
+            foreach (var (_, position) in PlacedStones)
+            {
+                yield return position;
+            }
+        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        public IEnumerator<(Digit,Position)> GetEnumerator()
+        {
+            foreach (var (digit, position) in PlacedStones)
+            {
+                yield return (digit,position);
+            }
         }
     }
 }
