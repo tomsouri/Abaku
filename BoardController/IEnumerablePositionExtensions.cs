@@ -62,6 +62,16 @@ namespace BoardController
                     }
                     return (min, max);
                 }
+
+                internal static bool AtLeastOneSatisfies(this IEnumerable<Position> positions, Predicate<Position> predicate)
+                {
+                    bool isSatisfied = false;
+                    foreach (var position in positions)
+                    {
+                        if (predicate(position)) isSatisfied = true;
+                    }
+                    return isSatisfied;
+                }
             }
         }
     }
