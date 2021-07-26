@@ -110,8 +110,11 @@ namespace BoardController
             {
                 bool isAnyOccupiedPositionUsedInFormula = false;
                 if (board.IsEmpty()) isAnyOccupiedPositionUsedInFormula = true;
-                
-                //var (min, max) = move.G
+
+                var positions = move.GetPositions();
+                var (min, max) = positions.FindMinAndMax();
+                var (start, end) = board.GetLongestFilledSection(positions.ToArray());
+                var digits = board.GetSection(start, end);
 
 
 
