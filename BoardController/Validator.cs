@@ -65,9 +65,12 @@ namespace BoardController
             private bool NoGapBetweenFirstAndLastPosition(IEnumerable<Position> positions, IBoard board)
             {
 
-                //positions.M
-                throw new NotImplementedException();
-                
+                var (min, max) = positions.FindMinAndMax();
+                foreach (var position in Position.GetPositionsBetween(min,max))
+                {
+                    if (board.IsPositionEmpty(position) && !positions.Contains(position)) return false;
+                }
+                return true;
             }
 
 
