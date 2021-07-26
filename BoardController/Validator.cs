@@ -23,7 +23,7 @@ namespace BoardController
             /// <returns>True if it is valid.</returns>
             public bool IsValid(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
             {
-                if (!CheckPositionsValidity(move, board)) return false;
+                if (!CheckPositionsValidity(move.GetPositions(), board)) return false;
 
                 return CheckFormulas(move, board, formulaIdentifier);
             }
@@ -31,17 +31,17 @@ namespace BoardController
             /// <summary>
             /// Check validity of the positions used in the move in the current context.
             /// </summary>
-            /// <param name="move">The move containing the positions.</param>
+            /// <param name="positions">The move containing the positions.</param>
             /// <param name="board">The context.</param>
             /// <returns>True if the positions are valid.</returns>
-            private bool CheckPositionsValidity(Move move, IBoard board)
+            private bool CheckPositionsValidity(IEnumerable<Position> positions, IBoard board)
             {
                 
-                if (!move.ArePositionsPairwiseDistinct()) return false;
-                if (!move.AllPositionsInSameRowOrColumn()) return false;
-                if (!AllPositionsEmpty(move, board)) return false;
-                if (!NoGapBetweenFirstAndLastPosition(move, board)) return false;
-                if (!OccupiesTheRightPositions(move, board)) return false;
+                if (!positions.ArePositionsPairwiseDistinct()) return false;
+                if (!positions.AllPositionsInSameRowOrColumn()) return false;
+                if (!AllPositionsEmpty(positions, board)) return false;
+                if (!NoGapBetweenFirstAndLastPosition(positions, board)) return false;
+                if (!OccupiesTheRightPositions(positions, board)) return false;
                 return true;
             }
 
@@ -100,6 +100,7 @@ namespace BoardController
 
             /// <summary>
             /// Check whether the move contains all formulas on the adjacent edges.
+            /// It expects that the move satisfies all conditions, which are checked in CheckPositionsValidity.
             /// </summary>
             /// <param name="move"></param>
             /// <param name="board"></param>
@@ -107,7 +108,14 @@ namespace BoardController
             /// <returns>True if it is ok.</returns>
             private bool CheckFormulas(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
             {
-                throw new NotImplementedException();
+                bool isAnyOccupiedPositionUsedInFormula = false;
+                if (board.IsEmpty()) isAnyOccupiedPositionUsedInFormula = true;
+                
+                //var (min, max) = move.G
+
+
+
+                return isAnyOccupiedPositionUsedInFormula;
             }
 
         }
