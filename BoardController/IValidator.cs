@@ -8,7 +8,7 @@ using CommonTypes;
 
 namespace BoardController
 {
-    interface IValidator
+    internal interface IValidator
     {
         /// <summary>
         /// Determines, whether a move is a valid move in the current situation,
