@@ -8,8 +8,9 @@ namespace BoardController
 {
     namespace BoardManager
     {
-        interface IBoardManager
+        internal interface IBoardManager
         {
+            IBoard Board { get; }
         }
     }
 }

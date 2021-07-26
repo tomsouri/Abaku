@@ -8,8 +8,10 @@ namespace BoardController
 {
     namespace BoardManager
     {
-        class BoardManager
+
+        internal class BoardManager : IBoardManager
         {
+            public IBoard Board => throw new NotImplementedException();
         }
     }
 
