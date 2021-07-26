@@ -33,6 +33,14 @@ namespace CommonTypes
                 yield return position;
             }
         }
+
+        public IEnumerable<Position> GetPositions()
+        {
+            foreach (var (_, position) in PlacedStones)
+            {
+                yield return position;
+            }
+        }
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         public IEnumerator<(Digit,Position)> GetEnumerator()
