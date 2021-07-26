@@ -62,5 +62,32 @@ namespace CommonTypes
         }
 
 
+        /// <summary>
+        /// Return all positions between specified positions..
+        /// </summary>
+        /// <param name="start">Starting position, is not included in the returned positions.</param>
+        /// <param name="end">Ending position, is not included in the returned positions. 
+        /// Must have the same row or the same column.
+        /// Must be greater than the starting position.</param>
+        /// <returns>Positions directly between specified positions.</returns>
+        public static IEnumerable<Position> GetPositionsBetween(Position start, Position end)
+        {
+            if (!(start <= end)) throw new InvalidOperationException("Starting position must be less than ending position.");
+            if (HaveSameRow(start, end))
+            {
+                for (int colNumber = start.Column + 1; colNumber < end.Column; colNumber++)
+                {
+                    yield return new Position(start.Row, colNumber);
+                }
+            }
+            else if (HaveSameColumn(start, end))
+            {
+                for (int rowNumber = start.Row + 1; rowNumber < end.Row; rowNumber++)
+                {
+                    yield return new Position(rowNumber, start.Column);
+                }
+            }
+            else throw new InvalidOperationException("Given positions must be in the same row or in the same column.");
+        }
     }
 }

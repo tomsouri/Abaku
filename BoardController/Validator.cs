@@ -53,7 +53,7 @@ namespace BoardController
             /// <returns>True if they are empty.</returns>
             private bool AllPositionsEmpty(IEnumerable<Position> positions, IBoard board)
             {
-                throw new NotImplementedException();
+                return positions.All(board.IsPositionEmpty);
             }
 
             /// <summary>
@@ -65,6 +65,7 @@ namespace BoardController
             private bool NoGapBetweenFirstAndLastPosition(IEnumerable<Position> positions, IBoard board)
             {
                 throw new NotImplementedException();
+                
             }
 
 
