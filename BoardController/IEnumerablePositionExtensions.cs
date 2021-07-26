@@ -31,9 +31,56 @@ namespace BoardController
                     // is the same as the number of positions.
                     return positionsCount == equalitiesCount;
                 }
+                private static bool AllPositionsInSameRow(IEnumerable<Position> positions)
+                {
+                    bool sameRow = true;
+
+                    // Assignment only because of CSC to allow using firstPosition in the else-branch.
+                    Position firstPosition = new Position();
+
+                    bool isFirst = true;
+
+                    foreach (var position in positions)
+                    {
+                        if (isFirst)
+                        {
+                            firstPosition = position;
+                            isFirst = false;
+                        }
+                        else
+                        {
+                            if (!position.IsSameRow(firstPosition)) sameRow = false;
+                        }
+                    }
+                    return sameRow;
+                }
+                private static bool AllPositionsInSameColumn(IEnumerable<Position> positions)
+                {
+                    bool sameColumn = true;
+
+                    // Assignment only because of CSC to allow using firstPosition in the else-branch.
+                    Position firstPosition = new Position();
+
+                    bool isFirst = true;
+
+                    foreach (var position in positions)
+                    {
+                        if (isFirst)
+                        {
+                            firstPosition = position;
+                            isFirst = false;
+                        }
+                        else
+                        {
+                            if (!position.IsSameColumn(firstPosition)) sameColumn = false;
+                        }
+                    }
+                    return sameColumn;
+                }
                 public static bool AllPositionsInSameRowOrColumn(this IEnumerable<Position> positions)
                 {
-                    throw new NotImplementedException();
+                    return AllPositionsInSameColumn(positions) | AllPositionsInSameRow(positions);
+
                 }
             }
         }
