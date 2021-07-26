@@ -12,7 +12,7 @@ namespace CommonTypes
     /// </summary>
     public struct Move
     {
-        (Digit, Position)[] PlacedStones;
+        private readonly (Digit, Position)[] PlacedStones;
 
         /// <summary>
         /// The score you get playing this move.

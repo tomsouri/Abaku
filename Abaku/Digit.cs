@@ -11,17 +11,17 @@ namespace CommonTypes
     /// </summary>
     public struct Digit
     {
-        private byte value { get; }
+        private byte Value { get; }
         public Digit(byte val)
         {
             if (val >= 10)
             {
-                throw new ArgumentOutOfRangeException("The argument " + nameof(val) + " must be a valid decimal digit");
+                throw new ArgumentOutOfRangeException(paramName: nameof(val), "The argument must be a valid decimal digit");
             }
-            value = val;
+            Value = val;
         }
-        public static explicit operator Digit (int i) => new Digit((byte)i);
-        public static implicit operator int (Digit d) => d.value;
-        public static implicit operator byte (Digit d) => d.value;
+        public static explicit operator Digit (int i) => (Digit)i;
+        public static implicit operator int (Digit d) => d.Value;
+        public static implicit operator byte (Digit d) => d.Value;
     }
 }

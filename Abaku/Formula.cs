@@ -8,15 +8,15 @@ namespace CommonTypes
 {
     public struct Formula
     {
-        private string formulaRepresentation { get; }
+        private string FormulaRepresentation { get; }
         public int Score { get; }
         public override string ToString()
         {
-            return formulaRepresentation;
+            return FormulaRepresentation;
         }
         public Formula(int score, string representation)
         {
-            formulaRepresentation = representation;
+            FormulaRepresentation = representation;
             Score = score;
         }
     }
