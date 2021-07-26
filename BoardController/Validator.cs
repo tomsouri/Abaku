@@ -64,6 +64,8 @@ namespace BoardController
             /// <returns>True if it is OK.</returns>
             private bool NoGapBetweenFirstAndLastPosition(IEnumerable<Position> positions, IBoard board)
             {
+
+                //positions.M
                 throw new NotImplementedException();
                 
             }

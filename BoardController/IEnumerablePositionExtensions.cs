@@ -50,6 +50,18 @@ namespace BoardController
                     Position first = positions.First();
                     return positions.Skip(1).All(p => equalityComparison(first,p));
                 }
+                
+                internal static (Position, Position) FindMinAndMax(this IEnumerable<Position> positions)
+                {
+                    var min = positions.First();
+                    var max = min;
+                    foreach (var position in positions)
+                    {
+                        if (position <= min) min = position;
+                        if (position >= max) max = position;
+                    }
+                    return (min, max);
+                }
             }
         }
     }
