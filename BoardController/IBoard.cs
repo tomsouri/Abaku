@@ -18,7 +18,7 @@ namespace BoardController
         /// </summary>
         /// <param name="position">The position to be checked.</param>
         /// <returns>Returns true for valid empty positions. Returns false for invalid or full positions.</returns>
-        bool IsEmpty(Position position);
+        bool IsPositionEmpty(Position position);
 
         /// <summary>
         /// Adjacent means has common edge. Occupied position is a position, where a stone is already placed.
