@@ -34,7 +34,7 @@ namespace BoardController
         /// <returns></returns>
         bool ContainsZero(Position position);
 
-        IReadOnlyCollection<Position> GetAdjacentOccupiedPositions(Position basePosition);
+        IEnumerable<Position> GetAdjacentOccupiedPositions(Position basePosition);
 
         /// <summary>
         /// Is the board empty?
