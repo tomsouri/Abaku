@@ -86,7 +86,16 @@ namespace BoardController
             /// <returns></returns>
             private bool OccupiesTheRightPositions(IEnumerable<Position> positions, IBoard board)
             {
-                throw new NotImplementedException();
+                if (board.IsEmpty())
+                {
+                    // first move
+                    return positions.AtLeastOneSatisfies(board.IsStartingPosition);
+                }
+                else
+                {
+                    // standard move
+                    return positions.AtLeastOneSatisfies(board.IsAdjacentToOccupiedPosition);
+                }
             }
 
             /// <summary>
