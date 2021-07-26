@@ -34,6 +34,7 @@ namespace BoardController
             /// <returns>True if the positions are valid.</returns>
             private bool CheckPositionsValidity(Move move, IBoard board)
             {
+                
                 if (!move.ArePositionsPairwiseDistinct()) return false;
                 if (!move.AllPositionsInSameRowOrColumn()) return false;
                 if (!AllPositionsEmpty(move, board)) return false;
@@ -45,10 +46,10 @@ namespace BoardController
             /// <summary>
             /// Check emptiness of the positions on the board.
             /// </summary>
-            /// <param name="move">Move struct containing the positions.</param>
+            /// <param name="positions"></param>
             /// <param name="board">The current board.</param>
             /// <returns>True if they are empty.</returns>
-            private bool AllPositionsEmpty(Move move, IBoard board)
+            private bool AllPositionsEmpty(IEnumerable<Position> positions, IBoard board)
             {
                 throw new NotImplementedException();
             }
@@ -56,13 +57,15 @@ namespace BoardController
             /// <summary>
             /// Check, whether there is no empty cell between the first and the last placed stone.
             /// </summary>
-            /// <param name="move"></param>
+            /// <param name="positions"></param>
             /// <param name="board"></param>
             /// <returns>True if it is OK.</returns>
-            private bool NoGapBetweenFirstAndLastPosition(Move move, IBoard board)
+            private bool NoGapBetweenFirstAndLastPosition(IEnumerable<Position> positions, IBoard board)
             {
                 throw new NotImplementedException();
             }
+
+
 
             /// <summary>
             /// Check whether the right positions are occupied, that is,
@@ -70,10 +73,10 @@ namespace BoardController
             /// in the other moves, at least one placed stones must be placed 
             /// to a position adjacent to an already occupied position.
             /// </summary>
-            /// <param name="move"></param>
+            /// <param name="positions"></param>
             /// <param name="board"></param>
             /// <returns></returns>
-            private bool OccupiesTheRightPositions(Move move, IBoard board)
+            private bool OccupiesTheRightPositions(IEnumerable<Position> positions, IBoard board)
             {
                 throw new NotImplementedException();
             }
@@ -91,13 +94,13 @@ namespace BoardController
             }
 
         }
-        internal static class MoveExtensions
+        internal static class IEnumerablePositionExtensions
         {
-            public static bool ArePositionsPairwiseDistinct(this Move move)
+            public static bool ArePositionsPairwiseDistinct(this IEnumerable<Position> positions)
             {
                 throw new NotImplementedException();
             }
-            public static bool AllPositionsInSameRowOrColumn(this Move move)
+            public static bool AllPositionsInSameRowOrColumn(this IEnumerable<Position>positions)
             {
                 throw new NotImplementedException();
             }
