@@ -13,7 +13,7 @@ namespace CommonTypes
     /// exceed the capacity of one byte, because Abaku
     /// is usually played on 15x15 board.
     /// </summary>
-    public struct Position
+    public struct Position : IEquatable<Position>
     {
         byte Row { get; }
         byte Column { get; }
@@ -27,6 +27,24 @@ namespace CommonTypes
             Row = (byte)row;
             Column = (byte)column;
         }
+        public static bool operator ==(Position p1, Position p2) => p1.Equals(p2);
+
+        public static bool operator !=(Position p1, Position p2) => !p1.Equals(p2);
+
+        public bool Equals(Position other)
+        {
+            return this.Row == other.Row && this.Column==other.Column;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Position other) return this.Equals(other);
+            return false;
+        }
+        public override int GetHashCode()
+        {
+            return this.Row.GetHashCode() + this.Column.GetHashCode();
+        }
 
         /// <summary>
         /// Computes all possible adjacent positions in 2D grid.
@@ -37,5 +55,7 @@ namespace CommonTypes
         {
             return (new Position(Row + 1, Column), new Position(Row - 1, Column), new Position(Row, Column + 1), new Position(Row, Column - 1));
         }
+
+
     }
 }
