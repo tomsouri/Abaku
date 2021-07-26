@@ -5,12 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 using CommonTypes;
+using BoardController.BoardManager;
 
 namespace BoardController
 {
-    namespace BoardManager
-    {
-        interface IBoard
+   internal interface IBoard
         {
             Digit? this[Position position] { get; }
 
@@ -78,6 +77,4 @@ namespace BoardController
             /// <param name="target">The array in which the section should be copied.</param>
             void GetSection(Position start, Position end, Digit?[] target);
         }
-    }
-
 }
