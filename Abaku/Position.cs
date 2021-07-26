@@ -27,8 +27,10 @@ namespace CommonTypes
             Row = (byte)row;
             Column = (byte)column;
         }
-        public bool IsSameRow(Position other) => this.Row == other.Row;
-        public bool IsSameColumn(Position other) => this.Column == other.Column;
+        //public bool IsSameRow(Position other) => this.Row == other.Row;
+        public static bool HaveSameRow(Position p1, Position p2) => p1.Row == p2.Row;
+        //public bool IsSameColumn(Position other) => this.Column == other.Column;
+        public static bool HaveSameColumn(Position p1, Position p2) => p1.Column == p2.Column;
         public static bool operator ==(Position p1, Position p2) => p1.Equals(p2);
 
         public static bool operator !=(Position p1, Position p2) => !p1.Equals(p2);
