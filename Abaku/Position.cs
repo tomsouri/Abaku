@@ -54,11 +54,14 @@ namespace CommonTypes
         /// <summary>
         /// Computes all possible adjacent positions in 2D grid.
         /// </summary>
-        /// <returns>Returns a 4-tuple of positions, 
+        /// <returns>Returns enumerable of 4 positions, 
         /// each of which can be invalid in the context of a concrete 2D board.</returns>
-        public (Position, Position, Position,Position) GetAdjacentPositions()
+        public IEnumerable<Position> GetAdjacentPositions()
         {
-            return (new Position(Row + 1, Column), new Position(Row - 1, Column), new Position(Row, Column + 1), new Position(Row, Column - 1));
+            yield return new Position(Row - 1, Column);
+            yield return new Position(Row, Column - 1);
+            yield return new Position(Row + 1, Column);
+            yield return new Position(Row, Column + 1);
         }
 
 
