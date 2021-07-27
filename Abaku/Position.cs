@@ -35,7 +35,7 @@ namespace CommonTypes
 
         public static bool operator <=(Position p1, Position p2) => p1.Row <= p2.Row && p1.Column <= p2.Column;
         public static bool operator >=(Position p1, Position p2) => p1.Row >= p2.Row && p1.Column >= p2.Column;
-
+        public static int operator -(Position p1, Position p2) => p2.Row - p1.Row + p2.Column - p1.Column;
         public bool Equals(Position other)
         {
             return this.Row == other.Row && this.Column==other.Column;
