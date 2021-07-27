@@ -36,6 +36,14 @@ namespace CommonTypes
         public static bool operator <=(Position p1, Position p2) => p1.Row <= p2.Row && p1.Column <= p2.Column;
         public static bool operator >=(Position p1, Position p2) => p1.Row >= p2.Row && p1.Column >= p2.Column;
         public static int operator -(Position p1, Position p2) => p2.Row - p1.Row + p2.Column - p1.Column;
+        public static Position operator +(Position p1, Position p2) => new Position(p1.Row + p2.Row, p1.Column + p2.Column);
+        /*public static Position GetUnitDifference(Position p1, Position p2) {
+            byte row = (byte)(p2.Row - p1.Row);
+            if (row != 0) row = 1;
+            byte column = (byte)(p2.Column - p1.Column);
+            if (column != 0) column = 1;
+            return new Position(row, column);
+        }*/
         public bool Equals(Position other)
         {
             return this.Row == other.Row && this.Column==other.Column;
