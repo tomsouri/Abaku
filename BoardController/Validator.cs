@@ -12,7 +12,7 @@ namespace BoardController
 {
     namespace Validator
     {
-        class Validator : IValidator
+        internal class Validator : IValidator
         {
             /// <summary>
             /// Is the move valid in the current context.
@@ -34,7 +34,7 @@ namespace BoardController
             /// <param name="positions">The move containing the positions.</param>
             /// <param name="board">The context.</param>
             /// <returns>True if the positions are valid.</returns>
-            private bool CheckPositionsValidity(IEnumerable<Position> positions, IBoard board)
+            private static bool CheckPositionsValidity(IEnumerable<Position> positions, IBoard board)
             {
                 
                 if (!positions.ArePositionsPairwiseDistinct()) return false;
@@ -51,7 +51,7 @@ namespace BoardController
             /// <param name="positions"></param>
             /// <param name="board">The current board.</param>
             /// <returns>True if they are empty.</returns>
-            private bool AllPositionsEmpty(IEnumerable<Position> positions, IBoard board)
+            private static bool AllPositionsEmpty(IEnumerable<Position> positions, IBoard board)
             {
                 return positions.All(board.IsPositionEmpty);
             }
@@ -62,7 +62,7 @@ namespace BoardController
             /// <param name="positions"></param>
             /// <param name="board"></param>
             /// <returns>True if it is OK.</returns>
-            private bool NoGapBetweenFirstAndLastPosition(IEnumerable<Position> positions, IBoard board)
+            private static bool NoGapBetweenFirstAndLastPosition(IEnumerable<Position> positions, IBoard board)
             {
 
                 var (min, max) = positions.FindMinAndMax();
@@ -84,7 +84,7 @@ namespace BoardController
             /// <param name="positions"></param>
             /// <param name="board"></param>
             /// <returns></returns>
-            private bool OccupiesTheRightPositions(IEnumerable<Position> positions, IBoard board)
+            private static bool OccupiesTheRightPositions(IEnumerable<Position> positions, IBoard board)
             {
                 if (board.IsEmpty())
                 {
@@ -106,7 +106,7 @@ namespace BoardController
             /// <param name="board"></param>
             /// <param name="formulaIdentifier"></param>
             /// <returns>True if it is ok.</returns>
-            private bool CheckFormulas(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
+            private static bool CheckFormulas(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
             {
                 if (ContainsFormulaFromFirstStoneToLast(move, board, formulaIdentifier))
                 {
@@ -124,7 +124,7 @@ namespace BoardController
             /// <param name="board"></param>
             /// <param name="formulaIdentifier"></param>
             /// <returns>True if it contains the formula.</returns>
-            private bool ContainsFormulaFromFirstStoneToLast(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
+            private static bool ContainsFormulaFromFirstStoneToLast(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
             {
                 var boardAfterMove = board.GetBoardAfterHypotheticalMove(move);
 
@@ -150,7 +150,7 @@ namespace BoardController
             /// <param name="board"></param>
             /// <param name="formulaIdentifier"></param>
             /// <returns></returns>
-            private bool CheckAdjacentOccupiedPositions(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
+            private static bool CheckAdjacentOccupiedPositions(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
             {
                 // If it is not the first move, at least one adjacent position must be used in some formula.
                 bool isAnyOccupiedPositionUsedInFormula = false;
