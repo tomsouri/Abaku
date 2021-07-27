@@ -67,7 +67,7 @@ namespace BoardController
         /// <param name="start">The first position to be contained in the section.</param>
         /// <param name="end">The last position to be contained in the section.</param>
         /// <returns>Array of nullable digits.</returns>
-        Digit?[] GetSection(Position start, Position end);
+        Digit[] GetSectionAfterApplyingMove(Position start, Position end, Move move);
         /// <summary>
         /// Get the part of a board starting and ending on specified positions.
         /// The positions are supposed to be in the same column or row.
@@ -75,7 +75,7 @@ namespace BoardController
         /// <param name="start">The first position to be contained in the section.</param>
         /// <param name="end">The last position to be contained in the section.</param>
         /// <param name="target">The array in which the section should be copied.</param>
-        void GetSection(Position start, Position end, Digit?[] target);
+        void GetSectionAfterApplyingMove(Position start, Position end, Move move, Digit[] target);
 
         /// <summary>
         /// Determines whether the given position is a starting position 

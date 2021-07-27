@@ -114,7 +114,7 @@ namespace BoardController
                 var positions = move.GetPositions();
                 var (min, max) = positions.FindMinAndMax();
                 var (start, end) = board.GetLongestFilledSectionBounds(positions);
-                var digits = board.GetSection(start, end);
+                var digits = board.GetSectionAfterApplyingMove(start, end);
 
 
 
