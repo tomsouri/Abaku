@@ -113,12 +113,22 @@ namespace BoardController
 
                 var positions = move.GetPositions();
                 var (min, max) = positions.FindMinAndMax();
-                var (start, end) = board.GetLongestFilledSectionBounds(positions);
-                var digits = board.GetSectionAfterApplyingMove(start, end);
-
+                var (start, end) = board.GetLongestFilledSectionBounds(ignoreVacancy:positions);
+                var digits = board.GetSectionAfterApplyingMove(start, end, move);
+                bool containsFormulaFromFirstToLast = formulaIdentifier.ContainsFormulaIncludingIndices(digits, min - start, max - start);
+                
 
 
                 return isAnyOccupiedPositionUsedInFormula;
+            }
+            private bool ContainsFormulaFromFirstStoneToLast(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
+            {
+                var positions = move.GetPositions();
+                var (min, max) = positions.FindMinAndMax();
+                var (start, end) = board.GetLongestFilledSectionBounds(ignoreVacancy: positions);
+                var digits = board.GetSectionAfterApplyingMove(start, end, move);
+                // To compute the indices of min and max position in the array of digit we subtract start position
+                return formulaIdentifier.ContainsFormulaIncludingIndices(digits, min - start, max - start);
             }
 
         }
