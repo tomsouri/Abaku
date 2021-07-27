@@ -35,6 +35,14 @@ namespace CommonTypes
 
         public static bool operator <=(Position p1, Position p2) => p1.Row <= p2.Row && p1.Column <= p2.Column;
         public static bool operator >=(Position p1, Position p2) => p1.Row >= p2.Row && p1.Column >= p2.Column;
+
+        /// <summary>
+        /// The sum of differences of rows and columns of the positions.
+        /// Practical usage is for positions with the same column or the same row.
+        /// </summary>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
+        /// <returns>The manhattan distance of the two points.</returns>
         public static int operator -(Position p1, Position p2) => p2.Row - p1.Row + p2.Column - p1.Column;
         public static Position operator +(Position p1, Position p2) => new Position(p1.Row + p2.Row, p1.Column + p2.Column);
         /*public static Position GetUnitDifference(Position p1, Position p2) {
