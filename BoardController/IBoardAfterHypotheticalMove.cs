@@ -17,6 +17,6 @@ namespace BoardController
         (Position, Position) GetLongestFilledSectionBounds(Position p1, Position p2);
         IReadOnlyList<Digit> GetSection(Position start, Position end);
         bool ContainsFormulaIncludingPositions(Position included1, Position included2, IFormulaIdentifier formulaIdentifier);
-
+        bool ContainsZero(Position position);
     }
 }
