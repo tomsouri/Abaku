@@ -13,6 +13,17 @@ namespace CommonTypes
     /// </summary>
     public struct Move :  IEnumerable<(Digit,Position)>
     {
+        public Digit this[Position position]
+        {
+            get
+            {
+                foreach (var (digit, pos) in PlacedStones)
+                {
+                    if (position == pos) return digit;
+                }
+                throw new InvalidOperationException("The move does not contain the specified position.");
+            }
+        }
         private readonly (Digit, Position)[] PlacedStones;
 
         /// <summary>
