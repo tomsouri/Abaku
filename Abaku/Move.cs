@@ -37,6 +37,14 @@ namespace CommonTypes
             Score = 0;
             IsEvaluated = false;
         }
+        public bool ContainsPosition(Position position)
+        {
+            foreach (var (_, pos) in PlacedStones)
+            {
+                if (position == pos) return true;
+            }
+            return false;
+        }
 
         public IEnumerable<Position> GetPositions()
         {
