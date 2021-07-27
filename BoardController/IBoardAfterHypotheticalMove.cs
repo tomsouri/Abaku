@@ -8,6 +8,9 @@ using CommonTypes;
 
 namespace BoardController
 {
+    /// <summary>
+    /// Simplifying object for accessing content of a board after applying a move.
+    /// </summary>
     internal interface IBoardAfterHypotheticalMove
     {
         Digit? this[Position position] { get; }
