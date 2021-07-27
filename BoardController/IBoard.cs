@@ -49,7 +49,7 @@ namespace BoardController
         /// <param name="ToBeContained">Positions which has to be contained in the section.</param>
         /// <param name="ignoreVacancy">Position, whose vacancy can be ignored.</param>
         /// <returns>The starting and the ending position of the section (as value tuple).</returns>
-        (Position, Position) GetLongestFilledSection((Position, Position) ToBeContained, Position ignoreVacancy);
+        (Position, Position) GetLongestFilledSectionBounds((Position, Position) ToBeContained, Position ignoreVacancy);
 
         /// <summary>
         /// Finds the longest part of a specified row/column (specified by positions to be contained in),
@@ -58,7 +58,7 @@ namespace BoardController
         /// <param name="ignoreVacancy">Array of those Positions, which should be contained in the section,
         /// and whose vacancy can be ignored.</param>
         /// <returns>The starting and the ending position of the section (as value tuple).</returns>
-        (Position, Position) GetLongestFilledSectionBounds(Position[] ignoreVacancy);
+        (Position, Position) GetLongestFilledSectionBounds(IEnumerable<Position> ignoreVacancy);
 
         /// <summary>
         /// Get the part of a board starting and ending on specified positions.
