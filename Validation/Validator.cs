@@ -184,6 +184,9 @@ namespace Validation
             return isAnyOccupiedPositionUsedInFormula;
         }
 
+        /// <summary>
+        /// Simplifying object for accessing content of a board after applying a move.
+        /// </summary>
         private class BoardAfterMove
         {
             private Move move { get; }
