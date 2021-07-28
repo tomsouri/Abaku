@@ -12,7 +12,7 @@ namespace BoardManaging
     /// <summary>
     /// Simplifying object for accessing content of a board after applying a move.
     /// </summary>
-    internal interface IBoardAfterHypotheticalMove
+    public interface IBoardAfterHypotheticalMove
     {
         Digit? this[Position position] { get; }
         (Position, Position) GetLongestFilledSectionBounds(Position p1, Position p2);
