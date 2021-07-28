@@ -9,7 +9,6 @@
     <ProjectReference Include="..\BoardManaging\BoardManaging.csproj" />
     <ProjectReference Include="..\Evaluation\Evaluation.csproj" />
     <ProjectReference Include="..\OperationsManaging\OperationsManaging.csproj" />
-    <ProjectReference Include="..\Optimizing\Optimizing.csproj" />
     <ProjectReference Include="..\Validation\Validation.csproj" />
   </ItemGroup>
 
