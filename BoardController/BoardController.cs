@@ -24,5 +24,16 @@ namespace BoardController
         {
             throw new NotImplementedException();
         }
+
+        // TODO: mozna se zmeni a bude vracet ReadOnly 2D array, ktere implementujeme.
+        public Digit?[,] GetCurrentStateOfBoard()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IReadOnlyList<FormulaRepresentation> WhichFormulasAreIncludedIn(Move move)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
