@@ -2,7 +2,7 @@
 
 namespace Optimizing
 {
-    public class Class1
+    interface IOptimizer
     {
     }
 }
