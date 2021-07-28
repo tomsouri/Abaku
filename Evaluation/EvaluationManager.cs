@@ -44,11 +44,26 @@ namespace Evaluation
             {
 
                 var (start, end) = formula.GetBounds();
-                var section = board.GetBoardAfterHypotheticalMove(move).GetSection(start, end);
+                var section = new BoardAfterMove(board,move).GetSection(start, end);
                 var formulaRepresentation = formulaIdentifier.GetFormulaRepresentation(section);
 
                 formulaRepresentation.Score = formulaEvaluation(formula);
                 yield return formulaRepresentation;
+            }
+        }
+
+        private struct BoardAfterMove
+        {
+            private Move move { get; }
+            private IBoard board { get; }
+            public BoardAfterMove(IBoard board, Move move)
+            {
+                this.move = move;
+                this.board = board;
+            }
+            public IReadOnlyList<Digit> GetSection(Position start, Position end)
+            {
+                throw new NotImplementedException();
             }
         }
     }
