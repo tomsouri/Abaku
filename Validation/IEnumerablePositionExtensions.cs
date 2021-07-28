@@ -58,7 +58,12 @@ namespace Validation
             }
             return (min, max);
         }
-
+        /// <summary>
+        /// Does at least one element of the IEnumerable<Position> satisfy the condition given by predicate?
+        /// </summary>
+        /// <param name="positions"></param>
+        /// <param name="predicate"></param>
+        /// <returns>True if at least one element satisfies the condition.</returns>
         internal static bool AtLeastOneSatisfies(this IEnumerable<Position> positions, Predicate<Position> predicate)
         {
             bool isSatisfied = false;
