@@ -14,7 +14,7 @@ namespace BoardController
         // Not going to be in the interface:
         // bool IsValid(Move move);
         // int Evaluate(Move move);
-        // IReadOnlyList<Formula> GetAllFormulas(Move move);
+        // 
         // ----------------------------------------------------
 
         /// <summary>
@@ -23,6 +23,15 @@ namespace BoardController
         /// <param name="move">The move to enter.</param>
         /// <returns>The score got playing this move.</returns>
         int EnterMove(Move move);
+
+        /// <summary>
+        /// Finds all formulas included in the move in current situation and computes their score.
+        /// Is is used during the game for displaying all the formulas after applying a move,
+        /// included the score you get from the formula.
+        /// </summary>
+        /// <param name="move">The applyed move.</param>
+        /// <returns>List of FormulaRepresentations.</returns>
+        IReadOnlyList<FormulaRepresentation> WhichFormulasAreIncludedIn(Move move);
 
         /// <summary>
         /// Method used by smart agent. Finds the best moves in the current situation.
