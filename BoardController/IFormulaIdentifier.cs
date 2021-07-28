@@ -32,5 +32,12 @@ namespace BoardController
         /// <param name="index2">Index of a digit which must be contained in the formula.</param>
         /// <returns></returns>
         bool ContainsFormulaIncludingIndices(IReadOnlyList<Digit> digits, int index1, int index2);
+
+        /// <summary>
+        /// Depending on allowed operations, creates an instance of FormulaRepresentation to represent a formula.
+        /// </summary>
+        /// <param name="digits">The digits, that build the formula.</param>
+        /// <returns></returns>
+        FormulaRepresentation GetFormulaRepresentation(IReadOnlyList<Digit> digits);
     }
 }
