@@ -5,8 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 using CommonTypes;
+using OperationsManaging;
+using BoardManaging;
 
-namespace BoardController
+namespace Validation
 {
     internal interface IValidator
     {
