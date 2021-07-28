@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OperationsManaging
 {
-    interface IOperationManager
+    public interface IOperationManager
     {
         IFormulaIdentifier FormulaIdentifier { get; }
     }

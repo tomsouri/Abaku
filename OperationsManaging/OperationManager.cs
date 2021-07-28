@@ -2,7 +2,7 @@
 
 namespace OperationsManaging
 {
-    public class OperationManager
+    internal class OperationManager
     {
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Optimizing
 {
-    interface IOptimizer
+    public interface IOptimizer
     {
     }
 }

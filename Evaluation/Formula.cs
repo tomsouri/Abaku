@@ -10,7 +10,7 @@ using BoardManaging;
 
 namespace Evaluation
 {
-    struct Formula : IEnumerable<PositionedDigit>
+    internal struct Formula : IEnumerable<PositionedDigit>
     {
         private Position Start { get; }
         private Position End { get; }

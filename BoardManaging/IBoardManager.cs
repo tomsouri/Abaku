@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BoardManaging
 {
-    internal interface IBoardManager
+    public interface IBoardManager
     {
         IBoard Board { get; }
     }

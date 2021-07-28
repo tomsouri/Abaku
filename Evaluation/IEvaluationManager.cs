@@ -10,7 +10,7 @@ using OperationsManaging;
 
 namespace Evaluation
 {
-    interface IEvaluationManager
+    public interface IEvaluationManager
     {
         int Evaluate(Move move, IBoard board, IFormulaIdentifier formulaIdentifier);
         int Evaluate(Move move, IBoard board, IFormulaIdentifier formulaIdentifier, FormulaEvaluationDelegate formulaEvaluation);

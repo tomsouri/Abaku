@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BoardController
 {
-    public class BoardController : IBoardController
+    internal class BoardController : IBoardController
     {
     }
 }

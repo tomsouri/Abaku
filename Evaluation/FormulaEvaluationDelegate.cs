@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace Evaluation
 {
-    delegate int FormulaEvaluationDelegate(IEnumerable<PositionedDigit> formula);
+    internal delegate int FormulaEvaluationDelegate(IEnumerable<PositionedDigit> formula);
 }

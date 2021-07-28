@@ -10,7 +10,7 @@ using BoardManaging;
 
 namespace Evaluation
 {
-    class EvaluationManager : IEvaluationManager
+    internal class EvaluationManager : IEvaluationManager
     {
         private FormulaEvaluationDelegate CurrentFormulaEvaluation { get; set; }
 
