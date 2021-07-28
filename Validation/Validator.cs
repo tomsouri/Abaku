@@ -123,7 +123,7 @@ namespace Validation
         /// <returns>True if it contains the formula.</returns>
         private static bool ContainsFormulaFromFirstStoneToLast(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
         {
-            var boardAfterMove = board.GetBoardAfterHypotheticalMove(move);
+            var boardAfterMove = new BoardAfterMove(board, move);
 
             var positions = move.GetPositions();
             var (min, max) = positions.FindMinAndMax();
@@ -151,7 +151,7 @@ namespace Validation
             var positions = move.GetPositions();
             var (min, max) = positions.FindMinAndMax();
 
-            var boardAfterMove = board.GetBoardAfterHypotheticalMove(move);
+            var boardAfterMove = new BoardAfterMove(board, move);
 
             foreach (var position in positions)
             {
