@@ -184,6 +184,11 @@ namespace Validation
             return isAnyOccupiedPositionUsedInFormula;
         }
 
+        public IValidator GetValidator()
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Simplifying object for accessing content of a board after applying a move.
         /// </summary>
