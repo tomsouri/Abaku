@@ -8,7 +8,7 @@ using CommonTypes;
 
 namespace BoardManaging
 {
-    internal interface IBoard
+    public interface IBoard
     {
         Digit? this[Position position] { get; }
 
