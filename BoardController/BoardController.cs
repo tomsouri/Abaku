@@ -26,6 +26,7 @@ namespace BoardController
         }
 
         // TODO: mozna se zmeni a bude vracet ReadOnly 2D array, ktere implementujeme.
+        // spis ne, vracenim kopie neprislis casto nevznika tlak na GC-heap.
         public Digit?[,] GetCurrentStateOfBoard()
         {
             throw new NotImplementedException();
