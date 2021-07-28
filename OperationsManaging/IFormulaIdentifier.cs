@@ -8,7 +8,7 @@ using CommonTypes;
 
 namespace OperationsManaging
 {
-    interface IFormulaIdentifier
+    public interface IFormulaIdentifier
     {
         bool IsFormula(IReadOnlyList<Digit> digits);
 
