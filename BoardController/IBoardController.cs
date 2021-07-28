@@ -39,7 +39,13 @@ namespace BoardController
         /// <param name="availableStones"> Stones on hand (digits that can be used).</param>
         /// <returns>The best moves, sorted decreasingly by the score value.</returns>
         IReadOnlyList<Move> GetBestMoves(IReadOnlyList<Digit> availableStones);
-        
+
+        /// <summary>
+        /// If a digit is null, it means, that no digit is placed on the position.
+        /// TODO: mozna bude vracet immutable 2D array, ktere implementujeme.
+        /// </summary>
+        /// <returns>The copy of the board.</returns>
+        Digit?[,] GetCurrentStateOfBoard();
         //
         // TODO: operations, evaluation types, types of board.
         // how to setup allowed operations, the type of evaluation and the type of board.
