@@ -12,8 +12,8 @@ namespace BoardController
     {
         internal struct PositionedDigit
         {
-            public Digit digit { get; }
-            public Position position { get; }
+            public Digit Digit { get; }
+            public Position Position { get; }
             public bool IsNewlyPlaced { get; }
         }
     }
