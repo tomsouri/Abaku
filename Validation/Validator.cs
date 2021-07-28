@@ -194,12 +194,12 @@ namespace Validation
         /// </summary>
         private class BoardAfterMove
         {
-            private Move move { get; }
-            private IBoard board { get; }
+            private Move Move { get; }
+            private IBoard Board { get; }
             public BoardAfterMove(IBoard board, Move move)
             {
-                this.move = move;
-                this.board = board;
+                this.Move = move;
+                this.Board = board;
             }
             public bool ContainsZero(Position position)
             {
