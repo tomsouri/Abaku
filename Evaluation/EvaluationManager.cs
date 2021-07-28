@@ -13,18 +13,44 @@ namespace Evaluation
 {
     internal class EvaluationManager : IEvaluationManager
     {
+        /// <summary>
+        /// The delegate used for evaluation of formulas.
+        /// </summary>
         private FormulaEvaluationDelegate CurrentFormulaEvaluation { get; set; }
 
+        /// <summary>
+        /// Finds all formulae included in the move.
+        /// </summary>
+        /// <param name="move">Current move.</param>
+        /// <param name="board">Current board.</param>
+        /// <param name="formulaIdentifier">Current IFormulaIdentifier.</param>
+        /// <returns>IEnumerable of Formulae (the nested structure).</returns>
         private IEnumerable<Formula> GetAllFormulas(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Evaluates the move in the current situation using the default formula evaluation delegate.
+        /// </summary>
+        /// <param name="move"></param>
+        /// <param name="board"></param>
+        /// <param name="formulaIdentifier"></param>
+        /// <returns>The score you get after applying the move.</returns>
         public int Evaluate(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
         {
             return Evaluate(move, board, formulaIdentifier, CurrentFormulaEvaluation);
         }
-        public int Evaluate(Move move, IBoard board, IFormulaIdentifier formulaIdentifier, FormulaEvaluationDelegate formulaEvaluation)
+
+        /// <summary>
+        /// Evaluates the move in the current situation.
+        /// </summary>
+        /// <param name="move"></param>
+        /// <param name="board"></param>
+        /// <param name="formulaIdentifier"></param>
+        /// <param name="formulaEvaluation">The specified delegate used to evaluate each formula.</param>
+        /// <returns></returns>
+        private int Evaluate(Move move, IBoard board, IFormulaIdentifier formulaIdentifier, FormulaEvaluationDelegate formulaEvaluation)
         {
             int score = 0;
             foreach (var formula in GetAllFormulas(move, board, formulaIdentifier))
@@ -34,12 +60,29 @@ namespace Evaluation
             return score;
         }
 
+        /// <summary>
+        /// Uses the defalut formula evaluation delegate to find representations of all formulae and evaluate them.
+        /// The expected usage is for displaying all formulae contained in the move with their scores
+        /// after applying the move by a player.
+        /// </summary>
+        /// <param name="move"></param>
+        /// <param name="board"></param>
+        /// <param name="formulaIdentifier"></param>
+        /// <returns>IEnumerable of FormulaRepresentation.</returns>
         public IEnumerable<FormulaRepresentation> GetAllFormulasIncludedIn(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
         {
             return GetAllFormulasIncludedIn(move, board, formulaIdentifier, CurrentFormulaEvaluation);
         }
 
-        public IEnumerable<FormulaRepresentation> GetAllFormulasIncludedIn(Move move, IBoard board, IFormulaIdentifier formulaIdentifier, FormulaEvaluationDelegate formulaEvaluation)
+        /// <summary>
+        /// Uses the specified formula evaluation delegate to find representations of all formulae and evaluate them.
+        /// </summary>
+        /// <param name="move"></param>
+        /// <param name="board"></param>
+        /// <param name="formulaIdentifier"></param>
+        /// <param name="formulaEvaluation">The specified formula evaluation delegate.</param>
+        /// <returns>IEnumerable of FormulaRepresentation.</returns>
+        private IEnumerable<FormulaRepresentation> GetAllFormulasIncludedIn(Move move, IBoard board, IFormulaIdentifier formulaIdentifier, FormulaEvaluationDelegate formulaEvaluation)
         {
             foreach (var formula in GetAllFormulas(move, board, formulaIdentifier))
             {
@@ -53,14 +96,17 @@ namespace Evaluation
             }
         }
 
+        /// <summary>
+        /// Simplifying object for accessing content of a board after applying a move.
+        /// </summary>
         private struct BoardAfterMove
         {
-            private Move move { get; }
-            private IBoard board { get; }
+            private Move Move { get; }
+            private IBoard Board { get; }
             public BoardAfterMove(IBoard board, Move move)
             {
-                this.move = move;
-                this.board = board;
+                this.Move = move;
+                this.Board = board;
             }
             public IReadOnlyList<Digit> GetSection(Position start, Position end)
             {
