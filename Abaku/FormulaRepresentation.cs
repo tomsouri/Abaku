@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace CommonTypes
 {
-    public struct Formula
+    public struct FormulaRepresentation
     {
-        private string FormulaRepresentation { get; }
+        private string FormulaRepresentationString { get; }
         public int Score { get; }
         public override string ToString()
         {
-            return FormulaRepresentation;
+            return FormulaRepresentationString;
         }
-        public Formula(int score, string representation)
+        public FormulaRepresentation(int score, string representation)
         {
-            FormulaRepresentation = representation;
+            FormulaRepresentationString = representation;
             Score = score;
         }
     }
