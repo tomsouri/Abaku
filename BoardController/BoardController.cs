@@ -25,6 +25,11 @@ namespace BoardController
             throw new NotImplementedException();
         }
 
+        public IBoardController GetBoardController()
+        {
+            throw new NotImplementedException();
+        }
+
         // TODO: mozna se zmeni a bude vracet ReadOnly 2D array, ktere implementujeme.
         // spis ne, vracenim kopie neprislis casto nevznika tlak na GC-heap.
         public Digit?[,] GetCurrentStateOfBoard()
