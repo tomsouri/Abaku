@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -64,6 +65,26 @@ namespace Evaluation
             public IReadOnlyList<Digit> GetSection(Position start, Position end)
             {
                 throw new NotImplementedException();
+            }
+        }
+
+        private struct Formula : IEnumerable<PositionedDigit>
+        {
+            private Position Start { get; }
+            private Position End { get; }
+            private BoardAfterMove BoardAfterMove { get; }
+            public IEnumerator<PositionedDigit> GetEnumerator()
+            {
+                throw new NotImplementedException();
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return GetEnumerator();
+            }
+            public (Position, Position) GetBounds()
+            {
+                return (Start, End);
             }
         }
     }
