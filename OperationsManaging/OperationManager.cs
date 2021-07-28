@@ -2,7 +2,7 @@
 
 namespace OperationsManaging
 {
-    public class Class1
+    public class OperationManager
     {
     }
 }

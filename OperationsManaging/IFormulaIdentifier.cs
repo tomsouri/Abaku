@@ -5,13 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 using CommonTypes;
-using BoardController.OperationManager;
 
-namespace BoardController
+namespace OperationsManaging
 {
-    /// <summary>
-    /// Determines, whether an array of digits is (or contains) a formula or not.
-    /// </summary>
     interface IFormulaIdentifier
     {
         bool IsFormula(IReadOnlyList<Digit> digits);

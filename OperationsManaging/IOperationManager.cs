@@ -4,13 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BoardController
+namespace OperationsManaging
 {
-    namespace OperationManager
+    interface IOperationManager
     {
-        class OperationManager
-        {
-        }
+        IFormulaIdentifier FormulaIdentifier { get; }
     }
-
 }
