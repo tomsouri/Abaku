@@ -39,7 +39,16 @@ namespace BoardController
 
             public IEnumerable<FormulaRepresentation> GetAllFormulasIncludedIn(Move move, IBoard board, IFormulaIdentifier formulaIdentifier, FormulaEvaluationDelegate formulaEvaluation)
             {
-                throw new NotImplementedException();
+                foreach (var formula in GetAllFormulas(move,board,formulaIdentifier))
+                {
+
+                    var (start, end) = formula.GetBounds();
+                    var section = board.GetBoardAfterHypotheticalMove(move).GetSection(start, end);
+                    var formulaRepresentation = formulaIdentifier.GetFormulaRepresentation(section);
+                    
+                    formulaRepresentation.Score = formulaEvaluation(formula);
+                    yield return formulaRepresentation;
+                }
             }
         }
     }
