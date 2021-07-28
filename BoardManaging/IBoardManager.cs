@@ -9,5 +9,6 @@ namespace BoardManaging
     public interface IBoardManager
     {
         IBoard Board { get; }
+        IBoardManager GetBoardManager();
     }
 }
