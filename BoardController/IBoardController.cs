@@ -13,9 +13,10 @@ namespace BoardController
         // bool IsValid(Move move);
         // int Evaluate(Move move);
         // IReadOnlyList<Formula> GetAllFormulas(Move move);
-        // void EnterMove(Move move);
-        // IReadOnlyList<Move> GetBestMoves(Digit[] AvailableStones);
-
+        int EnterMove(Move move);
+        IReadOnlyList<Move> GetBestMoves(IReadOnlyList<Digit> AvailableStones);
+        //
         // TODO: operations, evaluation types, types of board.
+        //
     }
 }
