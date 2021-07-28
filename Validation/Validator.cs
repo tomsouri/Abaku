@@ -72,8 +72,6 @@ namespace Validation
             return true;
         }
 
-
-
         /// <summary>
         /// Check whether the right positions are occupied, that is,
         /// in the first move, the Starting position must be occupied,
@@ -186,5 +184,23 @@ namespace Validation
             return isAnyOccupiedPositionUsedInFormula;
         }
 
+        private class BoardAfterMove
+        {
+            private Move move { get; }
+            private IBoard board { get; }
+            public BoardAfterMove(IBoard board, Move move)
+            {
+                this.move = move;
+                this.board = board;
+            }
+            public bool ContainsZero(Position position)
+            {
+                throw new NotImplementedException();
+            }
+            public bool ContainsFormulaIncludingPositions(Position included1, Position included2, IFormulaIdentifier formulaIdentifier)
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }
