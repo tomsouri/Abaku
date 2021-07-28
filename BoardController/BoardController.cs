@@ -15,5 +15,14 @@ namespace BoardController
 {
     internal class BoardController : IBoardController
     {
+        public int EnterMove(Move move)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IReadOnlyList<Move> GetBestMoves(IReadOnlyList<Digit> availableStones)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
