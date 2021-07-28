@@ -9,7 +9,7 @@ namespace CommonTypes
     public struct FormulaRepresentation
     {
         private string FormulaRepresentationString { get; }
-        public int Score { get; }
+        public int Score { get; set; }
         public override string ToString()
         {
             return FormulaRepresentationString;
