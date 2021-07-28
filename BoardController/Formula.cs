@@ -25,6 +25,10 @@ namespace BoardController
             {
                 return GetEnumerator();
             }
+            public (Position, Position) GetBounds()
+            {
+                return (Start, End);
+            }
         }
     }
 
