@@ -83,12 +83,5 @@ namespace BoardManaging
         /// <param name="position">The given position to check.</param>
         /// <returns>True if it is the starting position.</returns>
         bool IsStartingPosition(Position position);
-
-        /// <summary>
-        /// Creates an object used to represent board after hypothetical move.
-        /// </summary>
-        /// <param name="move"></param>
-        /// <returns></returns>
-        IBoardAfterHypotheticalMove GetBoardAfterHypotheticalMove(Move move);
     }
 }
