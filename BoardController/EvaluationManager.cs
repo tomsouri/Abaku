@@ -13,21 +13,28 @@ namespace BoardController
         {
             private FormulaEvaluationDelegate CurrentFormulaEvaluation { get; set; }
 
-            //private IEnumerable<>
-
-            public int Evaluate(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
+            private IEnumerable<Formula> GetAllFormulas(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
             {
                 throw new NotImplementedException();
             }
 
+            public int Evaluate(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
+            {
+                return Evaluate(move, board, formulaIdentifier, CurrentFormulaEvaluation);
+            }
             public int Evaluate(Move move, IBoard board, IFormulaIdentifier formulaIdentifier, FormulaEvaluationDelegate formulaEvaluation)
             {
-                throw new NotImplementedException();
+                int score = 0;
+                foreach (var formula in GetAllFormulas(move,board,formulaIdentifier))
+                {
+                    score += formulaEvaluation(formula);
+                }
+                return score;
             }
 
             public IEnumerable<FormulaRepresentation> GetAllFormulasIncludedIn(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
             {
-                throw new NotImplementedException();
+                return GetAllFormulasIncludedIn(move, board, formulaIdentifier, CurrentFormulaEvaluation);
             }
 
             public IEnumerable<FormulaRepresentation> GetAllFormulasIncludedIn(Move move, IBoard board, IFormulaIdentifier formulaIdentifier, FormulaEvaluationDelegate formulaEvaluation)
@@ -36,5 +43,5 @@ namespace BoardController
             }
         }
     }
-
 }
+
