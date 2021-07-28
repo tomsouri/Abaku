@@ -4,12 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using CommonTypes;
+
 namespace BoardController
 {
     namespace EvaluationManager
     {
         interface IEvaluationManager
         {
+            int Evaluate(Move move, IBoard board, IFormulaIdentifier formulaIdentifier);
+            IEnumerable<FormulaRepresentation> GetAllFormulasIncludedIn(Move move, IBoard board, IFormulaIdentifier formulaIdentifier);
         }
     }
 
