@@ -5,12 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 using CommonTypes;
-using BoardController.BoardManager;
 
-namespace BoardController
+namespace BoardManaging
 {
-   internal interface IBoard
-        {
+    internal interface IBoard
+    {
         Digit? this[Position position] { get; }
 
         /// <summary>
@@ -91,5 +90,5 @@ namespace BoardController
         /// <param name="move"></param>
         /// <returns></returns>
         IBoardAfterHypotheticalMove GetBoardAfterHypotheticalMove(Move move);
-        }
+    }
 }

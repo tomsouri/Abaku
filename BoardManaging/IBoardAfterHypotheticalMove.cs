@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 using CommonTypes;
+using OperationsManaging;
 
-namespace BoardController
+namespace BoardManaging
 {
     /// <summary>
     /// Simplifying object for accessing content of a board after applying a move.
