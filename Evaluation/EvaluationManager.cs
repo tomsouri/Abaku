@@ -96,6 +96,11 @@ namespace Evaluation
             }
         }
 
+        public IEvaluationManager GetEvaluationManager()
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Simplifying object for accessing content of a board after applying a move.
         /// </summary>

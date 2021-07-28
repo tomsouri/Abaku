@@ -16,5 +16,10 @@ namespace Evaluation
         //int Evaluate(Move move, IBoard board, IFormulaIdentifier formulaIdentifier, FormulaEvaluationDelegate formulaEvaluation);
         IEnumerable<FormulaRepresentation> GetAllFormulasIncludedIn(Move move, IBoard board, IFormulaIdentifier formulaIdentifier);
         //IEnumerable<FormulaRepresentation> GetAllFormulasIncludedIn(Move move, IBoard board, IFormulaIdentifier formulaIdentifier, FormulaEvaluationDelegate formulaEvaluation);
+        /// <summary>
+        /// Substitutes for public constructor.
+        /// </summary>
+        /// <returns>New instance of IEvaluationManager.</returns>
+        IEvaluationManager GetEvaluationManager();
     }
 }

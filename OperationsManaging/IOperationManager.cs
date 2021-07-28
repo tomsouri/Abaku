@@ -9,5 +9,11 @@ namespace OperationsManaging
     public interface IOperationManager
     {
         IFormulaIdentifier FormulaIdentifier { get; }
+
+        /// <summary>
+        /// Substitutes for public constructor.
+        /// </summary>
+        /// <returns>New instance of IOperationManager.</returns>
+        IOperationManager GetOperationManager();
     }
 }
