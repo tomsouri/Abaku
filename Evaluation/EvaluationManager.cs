@@ -135,17 +135,18 @@ namespace Evaluation
             private BoardAfterMove BoardAfterMove { get; }
             public IEnumerator<PositionedDigit> GetEnumerator()
             {
-                /*var unitDelta = new PositionDelta(End, Start).GetUnitDelta();
+                var unitDelta = new PositionDelta(End, Start).GetUnitDelta();
                 var currentPosition = Start;
                 for (int i = 0; i < End-Start; i++)
                 {
-                    var digit = BoardAfterMove[currentPosition];
-                    bool isNewlyPlaced = BoardAfterMove.
+                    // we expect that the digit is not null!
+                    var digit = (Digit)BoardAfterMove[currentPosition];
+                    bool isNewlyPlaced = BoardAfterMove.IsPlacedInTheMove(currentPosition);
 
+                    yield return new PositionedDigit(digit, currentPosition, isNewlyPlaced);
 
                     currentPosition += unitDelta;
-                }*/
-                throw new NotImplementedException();
+                }
             }
             private struct PositionDelta
             {
