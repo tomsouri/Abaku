@@ -60,6 +60,14 @@ namespace BoardManaging
         (Position, Position) GetLongestFilledSectionBounds(IEnumerable<Position> ignoreVacancy);
 
         /// <summary>
+        /// Finds the longest part of a specified row/column (specified by positions to be contained in),
+        /// which is already filled (with ignoring vacancy of specified positions). 
+        /// </summary>
+        /// <param name="ToBeContained">Positions (2-tuple) which has to be contained in the section.</param>
+        /// <param name="ignoreVacancy">Array Positions, whose vacancy can be ignored.</param>
+        /// <returns>The starting and the ending position of the section (as value tuple).</returns>
+        (Position, Position) GetLongestFilledSectionBounds((Position, Position) ToBeContained, IEnumerable<Position> ignoreVacancy);
+        /// <summary>
         /// Get the part of a board starting and ending on specified positions.
         /// The positions are supposed to be in the same column or row.
         /// </summary>
