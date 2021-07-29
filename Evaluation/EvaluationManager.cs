@@ -47,7 +47,7 @@ namespace Evaluation
         /// <param name="board"></param>
         /// <param name="formulaIdentifier"></param>
         /// <returns>The score you get after applying the move.</returns>
-        public int Evaluate(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
+        int IEvaluationManager.Evaluate(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
         {
             return Evaluate(move, board, formulaIdentifier, CurrentFormulaEvaluation);
         }
@@ -79,7 +79,7 @@ namespace Evaluation
         /// <param name="board"></param>
         /// <param name="formulaIdentifier"></param>
         /// <returns>IEnumerable of FormulaRepresentation.</returns>
-        public IEnumerable<FormulaRepresentation> GetAllFormulasIncludedIn(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
+        IEnumerable<FormulaRepresentation> IEvaluationManager.GetAllFormulasIncludedIn(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
         {
             return GetAllFormulasIncludedIn(move, board, formulaIdentifier, CurrentFormulaEvaluation);
         }
@@ -158,6 +158,15 @@ namespace Evaluation
                     currentPosition += unitDelta;
                 }
             }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return GetEnumerator();
+            }
+            public (Position, Position) GetBounds()
+            {
+                return (Start, End);
+            }
             private struct PositionDelta
             {
                 private byte Row { get; set; }
@@ -179,23 +188,14 @@ namespace Evaluation
                 }
                 public PositionDelta GetUnitDelta()
                 {
-                    return new((this.Row == 0) ? 0 : 1, (this.Column == 0) ? 0 : 1 );
+                    return new((this.Row == 0) ? 0 : 1, (this.Column == 0) ? 0 : 1);
                 }
-                public static PositionDelta operator *(int i, PositionDelta pd) => new((pd.Row * i),(pd.Column * i));
-                public static PositionDelta operator *(PositionDelta pd, int i) => new((pd.Row * i),(pd.Column * i));
+                public static PositionDelta operator *(int i, PositionDelta pd) => new((pd.Row * i), (pd.Column * i));
+                public static PositionDelta operator *(PositionDelta pd, int i) => new((pd.Row * i), (pd.Column * i));
 
                 public static Position operator +(Position p, PositionDelta pd) => new(p.Row + pd.Row, p.Column + pd.Column);
+            }
 
-
-            }
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return GetEnumerator();
-            }
-            public (Position, Position) GetBounds()
-            {
-                return (Start, End);
-            }
         }
     }
 }
