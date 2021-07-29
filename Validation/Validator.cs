@@ -11,10 +11,19 @@ using OperationsManaging;
 
 namespace Validation
 {
+    /// <summary>
+    /// Implements singleton pattern.
+    /// </summary>
     public class Validator : IValidator
     {
+        /// <summary>
+        /// The only instance.
+        /// </summary>
         private static readonly Validator Singleton = new();
 
+        /// <summary>
+        /// Instance getter.
+        /// </summary>
         public static IValidator Instance {get => Singleton;}
 
         private Validator() { }
@@ -210,6 +219,11 @@ namespace Validation
                 this.Move = move;
                 this.Board = board;
             }
+            /// <summary>
+            /// Determines, whether board or move contains zero digit on the given position.
+            /// </summary>
+            /// <param name="position">Given position to check.</param>
+            /// <returns>True if at least one of them contains zero digit.</returns>
             public bool ContainsZero(Position position)
             {
                 return Board.ContainsZero(position) || Move.ContainsZero(position);
