@@ -123,7 +123,36 @@ namespace Evaluation
             {
                 throw new NotImplementedException();
             }
+            private struct PositionDelta
+            {
+                private byte Row { get; set; }
+                private byte Column { get; set; }
+                public PositionDelta(Position end, Position start)
+                {
+                    Row = (byte)(end.Row - start.Row);
+                    Column = (byte)(end.Column - start.Column);
+                }
+                public PositionDelta(int row, int column)
+                {
+                    Row = (byte)row;
+                    Column = (byte)column;
+                }
+                public PositionDelta(byte row, byte column)
+                {
+                    Row = row;
+                    Column = column;
+                }
+                public PositionDelta GetUnitDelta()
+                {
+                    return new((this.Row == 0) ? 0 : 1, (this.Column == 0) ? 0 : 1 );
+                }
+                public static PositionDelta operator *(int i, PositionDelta pd) => new((pd.Row * i),(pd.Column * i));
+                public static PositionDelta operator *(PositionDelta pd, int i) => new((pd.Row * i),(pd.Column * i));
 
+                public static Position operator +(Position p, PositionDelta pd) => new(p.Row + pd.Row, p.Column + pd.Column);
+
+
+            }
             IEnumerator IEnumerable.GetEnumerator()
             {
                 return GetEnumerator();
