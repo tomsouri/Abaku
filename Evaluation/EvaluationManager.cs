@@ -11,12 +11,22 @@ using BoardManaging;
 
 namespace Evaluation
 {
-    internal class EvaluationManager : IEvaluationManager
+    public class EvaluationManager : IEvaluationManager
     {
+        public EvaluationManager()
+        {
+            CurrentFormulaEvaluation = DefaultEvaluation;
+        }
+
         /// <summary>
         /// The delegate used for evaluation of formulas.
         /// </summary>
         private FormulaEvaluationDelegate CurrentFormulaEvaluation { get; set; }
+
+        private int DefaultEvaluation(IEnumerable<PositionedDigit> formula)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Finds all formulae included in the move.
