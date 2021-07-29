@@ -72,7 +72,7 @@ namespace CommonTypes
         {
             foreach (var (digit,pos) in this)
             {
-                if (pos == position) return digit == 0;
+                if (pos == position) return digit == Digit.ZERO;
             }
             return false;
         }
