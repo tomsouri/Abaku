@@ -196,6 +196,7 @@ namespace Validation
         {
             private Move Move { get; }
             private IBoard Board { get; }
+
             public BoardAfterMove(IBoard board, Move move)
             {
                 this.Move = move;
@@ -203,7 +204,12 @@ namespace Validation
             }
             public bool ContainsZero(Position position)
             {
-                throw new NotImplementedException();
+                if (!Board.IsPositionEmpty(position)) return Board.ContainsZero(position);
+                foreach (var (digit,other) in Move)
+                {
+                    if (other == position) return digit == 0;
+                }
+                return false;
             }
             public bool ContainsFormulaIncludingPositions(Position included1, Position included2, IFormulaIdentifier formulaIdentifier)
             {
