@@ -62,5 +62,19 @@ namespace CommonTypes
                 yield return (digit,position);
             }
         }
+        
+        /// <summary>
+        /// Determines whether the move places zero to the specified position.
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns>True if the move contains the position and places zero there.</returns>
+        public bool ContainsZero(Position position)
+        {
+            foreach (var (digit,pos) in this)
+            {
+                if (pos == position) return digit == 0;
+            }
+            return false;
+        }
     }
 }
