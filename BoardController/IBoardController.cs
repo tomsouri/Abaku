@@ -47,11 +47,6 @@ namespace BoardController
         /// <returns>The copy of the board.</returns>
         Digit?[,] GetCurrentStateOfBoard();
 
-        /// <summary>
-        /// Instead of public constructor we have this public method. Constructor of BoardController is private.
-        /// </summary>
-        /// <returns>New instance of IBoardController.</returns>
-        IBoardController GetBoardController();
         //
         // TODO: operations, evaluation types, types of board.
         // how to setup allowed operations, the type of evaluation and the type of board.
