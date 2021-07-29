@@ -118,6 +118,10 @@ namespace Evaluation
                 this.Move = move;
                 this.Board = board;
             }
+            public bool IsPlacedInTheMove(Position position)
+            {
+                return Move.GetPositions().Contains(position);
+            }
             public IReadOnlyList<Digit> GetSection(Position start, Position end)
             {
                 throw new NotImplementedException();
@@ -136,6 +140,7 @@ namespace Evaluation
                 for (int i = 0; i < End-Start; i++)
                 {
                     var digit = BoardAfterMove[currentPosition];
+                    bool isNewlyPlaced = BoardAfterMove.
 
 
                     currentPosition += unitDelta;
