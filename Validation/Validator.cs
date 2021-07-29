@@ -210,12 +210,7 @@ namespace Validation
             }
             public bool ContainsZero(Position position)
             {
-                if (!Board.IsPositionEmpty(position)) return Board.ContainsZero(position);
-                foreach (var (digit,other) in Move)
-                {
-                    if (other == position) return digit == 0;
-                }
-                return false;
+                return Board.ContainsZero(position) || Move.ContainsZero(position);
             }
             public bool ContainsFormulaIncludingPositions(Position included1, Position included2, IFormulaIdentifier formulaIdentifier)
             {
