@@ -103,6 +103,16 @@ namespace Evaluation
         {
             private Move Move { get; }
             private IBoard Board { get; }
+
+            public Digit? this[Position position] { 
+                get {
+                    foreach (var (digit,pos) in Move)
+                    {
+                        if (pos == position) return digit;
+                    }
+                    return Board[position];
+                } 
+            }
             public BoardAfterMove(IBoard board, Move move)
             {
                 this.Move = move;
@@ -121,6 +131,15 @@ namespace Evaluation
             private BoardAfterMove BoardAfterMove { get; }
             public IEnumerator<PositionedDigit> GetEnumerator()
             {
+                /*var unitDelta = new PositionDelta(End, Start).GetUnitDelta();
+                var currentPosition = Start;
+                for (int i = 0; i < End-Start; i++)
+                {
+                    var digit = BoardAfterMove[currentPosition];
+
+
+                    currentPosition += unitDelta;
+                }*/
                 throw new NotImplementedException();
             }
             private struct PositionDelta
