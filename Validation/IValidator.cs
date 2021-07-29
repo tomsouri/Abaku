@@ -21,11 +21,5 @@ namespace Validation
         /// <param name="formulaIdentifier">Formula Identifier to identify arrays of digits as formulas.</param>
         /// <returns>True if the move is valid.</returns>
         bool IsValid(Move move, IBoard board, IFormulaIdentifier formulaIdentifier);
-
-        /// <summary>
-        /// Substitutes for public constructor.
-        /// </summary>
-        /// <returns>New instance of IValidator.</returns>
-        IValidator GetValidator();
     }
 }

@@ -11,16 +11,23 @@ using OperationsManaging;
 
 namespace Validation
 {
-    internal class Validator : IValidator
+    public class Validator : IValidator
     {
+        private static readonly Validator Singleton = new();
+
+        public static Validator Instance {get => Singleton;}
+
+        private Validator() { }
+
+
         /// <summary>
-        /// Is the move valid in the current context.
+        /// Is the move valid in the current context?
         /// </summary>
         /// <param name="move"></param>
         /// <param name="board"></param>
         /// <param name="formulaIdentifier"></param>
         /// <returns>True if it is valid.</returns>
-        public bool IsValid(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
+        bool IValidator.IsValid(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
         {
             if (!CheckPositionsValidity(move.GetPositions(), board)) return false;
 
@@ -182,11 +189,6 @@ namespace Validation
                 }
             }
             return isAnyOccupiedPositionUsedInFormula;
-        }
-
-        public IValidator GetValidator()
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>
