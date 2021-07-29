@@ -15,7 +15,7 @@ namespace Evaluation
     {
         public EvaluationManager()
         {
-            CurrentFormulaEvaluation = DefaultEvaluation;
+            CurrentFormulaEvaluation = DefaultFormulaEvaluation;
         }
 
         /// <summary>
@@ -23,9 +23,24 @@ namespace Evaluation
         /// </summary>
         private FormulaEvaluationDelegate CurrentFormulaEvaluation { get; set; }
 
-        private int DefaultEvaluation(IEnumerable<PositionedDigit> formula)
+        private IEvaluationBoard CurrentEvaluationBoard { get; set; }
+
+        private static IEvaluationBoard DefaultEvaluationBoard { get; }
+        private void SetupDefaultEvaluationBoard()
+        {
+            this.CurrentEvaluationBoard = DefaultEvaluationBoard;
+        }
+        private static int DefaultFormulaEvaluation(IEnumerable<PositionedDigit> formula)
         {
             throw new NotImplementedException();
+        }
+        private void SetupDefaultFormulaEvaluation()
+        {
+            this.CurrentFormulaEvaluation = DefaultFormulaEvaluation;
+        }
+        private static class EvaluationBoardManager
+        {
+            public static IEvaluationBoard DefaultEvalutionBoard { get; }
         }
 
         /// <summary>
