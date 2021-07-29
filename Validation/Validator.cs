@@ -212,9 +212,21 @@ namespace Validation
             {
                 return Board.ContainsZero(position) || Move.ContainsZero(position);
             }
+
+            /// <summary>
+            /// Determines, whether there exists a formula which contains both positions included1 and included2.
+            /// </summary>
+            /// <param name="included1">Position, which has to be contained in the formula.</param>
+            /// <param name="included2">The other position. It must be in the same row or column as included1.</param>
+            /// <param name="formulaIdentifier"></param>
+            /// <returns>True if there is such a formula.</returns>
             public bool ContainsFormulaIncludingPositions(Position included1, Position included2, IFormulaIdentifier formulaIdentifier)
             {
-                throw new NotImplementedException();
+                var (start, end) = Board.GetLongestFilledSectionBounds(ToBeContained:(included1, included2), ignoreVacancy:Move.GetPositions());
+                var digits = Board.GetSectionAfterApplyingMove(start, end, Move);
+                var index1 = included1 - start;
+                var index2 = included2 - start;
+                return formulaIdentifier.ContainsFormulaIncludingIndices(digits, index1, index2);
             }
         }
     }
