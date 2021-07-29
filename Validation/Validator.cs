@@ -192,7 +192,7 @@ namespace Validation
         /// <summary>
         /// Simplifying object for accessing content of a board after applying a move.
         /// </summary>
-        private class BoardAfterMove
+        private struct BoardAfterMove
         {
             private Move Move { get; }
             private IBoard Board { get; }
