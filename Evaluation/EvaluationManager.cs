@@ -124,7 +124,7 @@ namespace Evaluation
             }
             public IReadOnlyList<Digit> GetSection(Position start, Position end)
             {
-                throw new NotImplementedException();
+                return Board.GetSectionAfterApplyingMove(start, end, Move);
             }
         }
 
