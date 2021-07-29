@@ -12,6 +12,8 @@ namespace CommonTypes
     public struct Digit
     {
         private byte Value { get; }
+        private static readonly byte zero = 0;
+        public static Digit ZERO { get => (Digit)zero; }
         public Digit(byte val)
         {
             if (val >= 10)
