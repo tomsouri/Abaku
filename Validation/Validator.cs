@@ -197,6 +197,12 @@ namespace Validation
             private Move Move { get; }
             private IBoard Board { get; }
 
+            /// <summary>
+            /// Does not check validity of the move, i.e. allows the move to contain a position,
+            /// which is not empty on the board.
+            /// </summary>
+            /// <param name="board"></param>
+            /// <param name="move"></param>
             public BoardAfterMove(IBoard board, Move move)
             {
                 this.Move = move;
