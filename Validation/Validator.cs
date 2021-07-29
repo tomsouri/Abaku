@@ -15,7 +15,7 @@ namespace Validation
     {
         private static readonly Validator Singleton = new();
 
-        public static Validator Instance {get => Singleton;}
+        public static IValidator Instance {get => Singleton;}
 
         private Validator() { }
 
