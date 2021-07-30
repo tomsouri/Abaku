@@ -2,7 +2,7 @@
 
 namespace OperationsManaging
 {
-    internal class OperationManager : IOperationManager
+    public class OperationManager : IOperationManager
     {
         public IFormulaIdentifier FormulaIdentifier => throw new NotImplementedException();
     }
