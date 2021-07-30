@@ -15,7 +15,7 @@ namespace Evaluation
     {
         public EvaluationManager()
         {
-            CurrentFormulaEvaluationDelegate = DefaultFormulaEvaluation;
+            CurrentFormulaEvaluationDelegate = FormulaEvaluationManager.DefaultFormulaEvaluation;
         }
 
 
@@ -27,21 +27,10 @@ namespace Evaluation
         /// The evaluation board.
         /// </summary>
         private IEvaluationBoard CurrentEvaluationBoard { get; set; }
-
-
-
         private static IEvaluationBoard DefaultEvaluationBoard { get; }
         private void SetupDefaultEvaluationBoard()
         {
             this.CurrentEvaluationBoard = DefaultEvaluationBoard;
-        }
-        private static int DefaultFormulaEvaluation(IEnumerable<PositionedDigit> formula)
-        {
-            throw new NotImplementedException();
-        }
-        private void SetupDefaultFormulaEvaluation()
-        {
-            this.CurrentFormulaEvaluationDelegate = DefaultFormulaEvaluation;
         }
         #region FormulaEvaluation
 
@@ -49,16 +38,31 @@ namespace Evaluation
         /// The delegate used for evaluation of formulas.
         /// </summary>
         private FormulaEvaluationDelegate CurrentFormulaEvaluationDelegate { get; set; }
+
         /// <summary>
         /// Is used for evaluating formulas, that is, for a given formula returns a score.
         /// </summary>
         /// <param name="formula">The formula for evaluation.</param>
         /// <returns>Score got from the specified formula.</returns>
         private delegate int FormulaEvaluationDelegate(IEnumerable<PositionedDigit> formula);
+
         private delegate void SetFormulaEvaluationDelegate(FormulaEvaluationDelegate formulaEvaluationDelegate);
+
         private static class FormulaEvaluationManager
         {
+            public static int DefaultFormulaEvaluation(IEnumerable<PositionedDigit> formula)
+            {
+                throw new NotImplementedException();
+            }
+            public static IEnumerable<(string, FormulaEvaluationDelegate)> GetDescriptionsAndFormulaEvalDelegates()
+            {
+                yield return ("Default evaluation", DefaultFormulaEvaluation);
+            }
 
+        }
+        private void SetFormulaEvaluation(FormulaEvaluationDelegate value)
+        {
+            CurrentFormulaEvaluationDelegate = value;
         }
         private class FormulaEvaluationSetupTool : ISetupTool
         {
@@ -76,6 +80,15 @@ namespace Evaluation
             {
                 SetDelegate(FormulaEvalDelegate);
             }
+        }
+        public IReadOnlyList<ISetupTool> GetEvaluationSetupTools()
+        {
+            var list = new List<ISetupTool>();
+            foreach (var (description, evaluation) in FormulaEvaluationManager.GetDescriptionsAndFormulaEvalDelegates())
+            {
+                list.Add(new FormulaEvaluationSetupTool(description, evaluation, this.SetFormulaEvaluation));
+            }
+            return list;
         }
         #endregion
         private static class EvaluationBoardManager
