@@ -16,6 +16,7 @@ namespace Evaluation
         public EvaluationManager()
         {
             CurrentFormulaEvaluationDelegate = FormulaEvaluationManager.DefaultFormulaEvaluation;
+            CurrentEvaluationBoard = EvaluationBoardManager.DefaultEvalutionBoard;
         }
 
 
@@ -26,12 +27,8 @@ namespace Evaluation
         /// <summary>
         /// The evaluation board.
         /// </summary>
-        private IEvaluationBoard CurrentEvaluationBoard { get; set; }
-        private static IEvaluationBoard DefaultEvaluationBoard { get; }
-        private void SetupDefaultEvaluationBoard()
-        {
-            this.CurrentEvaluationBoard = DefaultEvaluationBoard;
-        }
+
+
         #region FormulaEvaluation
 
         /// <summary>
@@ -91,10 +88,57 @@ namespace Evaluation
             return list;
         }
         #endregion
+
+        #region EvaluationBoard
+        private IEvaluationBoard CurrentEvaluationBoard { get; set; }
+
+        private delegate void SetEvaluationBoardDelegate(IEvaluationBoard evaluationBoard);
+        private void SetEvaluationBoard(IEvaluationBoard value)
+        {
+            CurrentEvaluationBoard = value;
+        }
         private static class EvaluationBoardManager
         {
             public static IEvaluationBoard DefaultEvalutionBoard { get; }
+            public static IEnumerable<(string, IEvaluationBoard)> GetDescriptionsEndEvalBoards()
+            {
+                yield return ("Default board", DefaultEvalutionBoard);
+            }
         }
+        private class EvaluationBoardSetupTool : ISetupTool
+        {
+            public string Description { get; }
+
+            private IEvaluationBoard EvaluationBoard { get; }
+            private SetEvaluationBoardDelegate SetEvalBoardDelegate { get; }
+            private SetBoardSettingDelegate SetBoardSettingDelegate { get; }
+            public EvaluationBoardSetupTool(string description,
+                                            IEvaluationBoard evaluationBoard,
+                                            SetEvaluationBoardDelegate setEvalBoardDelegate,
+                                            SetBoardSettingDelegate setBoardSettingDelegate)
+            {
+                Description = description;
+                EvaluationBoard = evaluationBoard;
+                SetEvalBoardDelegate = setEvalBoardDelegate;
+                SetBoardSettingDelegate = setBoardSettingDelegate;
+            }
+            public void Setup()
+            {
+                SetEvalBoardDelegate(EvaluationBoard);
+                var size = EvaluationBoard.GetSize();
+                SetBoardSettingDelegate(size.width, size.height, EvaluationBoard.GetStartPosition());
+            }
+        }
+        public IReadOnlyList<ISetupTool> GetBoardSetupTools(SetBoardSettingDelegate setBoardSettingDelegate)
+        {
+            var list = new List<ISetupTool>();
+            foreach (var (description,board) in EvaluationBoardManager.GetDescriptionsEndEvalBoards())
+            {
+                list.Add(new EvaluationBoardSetupTool(description, board, SetEvaluationBoard, setBoardSettingDelegate));
+            }
+            return list;
+        }
+        #endregion
 
         /// <summary>
         /// Finds all formulae included in the move.

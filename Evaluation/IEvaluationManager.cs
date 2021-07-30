@@ -35,5 +35,6 @@ namespace Evaluation
 
 
         IReadOnlyList<ISetupTool> GetEvaluationSetupTools();
+        IReadOnlyList<ISetupTool> GetBoardSetupTools(SetBoardSettingDelegate setBoardSettingDelegate);
     }
 }
