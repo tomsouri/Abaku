@@ -58,18 +58,39 @@ namespace BoardController
         void EnterMoveUnsafe(Move move);
 
 
-        
+        /// <summary>
+        /// Is used for configuration of allowed mathematical operations. 
+        /// The game environment asks for the tools and after choosing
+        /// the settings, it calls the Setup() methods on all chosen setup tools.
+        /// More of them can be used.
+        /// </summary>
+        /// <returns>List of tools representing possible mathematical operations to allow.</returns>
+        IReadOnlyList<ISetupTool> GetOperationSetupTools();
+
+        /// <summary>
+        /// Is used for configuration of evaluation (which type of evaluation is used). 
+        /// The game environment asks for the tools and after choosing
+        /// the settings, it calls the Setup() methods on all chosen setup tools.
+        /// Only one of them can be used (only the first called has the effect).
+        /// </summary>
+        /// <returns>List of tools representing possible evaluations to choose.</returns>
+        IReadOnlyList<ISetupTool> GetEvaluationSetupTools();
+
+        /// <summary>
+        /// Is used for configuration of board (which type of evaluation board
+        /// is used, the size of board and the location of the starting position). 
+        /// The game environment asks for the tools and after choosing
+        /// the settings, it calls the Setup() methods on all chosen setup tools.
+        /// Only one of them can be used (only the first called has the effect).
+        /// </summary>
+        /// <returns>List of tools representing possible evaluation boards to choose.</returns>
+        IReadOnlyList<ISetupTool> GetBoardSetupTools();
 
 
         /// <summary>
         /// If a digit is null, it means, that no digit is placed on the position.
-        /// TODO: mozna bude vracet immutable 2D array, ktere implementujeme.
         /// </summary>
-        /// <returns>The copy of the board.</returns>
+        /// <returns>The copy of the board, 2D array of nullable digits.</returns>
         Digit?[,] GetBoardContent();
-
-        //
-        // TODO: operations, evaluation types, types of board.
-        // how to setup allowed operations, the type of evaluation and the type of board.
     }
 }
