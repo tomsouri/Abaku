@@ -69,12 +69,14 @@ namespace BoardController
             throw new NotImplementedException();
         }
 
-
-        
-        Digit?[,] IBoardController.GetBoardContent()
+        public IReadOnlyList<ISetupTool> GetInvalidMoveEvaluationSetupTools()
         {
             throw new NotImplementedException();
         }
 
+        Digit?[,] IBoardController.GetBoardContent()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
