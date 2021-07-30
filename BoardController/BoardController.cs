@@ -32,7 +32,7 @@ namespace BoardController
             throw new NotImplementedException();
         }
 
-        public IReadOnlyList<FormulaRepresentation> WhichFormulasAreIncludedIn(Move move)
+        public IReadOnlyList<FormulaRepresentation> AllFormulasIncludedIn(Move move)
         {
             throw new NotImplementedException();
         }
