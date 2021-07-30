@@ -86,6 +86,15 @@ namespace BoardController
         /// <returns>List of tools representing possible evaluation boards to choose.</returns>
         IReadOnlyList<ISetupTool> GetBoardSetupTools();
 
+        /// <summary>
+        /// Is used for configuration of evaluation of invalid moves. 
+        /// The game environment asks for the tools and after choosing
+        /// the settings, it calls the Setup() methods on all chosen setup tools.
+        /// Only one of them can be used (only the first called has the effect).
+        /// </summary>
+        /// <returns>List of tools representing possible evaluations of invalid moves.</returns>
+        IReadOnlyList<ISetupTool> GetInvalidMoveEvaluationSetupTools();
+
 
         /// <summary>
         /// If a digit is null, it means, that no digit is placed on the position.
