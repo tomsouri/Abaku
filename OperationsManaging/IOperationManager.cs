@@ -11,6 +11,6 @@ namespace OperationsManaging
     public interface IOperationManager
     {
         IFormulaIdentifier FormulaIdentifier { get; }
-        IReadOnlyList<ISetupTool> GetOperationSetTools();
+        IReadOnlyList<ISetupTool> GetOperationSetupTools();
     }
 }

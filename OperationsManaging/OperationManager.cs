@@ -8,7 +8,7 @@ namespace OperationsManaging
     {
         public IFormulaIdentifier FormulaIdentifier => throw new NotImplementedException();
 
-        public IReadOnlyList<ISetupTool> GetOperationSetTools()
+        public IReadOnlyList<ISetupTool> GetOperationSetupTools()
         {
             throw new NotImplementedException();
         }
