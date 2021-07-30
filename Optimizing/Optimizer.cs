@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Optimizing
 {
-    public class Optimizer
+    public class Optimizer:IOptimizer
     {
     }
 }
