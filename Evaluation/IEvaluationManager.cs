@@ -32,5 +32,8 @@ namespace Evaluation
         /// <param name="formulaIdentifier">Formula Identifier to use.</param>
         /// <returns>The representations of all found formulas.</returns>
         IEnumerable<FormulaRepresentation> GetAllFormulasIncludedIn(Move move, IBoard board, IFormulaIdentifier formulaIdentifier, MoveValidationDelegate validationDelegate);
+
+
+        IReadOnlyList<ISetupTool> GetEvaluationSetupTools();
     }
 }
