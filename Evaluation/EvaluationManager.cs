@@ -20,13 +20,7 @@ namespace Evaluation
         }
 
 
-        /// <summary>
-        /// The delegate used for evaluation of invalid moves.
-        /// </summary>
-        private InvalidMoveEvaluationDelegate CurrentInvalidMoveEvalDelegate { get; set; }
-        /// <summary>
-        /// The evaluation board.
-        /// </summary>
+
 
 
         #region FormulaEvaluation
@@ -63,8 +57,8 @@ namespace Evaluation
         }
         private class FormulaEvaluationSetupTool : ISetupTool
         {
-            private SetFormulaEvaluationDelegate SetDelegate;
-            private FormulaEvaluationDelegate FormulaEvalDelegate;
+            private SetFormulaEvaluationDelegate SetDelegate { get; }
+            private FormulaEvaluationDelegate FormulaEvalDelegate { get; }
             public FormulaEvaluationSetupTool(string description, FormulaEvaluationDelegate formulaEvalDelegate, SetFormulaEvaluationDelegate setDelegate)
             {
                 Description = description;
@@ -125,8 +119,8 @@ namespace Evaluation
             public void Setup()
             {
                 SetEvalBoardDelegate(EvaluationBoard);
-                var size = EvaluationBoard.GetSize();
-                SetBoardSettingDelegate(size.width, size.height, EvaluationBoard.GetStartPosition());
+                var (width,height) = EvaluationBoard.GetSize();
+                SetBoardSettingDelegate(width, height, EvaluationBoard.GetStartPosition());
             }
         }
         public IReadOnlyList<ISetupTool> GetBoardSetupTools(SetBoardSettingDelegate setBoardSettingDelegate)
@@ -135,6 +129,63 @@ namespace Evaluation
             foreach (var (description,board) in EvaluationBoardManager.GetDescriptionsEndEvalBoards())
             {
                 list.Add(new EvaluationBoardSetupTool(description, board, SetEvaluationBoard, setBoardSettingDelegate));
+            }
+            return list;
+        }
+        #endregion
+        #region InvalidMoveEvaluation
+        /// <summary>
+        /// The delegate used for evaluation of invalid moves.
+        /// </summary>
+        private InvalidMoveEvaluationDelegate CurrentInvalidMoveEvalDelegate { get; set; }
+
+        private delegate int InvalidMoveEvaluationDelegate(Move move);
+        private delegate void SetInvalidMoveEvaluationDelegate(InvalidMoveEvaluationDelegate invalidMoveEvaluationDelegate);
+
+        private static class InvalidMoveEvaluationManager
+        {
+            public static int DefaultInvalidMoveEvaluation(Move move)
+            {
+                int score = 0;
+                foreach (var (digit,_) in move)
+                {
+                    score += digit;
+                }
+                return score;
+            }
+            public static IEnumerable<(string, InvalidMoveEvaluationDelegate)> GetDescriptionsAndInvMoveDelegates()
+            {
+                yield return ("Default invalid move evaluator", DefaultInvalidMoveEvaluation);
+            }
+        }
+        private void SetInvalidMoveEvaluation(InvalidMoveEvaluationDelegate value)
+        {
+            CurrentInvalidMoveEvalDelegate = value;
+        }
+        private class InvalidMoveEvaluationSetupTool : ISetupTool
+        {
+            public string Description { get; }
+            private InvalidMoveEvaluationDelegate InvalMoveEvalDelegate { get; }
+            private SetInvalidMoveEvaluationDelegate SetInvalMoveEvalDelegate { get;}
+            public InvalidMoveEvaluationSetupTool(string description,
+                                                  InvalidMoveEvaluationDelegate invalMoveEvalDelegate,
+                                                  SetInvalidMoveEvaluationDelegate setInvalMoveEvalDelegate)
+            {
+                Description = description;
+                InvalMoveEvalDelegate = invalMoveEvalDelegate;
+                SetInvalMoveEvalDelegate = setInvalMoveEvalDelegate;
+            }
+            public void Setup()
+            {
+                SetInvalMoveEvalDelegate(InvalMoveEvalDelegate);
+            }
+        }
+        public IReadOnlyList<ISetupTool> GetInvalidMoveEvaluationSetupTools()
+        {
+            var list = new List<ISetupTool>();
+            foreach ( var (description, evaluation) in InvalidMoveEvaluationManager.GetDescriptionsAndInvMoveDelegates())
+            {
+                list.Add(new InvalidMoveEvaluationSetupTool(description, evaluation, this.SetInvalidMoveEvaluation));
             }
             return list;
         }
