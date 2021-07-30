@@ -9,7 +9,7 @@ namespace CommonTypes
     /// <summary>
     /// Is used in communication between the game environment and the BoardController.
     /// </summary>
-    interface ISetupTool
+    public interface ISetupTool
     {
         /// <summary>
         /// The description to display in the settings.
