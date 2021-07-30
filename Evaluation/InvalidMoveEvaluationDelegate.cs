@@ -8,5 +8,5 @@ using CommonTypes;
 
 namespace Evaluation
 {
-    internal delegate int InvalidMoveEvaluation(Move move);
+    internal delegate int InvalidMoveEvaluationDelegate(Move move);
 }

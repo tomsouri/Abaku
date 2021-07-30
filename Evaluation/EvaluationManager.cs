@@ -15,15 +15,23 @@ namespace Evaluation
     {
         public EvaluationManager()
         {
-            CurrentFormulaEvaluation = DefaultFormulaEvaluation;
+            CurrentFormulaEvaluationDelegate = DefaultFormulaEvaluation;
         }
 
         /// <summary>
         /// The delegate used for evaluation of formulas.
         /// </summary>
-        private FormulaEvaluationDelegate CurrentFormulaEvaluation { get; set; }
-
+        private FormulaEvaluationDelegate CurrentFormulaEvaluationDelegate { get; set; }
+        /// <summary>
+        /// The delegate used for evaluation of invalid moves.
+        /// </summary>
+        private InvalidMoveEvaluationDelegate CurrentInvalidMoveEvalDelegate { get; set; }
+        /// <summary>
+        /// The evaluation board.
+        /// </summary>
         private IEvaluationBoard CurrentEvaluationBoard { get; set; }
+
+
 
         private static IEvaluationBoard DefaultEvaluationBoard { get; }
         private void SetupDefaultEvaluationBoard()
@@ -36,7 +44,7 @@ namespace Evaluation
         }
         private void SetupDefaultFormulaEvaluation()
         {
-            this.CurrentFormulaEvaluation = DefaultFormulaEvaluation;
+            this.CurrentFormulaEvaluationDelegate = DefaultFormulaEvaluation;
         }
         private static class EvaluationBoardManager
         {
@@ -55,6 +63,16 @@ namespace Evaluation
             throw new NotImplementedException();
         }
 
+
+        int IEvaluationManager.Evaluate(Move move, IBoard board, IFormulaIdentifier formulaIdentifier, MoveValidationDelegate validationDelegate)
+        {
+            if (validationDelegate(move, board, formulaIdentifier))
+            {
+                return EvaluateValidMove(move, board, formulaIdentifier);
+            }
+            return EvaluateInvalidMove(move, board, formulaIdentifier);
+        }
+
         /// <summary>
         /// Evaluates the move in the current situation using the default formula evaluation delegate.
         /// </summary>
@@ -62,24 +80,24 @@ namespace Evaluation
         /// <param name="board"></param>
         /// <param name="formulaIdentifier"></param>
         /// <returns>The score you get after applying the move.</returns>
-        int IEvaluationManager.Evaluate(Move move, IBoard board, IFormulaIdentifier formulaIdentifier, MoveValidationDelegate validationDelegate)
-        {
-            throw new NotImplementedException();   
-        }
         private int EvaluateValidMove(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
         {
-            return Evaluate(move, board, formulaIdentifier, CurrentFormulaEvaluation);
+            return EvaluateValidMove(move, board, formulaIdentifier, CurrentFormulaEvaluationDelegate);
+        }
+        private int EvaluateInvalidMove(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Evaluates the move in the current situation.
+        /// Evaluates a valid move in the current situation.
         /// </summary>
         /// <param name="move"></param>
         /// <param name="board"></param>
         /// <param name="formulaIdentifier"></param>
         /// <param name="formulaEvaluation">The specified delegate used to evaluate each formula.</param>
         /// <returns></returns>
-        private int Evaluate(Move move, IBoard board, IFormulaIdentifier formulaIdentifier, FormulaEvaluationDelegate formulaEvaluation)
+        private int EvaluateValidMove(Move move, IBoard board, IFormulaIdentifier formulaIdentifier, FormulaEvaluationDelegate formulaEvaluation)
         {
             int score = 0;
             foreach (var formula in GetAllFormulas(move, board, formulaIdentifier))
@@ -103,7 +121,7 @@ namespace Evaluation
             if (!validationDelegate(move, board, formulaIdentifier)) return Enumerable.Empty<FormulaRepresentation>();
             else
             {
-                return GetAllFormulasIncludedIn(move, board, formulaIdentifier, CurrentFormulaEvaluation);
+                return GetAllFormulasIncludedIn(move, board, formulaIdentifier, CurrentFormulaEvaluationDelegate);
             }
         }
 
