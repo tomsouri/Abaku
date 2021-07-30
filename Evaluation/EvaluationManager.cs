@@ -62,7 +62,11 @@ namespace Evaluation
         /// <param name="board"></param>
         /// <param name="formulaIdentifier"></param>
         /// <returns>The score you get after applying the move.</returns>
-        int IEvaluationManager.Evaluate(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
+        int IEvaluationManager.Evaluate(Move move, IBoard board, IFormulaIdentifier formulaIdentifier, MoveValidationDelegate validationDelegate)
+        {
+            throw new NotImplementedException();   
+        }
+        private int EvaluateValidMove(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
         {
             return Evaluate(move, board, formulaIdentifier, CurrentFormulaEvaluation);
         }
@@ -93,10 +97,14 @@ namespace Evaluation
         /// <param name="move"></param>
         /// <param name="board"></param>
         /// <param name="formulaIdentifier"></param>
-        /// <returns>IEnumerable of FormulaRepresentation.</returns>
-        IEnumerable<FormulaRepresentation> IEvaluationManager.GetAllFormulasIncludedIn(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
+        /// <returns>IEnumerable of FormulaRepresentation. If the move is not valid, returns empty enumerable.</returns>
+        IEnumerable<FormulaRepresentation> IEvaluationManager.GetAllFormulasIncludedIn(Move move, IBoard board, IFormulaIdentifier formulaIdentifier, MoveValidationDelegate validationDelegate)
         {
-            return GetAllFormulasIncludedIn(move, board, formulaIdentifier, CurrentFormulaEvaluation);
+            if (!validationDelegate(move, board, formulaIdentifier)) return Enumerable.Empty<FormulaRepresentation>();
+            else
+            {
+                return GetAllFormulasIncludedIn(move, board, formulaIdentifier, CurrentFormulaEvaluation);
+            }
         }
 
         /// <summary>

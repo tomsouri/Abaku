@@ -22,7 +22,7 @@ namespace Evaluation
         /// <param name="formulaIdentifier">Used Formula Identifier.</param>
         /// <param name="validation">Validation method.</param>
         /// <returns>Score got by applying the move.</returns>
-        int Evaluate(Move move, IBoard board, IFormulaIdentifier formulaIdentifier, MoveValidationDelegate validation);
+        int Evaluate(Move move, IBoard board, IFormulaIdentifier formulaIdentifier, MoveValidationDelegate validationDelegate);
         
         /// <summary>
         /// Finds all formulas included in the applied move.
@@ -31,6 +31,6 @@ namespace Evaluation
         /// <param name="board">Current board.</param>
         /// <param name="formulaIdentifier">Formula Identifier to use.</param>
         /// <returns>The representations of all found formulas.</returns>
-        IEnumerable<FormulaRepresentation> GetAllFormulasIncludedIn(Move move, IBoard board, IFormulaIdentifier formulaIdentifier);
+        IEnumerable<FormulaRepresentation> GetAllFormulasIncludedIn(Move move, IBoard board, IFormulaIdentifier formulaIdentifier, MoveValidationDelegate validationDelegate);
     }
 }
