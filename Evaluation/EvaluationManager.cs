@@ -18,10 +18,7 @@ namespace Evaluation
             CurrentFormulaEvaluationDelegate = DefaultFormulaEvaluation;
         }
 
-        /// <summary>
-        /// The delegate used for evaluation of formulas.
-        /// </summary>
-        private FormulaEvaluationDelegate CurrentFormulaEvaluationDelegate { get; set; }
+
         /// <summary>
         /// The delegate used for evaluation of invalid moves.
         /// </summary>
@@ -46,6 +43,41 @@ namespace Evaluation
         {
             this.CurrentFormulaEvaluationDelegate = DefaultFormulaEvaluation;
         }
+        #region FormulaEvaluation
+
+        /// <summary>
+        /// The delegate used for evaluation of formulas.
+        /// </summary>
+        private FormulaEvaluationDelegate CurrentFormulaEvaluationDelegate { get; set; }
+        /// <summary>
+        /// Is used for evaluating formulas, that is, for a given formula returns a score.
+        /// </summary>
+        /// <param name="formula">The formula for evaluation.</param>
+        /// <returns>Score got from the specified formula.</returns>
+        private delegate int FormulaEvaluationDelegate(IEnumerable<PositionedDigit> formula);
+        private delegate void SetFormulaEvaluationDelegate(FormulaEvaluationDelegate formulaEvaluationDelegate);
+        private static class FormulaEvaluationManager
+        {
+
+        }
+        private class FormulaEvaluationSetupTool : ISetupTool
+        {
+            private SetFormulaEvaluationDelegate SetDelegate;
+            private FormulaEvaluationDelegate FormulaEvalDelegate;
+            public FormulaEvaluationSetupTool(string description, FormulaEvaluationDelegate formulaEvalDelegate, SetFormulaEvaluationDelegate setDelegate)
+            {
+                Description = description;
+                SetDelegate = setDelegate;
+                FormulaEvalDelegate = formulaEvalDelegate;
+            }
+            public string Description { get; }
+
+            public void Setup()
+            {
+                SetDelegate(FormulaEvalDelegate);
+            }
+        }
+        #endregion
         private static class EvaluationBoardManager
         {
             public static IEvaluationBoard DefaultEvalutionBoard { get; }
@@ -108,7 +140,7 @@ namespace Evaluation
         }
 
         /// <summary>
-        /// Uses the defalut formula evaluation delegate to find representations of all formulae and evaluate them.
+        /// Checks validity and uses the defalut formula evaluation delegate to find representations of all formulae and evaluate them.
         /// The expected usage is for displaying all formulae contained in the move with their scores
         /// after applying the move by a player.
         /// </summary>
