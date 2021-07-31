@@ -32,15 +32,42 @@ namespace Evaluation
         /// </summary>
         /// <param name="formula">The formula for evaluation.</param>
         /// <returns>Score got from the specified formula.</returns>
-        private delegate int FormulaEvaluationDelegate(IEnumerable<PositionedDigit> formula);
+        private delegate int FormulaEvaluationDelegate(IEnumerable<PositionedDigit> formula,
+                                                       IEvaluationBoard evaluationBoard);
 
         private delegate void SetFormulaEvaluationDelegate(FormulaEvaluationDelegate formulaEvaluationDelegate);
 
         private static class FormulaEvaluationManager
         {
-            public static int DefaultFormulaEvaluation(IEnumerable<PositionedDigit> formula)
+            /// <summary>
+            /// Standard formula evaluation. For every digit you get its value.
+            /// If the digit is newly placed, its value is multiplyed by a factor,
+            /// that is on the corresponding position.
+            /// Also, if the digit is newly placed, the whole score for the formula
+            /// is multiplyed by the formula-factor, that is on the corresponding position.
+            /// </summary>
+            /// <param name="formula">Formula to evaluate, IEnumerable<PositionedDigit>.</param>
+            /// <param name="evaluationBoard">The description of multiplying factors.</param>
+            /// <returns>The score you get from the given formula.</returns>
+            public static int DefaultFormulaEvaluation(IEnumerable<PositionedDigit> formula, IEvaluationBoard evaluationBoard)
             {
-                throw new NotImplementedException();
+                int score = 0;
+                int formulaMultiplyingFactor = 1;
+                foreach (var positionedDigit in formula)
+                {
+                    var pos = positionedDigit.Position;
+                    var digit = positionedDigit.Digit;
+                    if (positionedDigit.IsNewlyPlaced)
+                    {
+                        score += digit * evaluationBoard[pos].PositionFactor;
+                        formulaMultiplyingFactor *= evaluationBoard[pos].FormulaFactor;
+                    }
+                    else
+                    {
+                        score += digit;
+                    }
+                }
+                return score * formulaMultiplyingFactor;
             }
             public static IEnumerable<(string, FormulaEvaluationDelegate)> GetDescriptionsAndFormulaEvalDelegates()
             {
@@ -246,7 +273,7 @@ namespace Evaluation
             int score = 0;
             foreach (var formula in GetAllFormulas(move, board, formulaIdentifier))
             {
-                score += formulaEvaluation(formula);
+                score += formulaEvaluation(formula, this.CurrentEvaluationBoard);
             }
             return score;
         }
@@ -286,7 +313,7 @@ namespace Evaluation
                 var section = new BoardAfterMove(board,move).GetSection(start, end);
                 var formulaRepresentation = formulaIdentifier.GetFormulaRepresentation(section);
 
-                formulaRepresentation.Score = formulaEvaluation(formula);
+                formulaRepresentation.Score = formulaEvaluation(formula, this.CurrentEvaluationBoard);
                 yield return formulaRepresentation;
             }
         }
