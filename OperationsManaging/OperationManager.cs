@@ -50,12 +50,23 @@ namespace OperationsManaging
 
         internal static class AllOperationsIdentifiers
         {
-            public static IEnumerable<ISimpleFactorsFormulaIdentifier> SimpleIdentifiers { get; }
+            public static IEnumerable<ISimpleFactorsFormulaIdentifier> SimpleIdentifiers
+            {
+                get
+                {
+                    return (UnaryIdentifiers, BinaryIdentifiers, OtherIdentifiers).Combine();
+                }
+            }
             public static IReadOnlyList<BinaryIdentifier> BinaryIdentifiers { get; }
             public static IReadOnlyList<UnaryIdentifier> UnaryIdentifiers { get; }
             public static IReadOnlyList<ISimpleFactorsFormulaIdentifier> OtherIdentifiers { get; }
+            static AllOperationsIdentifiers()
+            {
+
+            }
 
             // TODO: implement lists of identifiers
         }
     }
+    
 }

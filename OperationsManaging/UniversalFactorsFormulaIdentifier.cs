@@ -15,7 +15,7 @@ namespace OperationsManaging
             BinaryIdentifiers = OperationManager.AllOperationsIdentifiers.BinaryIdentifiers.ToList();
             OtherIdentifiers = OperationManager.AllOperationsIdentifiers.OtherIdentifiers.ToList();
             KnownArities = new List<int>();
-            foreach (var identifier in AllIdentifiers)
+            foreach (var identifier in (UnaryIdentifiers,BinaryIdentifiers,OtherIdentifiers).Combine())
             {
                 AddNewKnownArity(identifier.OperatorArity);
             }
@@ -37,51 +37,6 @@ namespace OperationsManaging
         private List<UnaryIdentifier> UnaryIdentifiers { get; }
         private List<BinaryIdentifier> BinaryIdentifiers { get; }
         private List<ISimpleFactorsFormulaIdentifier> OtherIdentifiers { get; }
-        private IEnumerable<ISimpleFactorsFormulaIdentifier> AllIdentifiers { 
-            get
-            {
-                foreach (var identifier in UnaryIdentifiers)
-                {
-                    yield return identifier;
-                }
-                foreach (var identifier in BinaryIdentifiers)
-                {
-                    yield return identifier;
-                }
-                foreach (var identifier in OtherIdentifiers)
-                {
-                    yield return identifier;
-                }
-            } 
-        }
-        private IEnumerable<ISimpleFactorsFormulaIdentifier> UnaryOrOtherIdentifiers
-        {
-            get
-            {
-                foreach (var unaryIdentifier in UnaryIdentifiers)
-                {
-                    yield return unaryIdentifier;
-                }
-                foreach (var otherIdentifier in OtherIdentifiers)
-                {
-                    yield return otherIdentifier;
-                }
-            }
-        }
-        private IEnumerable<ISimpleFactorsFormulaIdentifier> BinaryOrOtherIdentifiers
-        {
-            get
-            {
-                foreach (var binaryIdentifier in BinaryIdentifiers)
-                {
-                    yield return binaryIdentifier;
-                }
-                foreach (var otherIdentifier in OtherIdentifiers)
-                {
-                    yield return otherIdentifier;
-                }
-            }
-        }
 
         /// <summary>
         /// If this Universal identifier still has default setting, it clears all lists of identifiers.
@@ -117,7 +72,7 @@ namespace OperationsManaging
         public bool IsFormula(long aFactor, long bFactor)
         {
             bool isFormula = false;
-            foreach (var identifier in UnaryOrOtherIdentifiers)
+            foreach (var identifier in (UnaryIdentifiers,OtherIdentifiers).Combine())
             {
                 isFormula |= identifier.IsFormula(aFactor, bFactor);
             }
@@ -127,7 +82,7 @@ namespace OperationsManaging
         public bool IsFormula(long aFactor, long bFactor, long cFactor)
         {
             bool isFormula = false;
-            foreach (var identifier in BinaryOrOtherIdentifiers)
+            foreach (var identifier in (BinaryIdentifiers,OtherIdentifiers).Combine())
             {
                 isFormula |= identifier.IsFormula(aFactor, bFactor, cFactor);
             }
@@ -137,7 +92,7 @@ namespace OperationsManaging
         public bool IsFormula(long[] factors)
         {
             bool isFormula = false;
-            foreach (var identifier in AllIdentifiers)
+            foreach (var identifier in (UnaryIdentifiers, BinaryIdentifiers, OtherIdentifiers).Combine())
             {
                 isFormula |= identifier.IsFormula(factors);
             }
