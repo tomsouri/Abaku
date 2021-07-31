@@ -66,7 +66,7 @@ namespace BoardController
 
         IReadOnlyList<ISetupTool> IBoardController.GetBoardSetupTools()
         {
-            throw new NotImplementedException();
+            return EvalManager.GetBoardSetupTools(((IBoardSetupper)BoardManager).Setup);
         }
 
         public IReadOnlyList<ISetupTool> GetInvalidMoveEvaluationSetupTools()
