@@ -13,5 +13,6 @@ namespace Evaluation
         PositionEvaluationInfo this[Position position] { get; }
         (int columns, int rows) GetSize();
         Position GetStartPosition();
+        string Description { get; }
     }
 }

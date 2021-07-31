@@ -92,25 +92,24 @@ namespace Evaluation
         }
         private static class EvaluationBoardManager
         {
+            // TODO: implementovat defaultEvalBoard.
             public static IEvaluationBoard DefaultEvalutionBoard { get; }
-            public static IEnumerable<(string, IEvaluationBoard)> GetDescriptionsEndEvalBoards()
+            public static IEnumerable<IEvaluationBoard> GetEvaluationBoards()
             {
-                yield return ("Default board", DefaultEvalutionBoard);
+                yield return DefaultEvalutionBoard;
             }
         }
         private class EvaluationBoardSetupTool : ISetupTool
         {
-            public string Description { get; }
+            public string Description => EvaluationBoard.Description;
 
             private IEvaluationBoard EvaluationBoard { get; }
             private SetEvaluationBoardDelegate SetEvalBoardDelegate { get; }
             private SetBoardSettingDelegate SetBoardSettingDelegate { get; }
-            public EvaluationBoardSetupTool(string description,
-                                            IEvaluationBoard evaluationBoard,
+            public EvaluationBoardSetupTool(IEvaluationBoard evaluationBoard,
                                             SetEvaluationBoardDelegate setEvalBoardDelegate,
                                             SetBoardSettingDelegate setBoardSettingDelegate)
             {
-                Description = description;
                 EvaluationBoard = evaluationBoard;
                 SetEvalBoardDelegate = setEvalBoardDelegate;
                 SetBoardSettingDelegate = setBoardSettingDelegate;
@@ -125,9 +124,9 @@ namespace Evaluation
         public IReadOnlyList<ISetupTool> GetBoardSetupTools(SetBoardSettingDelegate setBoardSettingDelegate)
         {
             var list = new List<ISetupTool>();
-            foreach (var (description,board) in EvaluationBoardManager.GetDescriptionsEndEvalBoards())
+            foreach (var board in EvaluationBoardManager.GetEvaluationBoards())
             {
-                list.Add(new EvaluationBoardSetupTool(description, board, SetEvaluationBoard, setBoardSettingDelegate));
+                list.Add(new EvaluationBoardSetupTool(board, SetEvaluationBoard, setBoardSettingDelegate));
             }
             return list;
         }
