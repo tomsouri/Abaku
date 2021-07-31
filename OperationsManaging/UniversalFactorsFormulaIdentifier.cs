@@ -56,9 +56,11 @@ namespace OperationsManaging
         }
 
         /// <summary>
-        /// If 
+        /// If this Universal identifier still has default setting, it clears all lists of identifiers.
+        /// Anyway it adds the identifier to the corresponding list and adds its arity to the list of
+        /// known arities.
         /// </summary>
-        /// <param name="identifier"></param>
+        /// <param name="identifier">ISimpleFactorsFormulaIdentifier to add.</param>
         public void Add(ISimpleFactorsFormulaIdentifier identifier)
         {
             if (HasDefaultSetup)
