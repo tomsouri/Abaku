@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace OperationsManaging
 {
-    internal abstract class BinaryIdentifier : IFactorsFormulaIdentifier
+    internal abstract class BinaryIdentifier : ISimpleFactorsFormulaIdentifier
     {
         public static int Arity => 2;
+
+        public abstract string Description { get; }
 
         public bool IsFormula(long aFactor, long bFactor) => false;
 

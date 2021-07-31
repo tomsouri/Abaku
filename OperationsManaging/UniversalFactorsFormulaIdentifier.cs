@@ -22,7 +22,7 @@ namespace OperationsManaging
         private List<UnaryIdentifier> UnaryIdentifiers { get; }
         private List<BinaryIdentifier> BinaryIdentifiers { get; }
 
-        public void Add(IFactorsFormulaIdentifier identifier)
+        public void Add(ISimpleFactorsFormulaIdentifier identifier)
         {
             // TODO: check, if it has default setup.
             // if so, clear all identifier lists and add this one.

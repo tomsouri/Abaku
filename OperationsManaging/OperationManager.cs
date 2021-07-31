@@ -17,21 +17,19 @@ namespace OperationsManaging
         public IFormulaIdentifier FlaIdentifier { get; }
 
 
-        private delegate void AddFactorsIdentifierDelegate(IFactorsFormulaIdentifier identifier);
+        private delegate void AddFactorsIdentifierDelegate(ISimpleFactorsFormulaIdentifier identifier);
 
         private class OperationSetupTool : ISetupTool
         {
-            private IFactorsFormulaIdentifier Identifier { get;}
+            private ISimpleFactorsFormulaIdentifier Identifier { get;}
             private AddFactorsIdentifierDelegate AddDelegate { get; }
-            public OperationSetupTool(string description,
-                                      IFactorsFormulaIdentifier identifier,
+            public OperationSetupTool(ISimpleFactorsFormulaIdentifier identifier,
                                       AddFactorsIdentifierDelegate addDelegate)
             {
-                Description = description;
                 Identifier = identifier;
                 AddDelegate = addDelegate;
             }
-            public string Description { get; }
+            public string Description => Identifier.Description;
 
             public void Setup()
             {
