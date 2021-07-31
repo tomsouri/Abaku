@@ -16,7 +16,7 @@ namespace Evaluation
         public EvaluationManager()
         {
             CurrentFormulaEvaluationDelegate = FormulaEvaluationManager.DefaultFormulaEvaluation;
-            CurrentEvaluationBoard = EvaluationBoardManager.DefaultEvalutionBoard;
+            CurrentEvaluationBoard = EvaluationBoardManager.DefaultEvaluationBoardInstance;
             CurrentInvalidMoveEvalDelegate = InvalidMoveEvaluationManager.DefaultInvalidMoveEvaluation;
         }
 
@@ -92,11 +92,15 @@ namespace Evaluation
         }
         private static class EvaluationBoardManager
         {
-            // TODO: implementovat defaultEvalBoard.
-            public static IEvaluationBoard DefaultEvalutionBoard { get; }
+            public static IEvaluationBoard DefaultEvaluationBoardInstance { get; }
+            static EvaluationBoardManager()
+            {
+                DefaultEvaluationBoardInstance = DefaultEvaluationBoard.Instance;
+            }
+            
             public static IEnumerable<IEvaluationBoard> GetEvaluationBoards()
             {
-                yield return DefaultEvalutionBoard;
+                yield return DefaultEvaluationBoardInstance;
             }
         }
         private class EvaluationBoardSetupTool : ISetupTool

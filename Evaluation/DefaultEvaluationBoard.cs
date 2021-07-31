@@ -9,6 +9,7 @@ namespace Evaluation
 {
     internal class DefaultEvaluationBoard : IEvaluationBoard
     {
+        // TODO: implementovat defaultEvalBoard.
         private DefaultEvaluationBoard() { }
         private static DefaultEvaluationBoard SingletonInstance { get; }
         static DefaultEvaluationBoard()
