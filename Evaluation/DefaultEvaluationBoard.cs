@@ -9,6 +9,25 @@ namespace Evaluation
 {
     internal class DefaultEvaluationBoard : IEvaluationBoard
     {
+        private DefaultEvaluationBoard() { }
+        private static DefaultEvaluationBoard SingletonInstance { get; }
+        static DefaultEvaluationBoard()
+        {
+            SingletonInstance = new DefaultEvaluationBoard();
+        }
+        public static DefaultEvaluationBoard Instance => SingletonInstance;
         public PositionEvaluationInfo this[Position position] => throw new NotImplementedException();
+
+        public string Description => "Default evaluation board";
+
+        public (int columns, int rows) GetSize()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Position GetStartPosition()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
