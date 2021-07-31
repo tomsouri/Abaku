@@ -3,7 +3,7 @@ using System;
 
 namespace BoardManaging
 {
-    public class BoardManager : IBoardManager
+    public class BoardManager : IBoardManager, IBoardSetupper
     {
         public IBoard Board => throw new NotImplementedException();
 
@@ -13,6 +13,11 @@ namespace BoardManaging
         }
 
         public Digit?[,] GetBoardContent()
+        {
+            throw new NotImplementedException();
+        }
+
+        void IBoardSetupper.Setup(int columns, int rows, Position startPosition)
         {
             throw new NotImplementedException();
         }
