@@ -258,6 +258,12 @@ namespace Evaluation
         /// <returns>IEnumerable of Formulae (the nested structure).</returns>
         private IEnumerable<Formula> GetAllFormulas(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
         {
+            var boardAfterMove = new BoardAfterMove(board, move);
+            var (start, end) = board.GetLongestFilledSectionBounds(move.GetPositions());
+            var baseLine = boardAfterMove.GetSection(start, end);
+            var positions = move.GetPositions().ToList();
+            positions.Sort();
+            
             throw new NotImplementedException();
         }
         /// <summary>
