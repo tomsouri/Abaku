@@ -38,7 +38,7 @@ namespace OperationsManaging
         }
     }*/
 
-    internal delegate bool BinaryOperationDelegate(long aFactor, long bFactor, long result);
+    internal delegate long BinaryOperationDelegate(long aFactor, long bFactor);
     internal sealed class BinaryIdentifier: ISimpleFactorsFormulaIdentifier
     {
         public BinaryIdentifier(string description, BinaryOperationDelegate operationDelegate)
@@ -54,7 +54,7 @@ namespace OperationsManaging
 
         public bool IsFormula(long aFactor, long bFactor) => false;
 
-        public bool IsFormula(long aFactor, long bFactor, long result) => OperationDelegate(aFactor, bFactor, result);
+        public bool IsFormula(long aFactor, long bFactor, long result) => OperationDelegate(aFactor, bFactor) == result;
 
         public bool IsFormula(long[] factors)
         {
