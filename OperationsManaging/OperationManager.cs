@@ -10,9 +10,11 @@ namespace OperationsManaging
     {
         public OperationManager()
         {
-            //this.FormulaIdentifier = 
+            this.FactorsIdentifier = new UniversalFactorsFormulaIdentifier();
+            this.FlaIdentifier = new FormulaIdentifier(FactorsIdentifier);
         }
-        public IFormulaIdentifier FormulaIdentifier { get; }
+        private IUniversalFactorsFormulaIdentifier FactorsIdentifier { get; }
+        public IFormulaIdentifier FlaIdentifier { get; }
 
 
 

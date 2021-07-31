@@ -10,7 +10,7 @@ namespace OperationsManaging
 {
     public interface IOperationManager
     {
-        IFormulaIdentifier FormulaIdentifier { get; }
+        IFormulaIdentifier FlaIdentifier { get; }
         IReadOnlyList<ISetupTool> GetOperationSetupTools();
     }
 }
