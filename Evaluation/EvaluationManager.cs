@@ -18,13 +18,12 @@ namespace Evaluation
             CurrentFormulaEvaluationDelegate = FormulaEvaluationManager.DefaultFormulaEvaluation;
             CurrentEvaluationBoard = EvaluationBoardManager.DefaultEvaluationBoardInstance;
             CurrentInvalidMoveEvalDelegate = InvalidMoveEvaluationManager.DefaultInvalidMoveEvaluation;
+            IsFormulaEvaluationSetDefault = true;
+            IsEvaluationBoardSetDefault = true;
+            IsInvalidMoveEvaluationSetDefault = true;
         }
 
         #region FormulaEvaluation
-
-        /// <summary>
-        /// The delegate used for evaluation of formulas.
-        /// </summary>
         private FormulaEvaluationDelegate CurrentFormulaEvaluationDelegate { get; set; }
 
         /// <summary>
@@ -75,10 +74,20 @@ namespace Evaluation
             }
 
         }
+        private bool IsFormulaEvaluationSetDefault { get; set; }
+
+        /// <summary>
+        /// It's call is valid only once - when the current setting is default.
+        /// After it is set up, this method does not do anything.
+        /// </summary>
+        /// <param name="value">FormulaEvaluationDelegate to set as CurrentFormulaEvaluationDelegate.</param>
         private void SetFormulaEvaluation(FormulaEvaluationDelegate value)
         {
-            // TODO: dovolit validni zavolani jenom jednou
-            CurrentFormulaEvaluationDelegate = value;
+            if (IsFormulaEvaluationSetDefault)
+            {
+                CurrentFormulaEvaluationDelegate = value;
+                IsFormulaEvaluationSetDefault = false;
+            }
         }
         private class FormulaEvaluationSetupTool : ISetupTool
         {
@@ -112,10 +121,19 @@ namespace Evaluation
         private IEvaluationBoard CurrentEvaluationBoard { get; set; }
 
         private delegate void SetEvaluationBoardDelegate(IEvaluationBoard evaluationBoard);
+        private bool IsEvaluationBoardSetDefault { get; set; }
+        /// <summary>
+        /// It's call is valid only once - when the current setting is default.
+        /// After it is set up, this method does not do anything.
+        /// </summary>
+        /// <param name="value">IEvaluationBoard to set as CurrentEvaluationBoard.</param>
         private void SetEvaluationBoard(IEvaluationBoard value)
         {
-            // TODO: dovolit validni zavolani jen jednou
-            CurrentEvaluationBoard = value;
+            if (IsEvaluationBoardSetDefault)
+            {
+                IsEvaluationBoardSetDefault = false;
+                CurrentEvaluationBoard = value;
+            }
         }
         private static class EvaluationBoardManager
         {
@@ -179,7 +197,7 @@ namespace Evaluation
                 int score = 0;
                 foreach (var (digit,_) in move)
                 {
-                    score += digit;
+                    score -= digit;
                 }
                 return score;
             }
@@ -188,10 +206,19 @@ namespace Evaluation
                 yield return ("Default invalid move evaluator", DefaultInvalidMoveEvaluation);
             }
         }
+        private bool IsInvalidMoveEvaluationSetDefault { get; set; }
+        /// <summary>
+        /// It's call is valid only once - when the current setting is default.
+        /// After it is set up, this method does not do anything.
+        /// </summary>
+        /// <param name="value">InvalidMoveEvaluationDelegate to set as CurrentInvalidMoveEvaluationDelegate.</param>
         private void SetInvalidMoveEvaluation(InvalidMoveEvaluationDelegate value)
         {
-            // TODO: dovolit validni zavolani jen jednou
-            CurrentInvalidMoveEvalDelegate = value;
+            if (IsInvalidMoveEvaluationSetDefault)
+            {
+                IsInvalidMoveEvaluationSetDefault = false;
+                CurrentInvalidMoveEvalDelegate = value;
+            }
         }
         private class InvalidMoveEvaluationSetupTool : ISetupTool
         {
@@ -233,7 +260,6 @@ namespace Evaluation
         {
             throw new NotImplementedException();
         }
-
 
         int IEvaluationManager.Evaluate(Move move, IBoard board, IFormulaIdentifier formulaIdentifier, MoveValidationDelegate validationDelegate)
         {
