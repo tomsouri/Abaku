@@ -13,7 +13,7 @@ namespace OperationsManaging
         private List<UnaryIdentifier> UnaryIdentifiers { get; }
         private List<BinaryIdentifier> BinaryIdentifiers { get; }
 
-        public void Add(ISimpleFactorsFormulaIdentifier simpleIdentifier)
+        public void Add(IFactorsFormulaIdentifier identifier)
         {
             throw new NotImplementedException();
         }
