@@ -50,6 +50,7 @@ namespace Evaluation
         }
         private void SetFormulaEvaluation(FormulaEvaluationDelegate value)
         {
+            // TODO: dovolit validni zavolani jenom jednou
             CurrentFormulaEvaluationDelegate = value;
         }
         private class FormulaEvaluationSetupTool : ISetupTool
@@ -86,6 +87,7 @@ namespace Evaluation
         private delegate void SetEvaluationBoardDelegate(IEvaluationBoard evaluationBoard);
         private void SetEvaluationBoard(IEvaluationBoard value)
         {
+            // TODO: dovolit validni zavolani jen jednou
             CurrentEvaluationBoard = value;
         }
         private static class EvaluationBoardManager
@@ -158,6 +160,7 @@ namespace Evaluation
         }
         private void SetInvalidMoveEvaluation(InvalidMoveEvaluationDelegate value)
         {
+            // TODO: dovolit validni zavolani jen jednou
             CurrentInvalidMoveEvalDelegate = value;
         }
         private class InvalidMoveEvaluationSetupTool : ISetupTool

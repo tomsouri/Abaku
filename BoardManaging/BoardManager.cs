@@ -19,6 +19,7 @@ namespace BoardManaging
 
         void IBoardSetupper.Setup(int columns, int rows, Position startPosition)
         {
+            // TODO: dovolit validni zavolani jenom jednou.
             throw new NotImplementedException();
         }
     }
