@@ -260,7 +260,14 @@ namespace Evaluation
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// Evaluates the move in the current situation using also validation.
+        /// </summary>
+        /// <param name="move">The move to evaluate.</param>
+        /// <param name="board">Board - current situation.</param>
+        /// <param name="formulaIdentifier">Used IFormulaIdentifier.</param>
+        /// <param name="validationDelegate">Validation used to determine, whether the move is evaluated as valid or invalid.</param>
+        /// <returns>Score you get for the move, int.</returns>
         int IEvaluationManager.Evaluate(Move move, IBoard board, IFormulaIdentifier formulaIdentifier, MoveValidationDelegate validationDelegate)
         {
             if (validationDelegate(move, board, formulaIdentifier))
