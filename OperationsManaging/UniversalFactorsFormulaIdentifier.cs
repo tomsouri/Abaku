@@ -11,10 +11,14 @@ namespace OperationsManaging
         public UniversalFactorsFormulaIdentifier()
         {
             HasDefaultSetup = true;
-            KnownArities = new List<int>() { 1, 2 };
             UnaryIdentifiers = OperationManager.AllOperationsIdentifiers.UnaryIdentifiers.ToList();
             BinaryIdentifiers = OperationManager.AllOperationsIdentifiers.BinaryIdentifiers.ToList();
-            OtherIdentifiers = new List<ISimpleFactorsFormulaIdentifier>();
+            OtherIdentifiers = OperationManager.AllOperationsIdentifiers.OtherIdentifiers.ToList();
+            KnownArities = new List<int>();
+            foreach (var identifier in AllIdentifiers)
+            {
+                AddNewKnownArity(identifier.OperatorArity);
+            }
         }
         private bool HasDefaultSetup { get; set; }
         private List<int> KnownArities { get; set; }
@@ -33,6 +37,23 @@ namespace OperationsManaging
         private List<UnaryIdentifier> UnaryIdentifiers { get; }
         private List<BinaryIdentifier> BinaryIdentifiers { get; }
         private List<ISimpleFactorsFormulaIdentifier> OtherIdentifiers { get; }
+        private IEnumerable<ISimpleFactorsFormulaIdentifier> AllIdentifiers { 
+            get
+            {
+                foreach (var identifier in UnaryIdentifiers)
+                {
+                    yield return identifier;
+                }
+                foreach (var identifier in BinaryIdentifiers)
+                {
+                    yield return identifier;
+                }
+                foreach (var identifier in OtherIdentifiers)
+                {
+                    yield return identifier;
+                }
+            } 
+        }
 
         /// <summary>
         /// If 

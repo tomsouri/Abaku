@@ -53,6 +53,7 @@ namespace OperationsManaging
             public static IEnumerable<ISimpleFactorsFormulaIdentifier> SimpleIdentifiers { get; }
             public static IReadOnlyList<BinaryIdentifier> BinaryIdentifiers { get; }
             public static IReadOnlyList<UnaryIdentifier> UnaryIdentifiers { get; }
+            public static IReadOnlyList<ISimpleFactorsFormulaIdentifier> OtherIdentifiers { get; }
 
             // TODO: implement lists of identifiers
         }
