@@ -2,11 +2,17 @@
 using System;
 using System.Collections.Generic;
 
+
+
 namespace OperationsManaging
 {
     public class OperationManager : IOperationManager
     {
-        public IFormulaIdentifier FormulaIdentifier => throw new NotImplementedException();
+        public OperationManager()
+        {
+            //this.FormulaIdentifier = 
+        }
+        public IFormulaIdentifier FormulaIdentifier { get; }
 
 
 
