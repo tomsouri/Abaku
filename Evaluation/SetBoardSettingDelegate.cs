@@ -9,5 +9,5 @@ using CommonTypes;
 namespace Evaluation
 {
 
-    public delegate void SetBoardSettingDelegate(int width, int height, Position startingPosition);
+    public delegate void SetBoardSettingDelegate(int columns, int rows, Position startingPosition);
 }

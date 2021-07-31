@@ -116,8 +116,8 @@ namespace Evaluation
             public void Setup()
             {
                 SetEvalBoardDelegate(EvaluationBoard);
-                var (width,height) = EvaluationBoard.GetSize();
-                SetBoardSettingDelegate(width, height, EvaluationBoard.GetStartPosition());
+                var (columns,rows) = EvaluationBoard.GetSize();
+                SetBoardSettingDelegate(columns, rows, EvaluationBoard.GetStartPosition());
             }
         }
         public IReadOnlyList<ISetupTool> GetBoardSetupTools(SetBoardSettingDelegate setBoardSettingDelegate)

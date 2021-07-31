@@ -11,7 +11,7 @@ namespace Evaluation
     internal interface IEvaluationBoard
     {
         PositionEvaluationInfo this[Position position] { get; }
-        (int width, int height) GetSize();
+        (int columns, int rows) GetSize();
         Position GetStartPosition();
     }
 }
