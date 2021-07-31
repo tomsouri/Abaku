@@ -17,11 +17,8 @@ namespace Evaluation
         {
             CurrentFormulaEvaluationDelegate = FormulaEvaluationManager.DefaultFormulaEvaluation;
             CurrentEvaluationBoard = EvaluationBoardManager.DefaultEvalutionBoard;
+            CurrentInvalidMoveEvalDelegate = InvalidMoveEvaluationManager.DefaultInvalidMoveEvaluation;
         }
-
-
-
-
 
         #region FormulaEvaluation
 
@@ -133,6 +130,7 @@ namespace Evaluation
             return list;
         }
         #endregion
+
         #region InvalidMoveEvaluation
         /// <summary>
         /// The delegate used for evaluation of invalid moves.
