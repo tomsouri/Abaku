@@ -54,6 +54,34 @@ namespace OperationsManaging
                 }
             } 
         }
+        private IEnumerable<ISimpleFactorsFormulaIdentifier> UnaryOrOtherIdentifiers
+        {
+            get
+            {
+                foreach (var unaryIdentifier in UnaryIdentifiers)
+                {
+                    yield return unaryIdentifier;
+                }
+                foreach (var otherIdentifier in OtherIdentifiers)
+                {
+                    yield return otherIdentifier;
+                }
+            }
+        }
+        private IEnumerable<ISimpleFactorsFormulaIdentifier> BinaryOrOtherIdentifiers
+        {
+            get
+            {
+                foreach (var binaryIdentifier in BinaryIdentifiers)
+                {
+                    yield return binaryIdentifier;
+                }
+                foreach (var otherIdentifier in OtherIdentifiers)
+                {
+                    yield return otherIdentifier;
+                }
+            }
+        }
 
         /// <summary>
         /// If this Universal identifier still has default setting, it clears all lists of identifiers.
@@ -88,21 +116,32 @@ namespace OperationsManaging
 
         public bool IsFormula(long aFactor, long bFactor)
         {
-            // call all identifiers with specific arity and other identifiers
-
-            throw new NotImplementedException();
+            bool isFormula = false;
+            foreach (var identifier in UnaryOrOtherIdentifiers)
+            {
+                isFormula |= identifier.IsFormula(aFactor, bFactor);
+            }
+            return isFormula;
         }
 
         public bool IsFormula(long aFactor, long bFactor, long cFactor)
         {
-            // call all identifiers with specific arity and other identifiers
-            throw new NotImplementedException();
+            bool isFormula = false;
+            foreach (var identifier in BinaryOrOtherIdentifiers)
+            {
+                isFormula |= identifier.IsFormula(aFactor, bFactor, cFactor);
+            }
+            return isFormula;
         }
 
         public bool IsFormula(long[] factors)
         {
-            // call all identifiers with specific arity and other identifiers
-            throw new NotImplementedException();
+            bool isFormula = false;
+            foreach (var identifier in AllIdentifiers)
+            {
+                isFormula |= identifier.IsFormula(factors);
+            }
+            return isFormula;
         }
     }
 }
