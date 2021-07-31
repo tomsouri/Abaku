@@ -272,25 +272,33 @@ namespace Evaluation
         {
             if (validationDelegate(move, board, formulaIdentifier))
             {
-                return EvaluateValidMove(move, board, formulaIdentifier);
+                return EvaluateValidMoveUnsafe(move, board, formulaIdentifier);
             }
-            return EvaluateInvalidMove(move, board, formulaIdentifier);
+            return EvaluateInvalidMoveUnsafe(move, board, formulaIdentifier);
         }
 
         /// <summary>
-        /// Evaluates the move in the current situation using the default formula evaluation delegate.
+        /// Evaluates the valid move in the current situation using the default formula evaluation delegate.
         /// </summary>
         /// <param name="move"></param>
         /// <param name="board"></param>
         /// <param name="formulaIdentifier"></param>
         /// <returns>The score you get after applying the move.</returns>
-        private int EvaluateValidMove(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
+        private int EvaluateValidMoveUnsafe(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
         {
-            return EvaluateValidMove(move, board, formulaIdentifier, CurrentFormulaEvaluationDelegate);
+            return EvaluateValidMoveUnsafe(move, board, formulaIdentifier, CurrentFormulaEvaluationDelegate);
         }
-        private int EvaluateInvalidMove(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
+
+        /// <summary>
+        /// Evaluates the invalid move.
+        /// </summary>
+        /// <param name="move">The move to evaluate.</param>
+        /// <param name="board"></param>
+        /// <param name="formulaIdentifier"></param>
+        /// <returns>Score (usually negative) you get after applying the move.</returns>
+        private int EvaluateInvalidMoveUnsafe(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
         {
-            throw new NotImplementedException();
+            return this.CurrentInvalidMoveEvalDelegate(move);
         }
 
         /// <summary>
@@ -301,7 +309,10 @@ namespace Evaluation
         /// <param name="formulaIdentifier"></param>
         /// <param name="formulaEvaluation">The specified delegate used to evaluate each formula.</param>
         /// <returns></returns>
-        private int EvaluateValidMove(Move move, IBoard board, IFormulaIdentifier formulaIdentifier, FormulaEvaluationDelegate formulaEvaluation)
+        private int EvaluateValidMoveUnsafe(Move move,
+                                      IBoard board,
+                                      IFormulaIdentifier formulaIdentifier,
+                                      FormulaEvaluationDelegate formulaEvaluation)
         {
             int score = 0;
             foreach (var formula in GetAllFormulas(move, board, formulaIdentifier))
@@ -325,7 +336,7 @@ namespace Evaluation
             if (!validationDelegate(move, board, formulaIdentifier)) return Enumerable.Empty<FormulaRepresentation>();
             else
             {
-                return GetAllFormulasIncludedIn(move, board, formulaIdentifier, CurrentFormulaEvaluationDelegate);
+                return GetAllFormulasIncludedInUnsafe(move, board, formulaIdentifier, CurrentFormulaEvaluationDelegate);
             }
         }
 
@@ -337,7 +348,7 @@ namespace Evaluation
         /// <param name="formulaIdentifier"></param>
         /// <param name="formulaEvaluation">The specified formula evaluation delegate.</param>
         /// <returns>IEnumerable of FormulaRepresentation.</returns>
-        private IEnumerable<FormulaRepresentation> GetAllFormulasIncludedIn(Move move, IBoard board, IFormulaIdentifier formulaIdentifier, FormulaEvaluationDelegate formulaEvaluation)
+        private IEnumerable<FormulaRepresentation> GetAllFormulasIncludedInUnsafe(Move move, IBoard board, IFormulaIdentifier formulaIdentifier, FormulaEvaluationDelegate formulaEvaluation)
         {
             foreach (var formula in GetAllFormulas(move, board, formulaIdentifier))
             {
@@ -383,8 +394,17 @@ namespace Evaluation
             }
         }
 
+        /// <summary>
+        /// Simplifying type used for enumeration of all positioned digit in a formula.
+        /// </summary>
         private struct Formula : IEnumerable<PositionedDigit>
         {
+            public Formula(Position start, Position end, BoardAfterMove boardAfterMove)
+            {
+                Start = start;
+                End = end;
+                BoardAfterMove = boardAfterMove;
+            }
             private Position Start { get; }
             private Position End { get; }
             private BoardAfterMove BoardAfterMove { get; }
@@ -403,7 +423,6 @@ namespace Evaluation
                     currentPosition += unitDelta;
                 }
             }
-
             IEnumerator IEnumerable.GetEnumerator()
             {
                 return GetEnumerator();
@@ -435,8 +454,8 @@ namespace Evaluation
                 {
                     return new((this.Row == 0) ? 0 : 1, (this.Column == 0) ? 0 : 1);
                 }
-                public static PositionDelta operator *(int i, PositionDelta pd) => new((pd.Row * i), (pd.Column * i));
-                public static PositionDelta operator *(PositionDelta pd, int i) => new((pd.Row * i), (pd.Column * i));
+                //public static PositionDelta operator *(int i, PositionDelta pd) => new((pd.Row * i), (pd.Column * i));
+                //public static PositionDelta operator *(PositionDelta pd, int i) => new((pd.Row * i), (pd.Column * i));
 
                 public static Position operator +(Position p, PositionDelta pd) => new(p.Row + pd.Row, p.Column + pd.Column);
             }
