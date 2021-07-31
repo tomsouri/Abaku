@@ -17,14 +17,25 @@ namespace OperationsManaging
         public IFormulaIdentifier FlaIdentifier { get; }
 
 
+        private delegate void AddFactorsIdentifierDelegate(IFactorsFormulaIdentifier identifier);
 
         private class OperationSetupTool : ISetupTool
         {
-            public string Description => throw new NotImplementedException();
+            private IFactorsFormulaIdentifier Identifier { get;}
+            private AddFactorsIdentifierDelegate AddDelegate { get; }
+            public OperationSetupTool(string description,
+                                      IFactorsFormulaIdentifier identifier,
+                                      AddFactorsIdentifierDelegate addDelegate)
+            {
+                Description = description;
+                Identifier = identifier;
+                AddDelegate = addDelegate;
+            }
+            public string Description { get; }
 
             public void Setup()
             {
-                throw new NotImplementedException();
+                AddDelegate(Identifier);
             }
         }
 
