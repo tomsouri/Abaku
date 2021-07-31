@@ -9,7 +9,7 @@ namespace OperationsManaging
     internal interface IUniversalFactorsFormulaIdentifier : IFactorsFormulaIdentifier
     {
         IEnumerable<int> Arities { get; }
-        void Add(ISimpleFactorsFormulaIdentifier simpleIdentifier);
+        void Add(IFactorsFormulaIdentifier identifier);
 
     }
 }
