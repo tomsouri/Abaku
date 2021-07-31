@@ -9,6 +9,7 @@ namespace OperationsManaging
     internal abstract class BinaryIdentifier : ISimpleFactorsFormulaIdentifier
     {
         public static int Arity => 2;
+        public int OperatorArity => Arity;
 
         public abstract string Description { get; }
 

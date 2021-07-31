@@ -9,5 +9,6 @@ namespace OperationsManaging
     internal interface ISimpleFactorsFormulaIdentifier : IFactorsFormulaIdentifier
     {
         string Description { get; }
+        int OperatorArity { get; }
     }
 }
