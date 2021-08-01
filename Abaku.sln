@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoardManaging", "BoardManag
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Optimizing", "Optimizing\Optimizing.csproj", "{F2A72270-70E9-4471-93C8-AB78500E3A93}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extensions", "Extensions\Extensions.csproj", "{948CE076-59D0-408F-A792-1ABF27959390}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{F2A72270-70E9-4471-93C8-AB78500E3A93}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2A72270-70E9-4471-93C8-AB78500E3A93}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2A72270-70E9-4471-93C8-AB78500E3A93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{948CE076-59D0-408F-A792-1ABF27959390}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{948CE076-59D0-408F-A792-1ABF27959390}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{948CE076-59D0-408F-A792-1ABF27959390}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{948CE076-59D0-408F-A792-1ABF27959390}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

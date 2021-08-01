@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace OperationsManaging
+namespace EnumerableCombineExtensions
 {
-    internal static class IEnumerableExtensions
+    public static class IEnumerableExtensions
     {
         public static IEnumerable<T> Combine<T>(this (IEnumerable<T> first, IEnumerable<T> second) enumerables)
         {
