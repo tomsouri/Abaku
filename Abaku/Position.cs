@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace CommonTypes
 {
+    /// <summary>
+    /// Represents unit direction from one position to other, which is in the same row or the same column.
+    /// </summary>
     public struct Direction
     {
         public byte Row { get; }
