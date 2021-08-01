@@ -11,15 +11,19 @@ namespace CommonTypes
     /// </summary>
     public struct Direction
     {
-        public byte Row { get; }
-        public byte Column { get; }
-        internal Direction(int row, int column)
+        public byte RowDirection { get; }
+        public byte ColumnDirection { get; }
+        internal Direction(int rowDirection, int columnDirection)
         {
-            Row = (byte)row;
-            Column = (byte)column;
+            RowDirection = (byte)(rowDirection == 0 ? 0 : 1);
+            ColumnDirection = (byte)(columnDirection == 0 ? 0 : 1);
         }
-        public static Position operator +(Position p, Direction d) => new Position(p.Row + d.Row, p.Column + d.Column);
-        public static Position operator -(Position p, Direction d) => new Position(p.Row - d.Row, p.Column - d.Column);
+        /// <summary>
+        /// Represents 
+        /// </summary>
+        public Direction Flipped => new (this.ColumnDirection, this.RowDirection);
+        public static Position operator +(Position p, Direction d) => new (p.Row + d.RowDirection, p.Column + d.ColumnDirection);
+        public static Position operator -(Position p, Direction d) => new (p.Row - d.RowDirection, p.Column - d.ColumnDirection);
     }
 
 
@@ -52,7 +56,7 @@ namespace CommonTypes
         /// <returns></returns>
         public Direction GetDirectionTo(Position other)
         {
-            return new Direction(other.Row - this.Row == 0 ? 0 : 1, other.Column - this.Column == 0 ? 0 : 1);
+            return new Direction(other.Row - this.Row, other.Column - this.Column);
         }
         public static bool HaveSameRow(Position p1, Position p2) => p1.Row == p2.Row;
         public static bool HaveSameColumn(Position p1, Position p2) => p1.Column == p2.Column;
