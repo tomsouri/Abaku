@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using CommonTypes;
 using BoardManaging;
 using OperationsManaging;
-
+using EnumerablePositionExtensions;
 
 namespace Validation
 {
@@ -52,7 +52,7 @@ namespace Validation
         private static bool CheckPositionsValidity(IEnumerable<Position> positions, IBoard board)
         {
 
-            if (!positions.ArePositionsPairwiseDistinct()) return false;
+            if (!positions.ArePairwiseDistinct()) return false;
             if (!positions.AllPositionsInSameRowOrColumn()) return false;
             if (!AllPositionsEmpty(positions, board)) return false;
             if (!NoGapBetweenFirstAndLastPosition(positions, board)) return false;

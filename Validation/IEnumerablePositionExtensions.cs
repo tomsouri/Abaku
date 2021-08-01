@@ -6,27 +6,28 @@ using System.Threading.Tasks;
 
 using CommonTypes;
 
-namespace Validation
+namespace EnumerablePositionExtensions
 {
     internal static class IEnumerablePositionExtensions
     {
-        internal static bool ArePositionsPairwiseDistinct(this IEnumerable<Position> positions)
+        internal static bool ArePairwiseDistinct<T>(this IEnumerable<T> enumerable) where T:IEquatable<T>
         {
-            int positionsCount = 0;
+            int itemsCount = 0;
             int equalitiesCount = 0;
-            foreach (var pos1 in positions)
+            foreach (var item1 in enumerable)
             {
-                positionsCount++;
-                foreach (var pos2 in positions)
+                itemsCount++;
+                foreach (var item2 in enumerable)
                 {
-                    if (pos1 == pos2) equalitiesCount++;
+                    if (item1.Equals(item2)) equalitiesCount++;
                 }
             }
             // Every position is equal to itself.
             // If the positions are distinct, the number of equalities
             // is the same as the number of positions.
-            return positionsCount == equalitiesCount;
+            return itemsCount == equalitiesCount;
         }
+
         internal static bool AllPositionsInSameRowOrColumn(this IEnumerable<Position> positions)
         {
             return positions.AllEqual(equalityComparison: Position.HaveSameRow) ||
@@ -34,18 +35,19 @@ namespace Validation
         }
 
         /// <summary>
-        /// Are all Positions in the collection equal, compared using delegate equalityComparison?
+        /// Are all items in the enumerable equal, compared using delegate equalityComparison?
         /// </summary>
-        /// <typeparam name="Position"></typeparam>
-        /// <param name="positions"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="enumerable"></param>
         /// <param name="equalityComparison"></param>
         /// <returns>True if all Positions are equal.</returns>
-        internal static bool AllEqual<Position>(this IEnumerable<Position> positions, Func<Position, Position, bool> equalityComparison)
+        internal static bool AllEqual<T>(this IEnumerable<T> enumerable, Func<T, T, bool> equalityComparison)
         {
-            if (!positions.Any()) return true;
-            Position first = positions.First();
-            return positions.Skip(1).All(p => equalityComparison(first, p));
+            if (!enumerable.Any()) return true;
+            T first = enumerable.First();
+            return enumerable.Skip(1).All(x => equalityComparison(first, x));
         }
+
 
         internal static (Position, Position) FindMinAndMax(this IEnumerable<Position> positions)
         {
@@ -61,17 +63,16 @@ namespace Validation
         /// <summary>
         /// Does at least one element of the IEnumerable<Position> satisfy the condition given by predicate?
         /// </summary>
-        /// <param name="positions"></param>
+        /// <param name="enumerable"></param>
         /// <param name="predicate"></param>
         /// <returns>True if at least one element satisfies the condition.</returns>
-        internal static bool AtLeastOneSatisfies(this IEnumerable<Position> positions, Predicate<Position> predicate)
+        internal static bool AtLeastOneSatisfies<T>(this IEnumerable<T> enumerable, Predicate<T> predicate)
         {
-            bool isSatisfied = false;
-            foreach (var position in positions)
+            foreach (var item in enumerable)
             {
-                if (predicate(position)) isSatisfied = true;
+                if (predicate(item)) return true;
             }
-            return isSatisfied;
+            return false;
         }
     }
 }
