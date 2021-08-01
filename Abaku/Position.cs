@@ -112,6 +112,7 @@ namespace CommonTypes
         }
 
 
+        /// TODO: the implementation can be changed with using Direction struct.
         /// <summary>
         /// Return all positions between specified positions..
         /// </summary>
@@ -122,7 +123,7 @@ namespace CommonTypes
         /// <returns>Positions directly between specified positions.</returns>
         public static IEnumerable<Position> GetPositionsBetween(Position start, Position end)
         {
-            if (!(start <= end)) throw new InvalidOperationException("Starting position must be less than ending position.");
+            if (!(start <= end)) throw new InvalidOperationException("Starting position must be less or equal than ending position.");
             if (HaveSameRow(start, end))
             {
                 for (int colNumber = start.Column + 1; colNumber < end.Column; colNumber++)
