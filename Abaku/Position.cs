@@ -6,6 +6,20 @@ using System.Threading.Tasks;
 
 namespace CommonTypes
 {
+    public struct Direction
+    {
+        public byte Row { get; }
+        public byte Column { get; }
+        internal Direction(int row, int column)
+        {
+            Row = (byte)row;
+            Column = (byte)column;
+        }
+        public static Position operator +(Position p, Direction d) => new Position(p.Row + d.Row, p.Column + d.Column);
+        public static Position operator -(Position p, Direction d) => new Position(p.Row - d.Row, p.Column - d.Column);
+    }
+
+
     /// <summary>
     /// Represents a position on a 2D "chess" board,
     /// which is used for the game Abaku.
@@ -26,6 +40,16 @@ namespace CommonTypes
         {
             Row = (byte)row;
             Column = (byte)column;
+        }
+
+        /// <summary>
+        /// For positions in the same row or the same column returns the unit direction from first to the second.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public Direction GetDirectionTo(Position other)
+        {
+            return new Direction(other.Row - this.Row == 0 ? 0 : 1, other.Column - this.Column == 0 ? 0 : 1);
         }
         public static bool HaveSameRow(Position p1, Position p2) => p1.Row == p2.Row;
         public static bool HaveSameColumn(Position p1, Position p2) => p1.Column == p2.Column;
@@ -109,4 +133,5 @@ namespace CommonTypes
             else throw new InvalidOperationException("Given positions must be in the same row or in the same column.");
         }
     }
+    
 }
