@@ -309,17 +309,24 @@ namespace Evaluation
         /// <param name="direction">Direction, combined with position determining the line.</param>
         /// <param name="formulaIdentifier"></param>
         /// <returns>Enumerable of formulas.</returns>
-        private IEnumerable<Formula> GetFormulasFromLine(BoardAfterMove board,
+        private static IEnumerable<Formula> GetFormulasFromLine(BoardAfterMove board,
                                                          Position position,
                                                          Direction direction,
                                                          IFormulaIdentifier formulaIdentifier)
         {
-            (Position start, Position end) = board.GetLongestFilledSectionBounds(position, direction);
-            IReadOnlyList<Digit> digits = board.GetSection(start, end);
-            int positionIndex = position - start;
-
-
-            throw new NotImplementedException();
+            (Position sectionStart, Position sectionEnd) = board.GetLongestFilledSectionBounds(position, direction);
+            IReadOnlyList<Digit> digits = board.GetSection(sectionStart, sectionEnd);
+            int positionIndex = position - sectionStart;
+            foreach (var (startIndex, endIndex) in digits.GetSectionsContainingIndex(positionIndex))
+            {
+                var segment = new ReadOnlyListSegment<Digit>(digits, startIndex, endIndex - startIndex + 1);
+                if (formulaIdentifier.IsFormula(segment))
+                {
+                    var startPosition = sectionStart + startIndex * direction;
+                    var endPosition = sectionStart + endIndex * direction;
+                    yield return new Formula(startPosition, endPosition, board);
+                }
+            }
         }
         /// <summary>
         /// Evaluates the move in the current situation using also validation.
