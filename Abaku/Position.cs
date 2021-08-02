@@ -19,9 +19,17 @@ namespace CommonTypes
             ColumnDirection = (byte)(columnDirection == 0 ? 0 : 1);
         }
         /// <summary>
-        /// Represents 
+        /// Represents flipped direction (for direction (1,0) you get direction (0,1)).
         /// </summary>
         public Direction Flipped => new (this.ColumnDirection, this.RowDirection);
+        public static IEnumerable<Direction> SimpleDirections
+        {
+            get
+            {
+                yield return new Direction(1, 0);
+                yield return new Direction(0, 1);
+            }
+        }
         public static Position operator +(Position p, Direction d) => new (p.Row + d.RowDirection, p.Column + d.ColumnDirection);
         public static Position operator -(Position p, Direction d) => new (p.Row - d.RowDirection, p.Column - d.ColumnDirection);
     }
