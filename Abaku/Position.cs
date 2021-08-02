@@ -32,6 +32,7 @@ namespace CommonTypes
         }
         public static Position operator +(Position p, Direction d) => new (p.Row + d.RowDirection, p.Column + d.ColumnDirection);
         public static Position operator -(Position p, Direction d) => new (p.Row - d.RowDirection, p.Column - d.ColumnDirection);
+        public static Position operator *(int i, Direction d) => new (d.RowDirection * i, d.ColumnDirection * i);
     }
 
 
