@@ -45,6 +45,12 @@ namespace CommonTypes
             }
             return false;
         }
+        public IReadOnlyList<Position> PositionsSorted { 
+            get
+            {
+                throw new NotImplementedException();
+            } 
+        }
 
         public IEnumerable<Position> GetPositions()
         {
