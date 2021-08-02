@@ -9,22 +9,33 @@ namespace CommonTypes
 {
     public struct ReadOnlyListSegment<T> : IReadOnlyList<T>
     {
+        private IReadOnlyList<T> _list;
+        private int _startIndex;
+        private int _count;
         public ReadOnlyListSegment(IReadOnlyList<T> list, int startIndex, int count)
         {
-            throw new NotImplementedException();
+            if (startIndex + count > list.Count) throw new ArgumentOutOfRangeException(paramName:nameof(count));
+            if (startIndex < 0) throw new ArgumentOutOfRangeException(paramName:nameof(startIndex));
+            if (count < 0) throw new ArgumentOutOfRangeException(paramName:nameof(count));
+            _list = list;
+            _startIndex = startIndex;
+            _count = count;
         }
-        public T this[int index] => throw new NotImplementedException();
+        public T this[int index] => _list[index + _startIndex];
 
-        public int Count => throw new NotImplementedException();
+        public int Count => _count;
 
         public IEnumerator<T> GetEnumerator()
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < _count; i++)
+            {
+                yield return _list[_startIndex + i];
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return GetEnumerator();
         }
     }
 }
