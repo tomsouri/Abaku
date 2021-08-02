@@ -13,6 +13,13 @@ namespace CommonTypes
     /// </summary>
     public struct Move :  IEnumerable<(Digit,Position)>
     {
+        public Move((Digit digit, Position position)[] placedStones)
+        {
+            PlacedStones = placedStones;
+            Array.Sort(PlacedStones, (a, b) => a.Item2.CompareTo(b.Item2));
+            Score = 0;
+            IsEvaluated = false;
+        }
         public Digit this[Position position]
         {
             get
@@ -24,19 +31,14 @@ namespace CommonTypes
                 throw new InvalidOperationException("The move does not contain the specified position.");
             }
         }
-        private readonly (Digit, Position)[] PlacedStones;
+        private readonly (Digit digit, Position position)[] PlacedStones;
 
         /// <summary>
         /// The score you get playing this move.
         /// </summary>
         public int Score { get; private set; }
         public bool IsEvaluated { get; private set; }
-        public Move((Digit,Position)[] placedStones)
-        {
-            PlacedStones = placedStones;
-            Score = 0;
-            IsEvaluated = false;
-        }
+
         public bool ContainsPosition(Position position)
         {
             foreach (var (_, pos) in PlacedStones)
@@ -48,7 +50,12 @@ namespace CommonTypes
         public IReadOnlyList<Position> PositionsSorted { 
             get
             {
-                throw new NotImplementedException();
+                var arr = new Position[PlacedStones.Length];
+                for (int i = 0; i < PlacedStones.Length; i++)
+                {
+                    arr[i] = PlacedStones[i].position;
+                }
+                return arr;
             } 
         }
 
