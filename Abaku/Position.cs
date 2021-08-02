@@ -43,7 +43,7 @@ namespace CommonTypes
     /// exceed the capacity of one byte, because Abaku
     /// is usually played on 15x15 board.
     /// </summary>
-    public struct Position : IEquatable<Position>
+    public struct Position : IEquatable<Position>, IComparable<Position>
     {
         public byte Row { get; }
         public byte Column { get; }
@@ -141,6 +141,16 @@ namespace CommonTypes
                 }
             }
             else throw new InvalidOperationException("Given positions must be in the same row or in the same column.");
+        }
+
+        /// <summary>
+        /// Works properly only for Positions that are in the same row or the same column.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public int CompareTo(Position other)
+        {
+            return Row.CompareTo(other.Row) + Column.CompareTo(other.Column);
         }
     }
     
