@@ -10,6 +10,7 @@ using OperationsManaging;
 using BoardManaging;
 
 using EnumerableCombineExtensions;
+using ListExtensions;
 
 namespace Evaluation
 {
@@ -252,7 +253,7 @@ namespace Evaluation
         #endregion
 
         /// <summary>
-        /// Finds all formulae included in the move.
+        /// Finds all formulas included in the move.
         /// </summary>
         /// <param name="move">Current move.</param>
         /// <param name="board">Current board.</param>
@@ -260,7 +261,6 @@ namespace Evaluation
         /// <returns>IEnumerable of Formulae (the nested structure).</returns>
         private IEnumerable<Formula> GetAllFormulas(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
         {
-            // TODO: co kdyz je v move jen jedna position?
             var boardAfterMove = new BoardAfterMove(board, move);
             var positions = move.PositionsSorted;
             if (positions.Count == 1)
@@ -297,6 +297,7 @@ namespace Evaluation
                                                          IReadOnlyList<Position> positions,
                                                          IFormulaIdentifier formulaIdentifier)
         {
+            
             throw new NotImplementedException();
         }
 
@@ -313,6 +314,11 @@ namespace Evaluation
                                                          Direction direction,
                                                          IFormulaIdentifier formulaIdentifier)
         {
+            (Position start, Position end) = board.GetLongestFilledSectionBounds(position, direction);
+            IReadOnlyList<Digit> digits = board.GetSection(start, end);
+            int positionIndex = position - start;
+
+
             throw new NotImplementedException();
         }
         /// <summary>
