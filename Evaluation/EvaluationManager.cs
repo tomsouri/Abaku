@@ -297,8 +297,64 @@ namespace Evaluation
                                                          IReadOnlyList<Position> positions,
                                                          IFormulaIdentifier formulaIdentifier)
         {
-            
-            throw new NotImplementedException();
+            (Position sectionStart, Position sectionEnd) = board.GetLongestFilledSectionBounds(positions);
+            IReadOnlyList<Digit> digits = board.GetSection(sectionStart, sectionEnd);
+            int firstPositionIndex = positions[0] - sectionStart;
+            var direction = positions[0].GetDirectionTo(positions[positions.Count - 1]);
+            var formulas = GetBoundedFormulas(digits,
+                                                     board,
+                                                     sectionStart,
+                                                     direction,
+                                                     formulaIdentifier,
+                                                     digits.GetSectionsContainingIndex(firstPositionIndex));
+
+            for (int i = 1; i < positions.Count; i++)
+            {
+                var containedPosition = positions[i];
+                var notContainedPosition = positions[i - 1];
+
+                var containedIndex = containedPosition - sectionStart;
+                var notContainedIndex = notContainedPosition - sectionStart;
+
+                formulas = formulas.CombineWith(GetBoundedFormulas(
+                    digits,
+                    board,
+                    sectionStart,
+                    direction,
+                    formulaIdentifier,
+                    digits.GetSectionsContainingIndexNotOther(containedIndex, notContainedIndex)));
+            }
+
+            return formulas;
+        }
+
+        /// <summary>
+        /// Get all formulas from digits including the given index.
+        /// </summary>
+        /// <param name="digits">List of digits, from which we get the formulas.</param>
+        /// <param name="board">To be saved in the Formula struct.</param>
+        /// <param name="sectionStart">The Position representing 0 index of digits list.</param>
+        /// <param name="direction">The direction the line goes.</param>
+        /// <param name="formulaIdentifier"></param>
+        /// <param name="sectionBounds">Enum of starting and ending indices bounding the formulas.</param>
+        /// <returns>Enumerable of Formula structs.</returns>
+        private static IEnumerable<Formula> GetBoundedFormulas(IReadOnlyList<Digit> digits,
+                                              BoardAfterMove board,
+                                              Position sectionStart,
+                                              Direction direction,
+                                              IFormulaIdentifier formulaIdentifier,
+                                              IEnumerable<(int startIndex, int endIndex)> sectionBounds)
+        {
+            foreach (var (startIndex, endIndex) in sectionBounds)
+            {
+                var segment = new ReadOnlyListSegment<Digit>(digits, startIndex, endIndex - startIndex + 1);
+                if (formulaIdentifier.IsFormula(segment))
+                {
+                    var startPosition = sectionStart + startIndex * direction;
+                    var endPosition = sectionStart + endIndex * direction;
+                    yield return new Formula(startPosition, endPosition, board);
+                }
+            }
         }
 
         /// <summary>
@@ -317,7 +373,13 @@ namespace Evaluation
             (Position sectionStart, Position sectionEnd) = board.GetLongestFilledSectionBounds(position, direction);
             IReadOnlyList<Digit> digits = board.GetSection(sectionStart, sectionEnd);
             int positionIndex = position - sectionStart;
-            foreach (var (startIndex, endIndex) in digits.GetSectionsContainingIndex(positionIndex))
+            return GetBoundedFormulas(digits,
+                                             board,
+                                             sectionStart,
+                                             direction,
+                                             formulaIdentifier,
+                                             digits.GetSectionsContainingIndex(positionIndex));
+            /*foreach (var (startIndex, endIndex) in digits.GetSectionsContainingIndex(positionIndex))
             {
                 var segment = new ReadOnlyListSegment<Digit>(digits, startIndex, endIndex - startIndex + 1);
                 if (formulaIdentifier.IsFormula(segment))
@@ -326,7 +388,7 @@ namespace Evaluation
                     var endPosition = sectionStart + endIndex * direction;
                     yield return new Formula(startPosition, endPosition, board);
                 }
-            }
+            }*/
         }
         /// <summary>
         /// Evaluates the move in the current situation using also validation.
