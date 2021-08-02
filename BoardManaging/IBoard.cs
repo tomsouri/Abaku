@@ -48,7 +48,7 @@ namespace BoardManaging
         /// <param name="ToBeContained">Positions which has to be contained in the section.</param>
         /// <param name="ignoreVacancy">Position, whose vacancy can be ignored.</param>
         /// <returns>The starting and the ending position of the section (as value tuple).</returns>
-        (Position, Position) GetLongestFilledSectionBounds((Position, Position) ToBeContained, Position ignoreVacancy);
+        (Position start, Position end) GetLongestFilledSectionBounds((Position, Position) ToBeContained, Position ignoreVacancy);
 
         /// <summary>
         /// Finds the longest part of a specified row/column (specified by positions to be contained in),
@@ -57,7 +57,7 @@ namespace BoardManaging
         /// <param name="ignoreVacancy">Array of those Positions, which should be contained in the section,
         /// and whose vacancy can be ignored.</param>
         /// <returns>The starting and the ending position of the section (as value tuple).</returns>
-        (Position, Position) GetLongestFilledSectionBounds(IEnumerable<Position> ignoreVacancy);
+        (Position start, Position end) GetLongestFilledSectionBounds(IEnumerable<Position> ignoreVacancy);
 
         /// <summary>
         /// Finds the longest part of a specified row/column (specified by positions to be contained in),
@@ -66,7 +66,20 @@ namespace BoardManaging
         /// <param name="ToBeContained">Positions (2-tuple) which has to be contained in the section.</param>
         /// <param name="ignoreVacancy">Array Positions, whose vacancy can be ignored.</param>
         /// <returns>The starting and the ending position of the section (as value tuple).</returns>
-        (Position, Position) GetLongestFilledSectionBounds((Position, Position) ToBeContained, IEnumerable<Position> ignoreVacancy);
+        (Position start, Position end) GetLongestFilledSectionBounds((Position, Position) ToBeContained, IEnumerable<Position> ignoreVacancy);
+
+        /// <summary>
+        /// Finds the longest part of a specified row/column 
+        /// (specified by a position to be contained in and the direction),
+        /// which is already filled (with ignoring vacancy of specified positions). 
+        /// </summary>
+        /// <param name="ToBeContained">Position to be contained. Its vacancy can be ignored.</param>
+        /// <param name="direction">The direction specifying row/column.</param>
+        /// <returns>Bounds of the section, positions start and end (as value tuple).</returns>
+        (Position start, Position end) GetLongestFilledSectionBounds(Position ToBeContained, Direction direction);
+
+
+
         /// <summary>
         /// Get the part of a board starting and ending on specified positions.
         /// The positions are supposed to be in the same column or row.
