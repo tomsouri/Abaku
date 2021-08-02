@@ -9,9 +9,9 @@ namespace CommonTypes
 {
     public struct ReadOnlyListSegment<T> : IReadOnlyList<T>
     {
-        private IReadOnlyList<T> _list;
-        private int _startIndex;
-        private int _count;
+        private readonly IReadOnlyList<T> _list;
+        private readonly int _startIndex;
+        private readonly int _count;
         public ReadOnlyListSegment(IReadOnlyList<T> list, int startIndex, int count)
         {
             if (startIndex + count > list.Count) throw new ArgumentOutOfRangeException(paramName:nameof(count));

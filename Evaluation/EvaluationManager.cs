@@ -259,7 +259,7 @@ namespace Evaluation
         /// <param name="board">Current board.</param>
         /// <param name="formulaIdentifier">Current IFormulaIdentifier.</param>
         /// <returns>IEnumerable of Formulae (the nested structure).</returns>
-        private IEnumerable<Formula> GetAllFormulas(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
+        private static IEnumerable<Formula> GetAllFormulas(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
         {
             var boardAfterMove = new BoardAfterMove(board, move);
             var positions = move.PositionsSorted;
@@ -293,7 +293,7 @@ namespace Evaluation
         /// <param name="positions">Positions determining the line and to be included.</param>
         /// <param name="formulaIdentifier"></param>
         /// <returns>Enumerable of Formulas.</returns>
-        private IEnumerable<Formula> GetFormulasFromLine(BoardAfterMove board,
+        private static IEnumerable<Formula> GetFormulasFromLine(BoardAfterMove board,
                                                          IReadOnlyList<Position> positions,
                                                          IFormulaIdentifier formulaIdentifier)
         {

@@ -16,7 +16,7 @@ namespace CommonTypes
         public Move((Digit digit, Position position)[] placedStones)
         {
             PlacedStones = placedStones;
-            Array.Sort(PlacedStones, (a, b) => a.Item2.CompareTo(b.Item2));
+            Array.Sort(PlacedStones, (a, b) => a.position.CompareTo(b.position));
             Score = 0;
             IsEvaluated = false;
         }

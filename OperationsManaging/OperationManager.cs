@@ -81,13 +81,13 @@ namespace OperationsManaging
                 binaryIdentifiers = new List<BinaryIdentifier>();
                 otherIdentifiers = new List<ISimpleFactorsFormulaIdentifier>();
 
-                foreach (var x in unaryDescriptionsAndLambdas)
+                foreach (var (description, operation) in unaryDescriptionsAndLambdas)
                 {
-                    unaryIdentifiers.Add(new UnaryIdentifier(x.description, x.operation));
+                    unaryIdentifiers.Add(new UnaryIdentifier(description, operation));
                 }
-                foreach (var x in binaryDescriptionsAndLambdas)
+                foreach (var (description, operation) in binaryDescriptionsAndLambdas)
                 {
-                    binaryIdentifiers.Add(new BinaryIdentifier(x.description, x.operation));
+                    binaryIdentifiers.Add(new BinaryIdentifier(description, operation));
                 }
             }
         }
