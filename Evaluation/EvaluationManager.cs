@@ -266,6 +266,8 @@ namespace Evaluation
             
             throw new NotImplementedException();
         }
+
+        //private IEnumerable<Formula> GetFormulasFromBaseLine( Move move, IB)
         /// <summary>
         /// Evaluates the move in the current situation using also validation.
         /// </summary>
@@ -393,6 +395,31 @@ namespace Evaluation
             public bool IsPlacedInTheMove(Position position)
             {
                 return Move.GetPositions().Contains(position);
+            }
+
+            /// <summary>
+            /// Finds the longest part of a specified row/column (specified by positions to be contained in),
+            /// which is already filled (with ignoring vacancy of specified positions). 
+            /// </summary>
+            /// <param name="ignoreVacancy">Array of those Positions, which should be contained in the section,
+            /// and whose vacancy can be ignored.</param>
+            /// <returns>The starting and the ending position of the section (as value tuple).</returns>
+            public (Position start, Position end) GetLongestFilledSectionBounds(IEnumerable<Position> ignoreVacancy)
+            {
+                throw new NotImplementedException();
+            }
+            /// <summary>
+            /// Finds the longest part of a specified row/column 
+            /// (specified by a position to be contained in and the direction),
+            /// which is already filled (with ignoring vacancy of specified positions). 
+            /// </summary>
+            /// <param name="ToBeContained">Position to be contained. Its vacancy can be ignored.</param>
+            /// <param name="direction">The direction specifying row/column.</param>
+            /// <returns>Bounds of the section, positions start and end (as value tuple).</returns>
+            public (Position start, Position end) GetLongestFilledSectionBounds(Position ToBeContained,
+                                                                                Direction direction)
+            {
+                throw new NotImplementedException();
             }
             public IReadOnlyList<Digit> GetSection(Position start, Position end)
             {
