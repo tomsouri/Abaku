@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BoardManaging\BoardManaging.csproj" />
+    <ProjectReference Include="..\Extensions\Extensions.csproj" />
     <ProjectReference Include="..\OperationsManaging\OperationsManaging.csproj" />
     <ProjectReference Include="..\Validation\Validation.csproj" />
   </ItemGroup>

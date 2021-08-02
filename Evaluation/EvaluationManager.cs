@@ -9,6 +9,8 @@ using CommonTypes;
 using OperationsManaging;
 using BoardManaging;
 
+using EnumerableCombineExtensions;
+
 namespace Evaluation
 {
     public class EvaluationManager : IEvaluationManager
@@ -258,16 +260,61 @@ namespace Evaluation
         /// <returns>IEnumerable of Formulae (the nested structure).</returns>
         private IEnumerable<Formula> GetAllFormulas(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
         {
+            // TODO: co kdyz je v move jen jedna position?
             var boardAfterMove = new BoardAfterMove(board, move);
-            var (start, end) = board.GetLongestFilledSectionBounds(move.GetPositions());
-            var baseLine = boardAfterMove.GetSection(start, end);
-            var positions = move.GetPositions().ToList();
-            positions.Sort();
-            
+            var positions = move.PositionsSorted;
+            if (positions.Count == 1)
+            {
+                var formulas = Enumerable.Empty<Formula>();
+                foreach (var direction in Direction.SimpleDirections)
+                {
+                    formulas = formulas.CombineWith(GetFormulasFromLine(boardAfterMove, positions[0], direction, formulaIdentifier));
+                }
+                return formulas;
+            }
+            else
+            {
+                var formulas = GetFormulasFromLine(boardAfterMove, positions, formulaIdentifier);
+                var direction = positions[0].GetDirectionTo(positions[positions.Count - 1]);
+                var flippedDirection = direction.Flipped;
+                foreach (var position in positions)
+                {
+                    formulas = formulas.CombineWith(GetFormulasFromLine(boardAfterMove, position, flippedDirection, formulaIdentifier));
+                }
+                return formulas;
+            }
+        }
+
+        /// <summary>
+        /// Get all formulas that are in the line (row/column), where all the positions are,
+        /// such that each formula includes at least one of the positions.
+        /// </summary>
+        /// <param name="board">BoardAfterMove representing the current state of the board.</param>
+        /// <param name="positions">Positions determining the line and to be included.</param>
+        /// <param name="formulaIdentifier"></param>
+        /// <returns>Enumerable of Formulas.</returns>
+        private IEnumerable<Formula> GetFormulasFromLine(BoardAfterMove board,
+                                                         IReadOnlyList<Position> positions,
+                                                         IFormulaIdentifier formulaIdentifier)
+        {
             throw new NotImplementedException();
         }
 
-        //private IEnumerable<Formula> GetFormulasFromBaseLine( Move move, IB)
+        /// <summary>
+        /// Get all formulas including the given position, which lie in the given direction on the board after move.
+        /// </summary>
+        /// <param name="board">BoardAfterMove representing the current state of the board.</param>
+        /// <param name="position">Position to be included.</param>
+        /// <param name="direction">Direction, combined with position determining the line.</param>
+        /// <param name="formulaIdentifier"></param>
+        /// <returns>Enumerable of formulas.</returns>
+        private IEnumerable<Formula> GetFormulasFromLine(BoardAfterMove board,
+                                                         Position position,
+                                                         Direction direction,
+                                                         IFormulaIdentifier formulaIdentifier)
+        {
+            throw new NotImplementedException();
+        }
         /// <summary>
         /// Evaluates the move in the current situation using also validation.
         /// </summary>
