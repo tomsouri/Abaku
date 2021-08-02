@@ -379,16 +379,6 @@ namespace Evaluation
                                              direction,
                                              formulaIdentifier,
                                              digits.GetSectionsContainingIndex(positionIndex));
-            /*foreach (var (startIndex, endIndex) in digits.GetSectionsContainingIndex(positionIndex))
-            {
-                var segment = new ReadOnlyListSegment<Digit>(digits, startIndex, endIndex - startIndex + 1);
-                if (formulaIdentifier.IsFormula(segment))
-                {
-                    var startPosition = sectionStart + startIndex * direction;
-                    var endPosition = sectionStart + endIndex * direction;
-                    yield return new Formula(startPosition, endPosition, board);
-                }
-            }*/
         }
         /// <summary>
         /// Evaluates the move in the current situation using also validation.
@@ -528,20 +518,20 @@ namespace Evaluation
             /// <returns>The starting and the ending position of the section (as value tuple).</returns>
             public (Position start, Position end) GetLongestFilledSectionBounds(IEnumerable<Position> ignoreVacancy)
             {
-                throw new NotImplementedException();
+                return this.Board.GetLongestFilledSectionBounds(ignoreVacancy);
             }
             /// <summary>
             /// Finds the longest part of a specified row/column 
             /// (specified by a position to be contained in and the direction),
             /// which is already filled (with ignoring vacancy of specified positions). 
             /// </summary>
-            /// <param name="ToBeContained">Position to be contained. Its vacancy can be ignored.</param>
+            /// <param name="toBeContained">Position to be contained. Its vacancy can be ignored.</param>
             /// <param name="direction">The direction specifying row/column.</param>
             /// <returns>Bounds of the section, positions start and end (as value tuple).</returns>
-            public (Position start, Position end) GetLongestFilledSectionBounds(Position ToBeContained,
+            public (Position start, Position end) GetLongestFilledSectionBounds(Position toBeContained,
                                                                                 Direction direction)
             {
-                throw new NotImplementedException();
+                return Board.GetLongestFilledSectionBounds(toBeContained, direction);
             }
             public IReadOnlyList<Digit> GetSection(Position start, Position end)
             {
