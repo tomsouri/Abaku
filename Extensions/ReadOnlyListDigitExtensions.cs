@@ -27,5 +27,21 @@ namespace ReadOnlyListDigitExtensions
             }
             return result;
         }
+
+        /// <summary>
+        /// Converts IReadOnlyList of lists of digits to array of longs,
+        /// using the method converting list of digits to long.
+        /// </summary>
+        /// <returns>List of longs.</returns>
+        public static long[] ToLong(this IReadOnlyList<IReadOnlyList<Digit>> list)
+        {
+            var result = new long[list.Count];
+            for (int i = 0; i < list.Count; i++)
+            {
+                result[i] = list[i].ToLong();
+            }
+
+            return result;
+        }
     }
 }
