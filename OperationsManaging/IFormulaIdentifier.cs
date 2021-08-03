@@ -10,6 +10,12 @@ namespace OperationsManaging
 {
     public interface IFormulaIdentifier
     {
+        /// <summary>
+        /// Determines, whether an array of digits represents a formula or not,
+        /// usually depending on the setting of FactorsFormulaIdentifier.
+        /// </summary>
+        /// <param name="digits">List of digits to identify as formula.</param>
+        /// <returns>True if it is formula.</returns>
         bool IsFormula(IReadOnlyList<Digit> digits);
 
         /// <summary>
