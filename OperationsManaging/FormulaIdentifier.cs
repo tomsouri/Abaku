@@ -61,15 +61,24 @@ namespace OperationsManaging
 
         private string GetUnaryFormulaString(IReadOnlyList<Digit> digits)
         {
+            
+            return digits.SplitIntoTwoParts().
+                GetResults(a => (a.Item1.ToLong(), a.Item2.ToLong())).
+                GetResults(b => FactorsIdentifier.GetFormulaString(b.Item1, b.Item2)).
+                FindFirstNotNull();
+            /*digits.SplitIntoTwoParts().GetResults(a => FactorsIdentifier.GetFormulaString(a.Item1.ToLong(),a.Item2.ToLong()));
             foreach (var (aFactor, bFactor) in digits.SplitIntoTwoParts())
             {
                 string result = FactorsIdentifier.GetFormulaString(aFactor.ToLong(), bFactor.ToLong());
                 if (result != null) return result;
             }
-            return null;
+            return null;*/
         }
         private string GetBinaryFormulaString(IReadOnlyList<Digit> digits)
         {
+            //return digits.SplitIntoThreeParts().
+             //   GetResults(a => (a.Item1.ToLong(), a.Item2.ToLong(), a.Item3.ToLong()).
+               // GetResults(b
             foreach (var (aFactor, bFactor, cFactor) in digits.SplitIntoThreeParts())
             {
                 string result = FactorsIdentifier.GetFormulaString(aFactor.ToLong(), bFactor.ToLong(), cFactor.ToLong());
