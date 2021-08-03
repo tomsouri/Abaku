@@ -44,7 +44,11 @@ namespace OperationsManaging
 
         public bool IsFormula(IReadOnlyList<Digit> digits)
         {
-            throw new NotImplementedException();
+            foreach (int arity in FactorsIdentifier.Arities)
+            {
+                if (IsFormula(digits, arity)) return true;
+            }
+            return false;
         }
 
         private bool IsFormula(IReadOnlyList<Digit> digits, int arity)
