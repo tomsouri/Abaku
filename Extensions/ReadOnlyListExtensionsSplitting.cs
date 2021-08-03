@@ -20,7 +20,7 @@ namespace ReadOnlyListExtensions
                         new ReadOnlyListSegment<T>(list, startIndex:firstCount, count: list.Count - firstCount));
                 }
             }
-            public static IEnumerable<(IReadOnlyList<T>, IReadOnlyList<T>, IReadOnlyList<T>)> SplitToThreeParts<T>(IReadOnlyList<T> list)
+            public static IEnumerable<(IReadOnlyList<T>, IReadOnlyList<T>, IReadOnlyList<T>)> SplitIntoThreeParts<T>(IReadOnlyList<T> list)
             {
                 for (int  firstCount = 1;  firstCount < list.Count - 1;  firstCount++)
                 {
