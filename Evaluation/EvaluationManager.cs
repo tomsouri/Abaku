@@ -475,10 +475,10 @@ namespace Evaluation
 
                 var (start, end) = formula.GetBounds();
                 var section = new BoardAfterMove(board,move).GetSection(start, end);
-                var formulaRepresentation = formulaIdentifier.GetFormulaRepresentation(section);
+                var formulaString = formulaIdentifier.GetFormulaString(section);
+                int formulaScore = formulaEvaluation(formula, this.CurrentEvaluationBoard);
 
-                formulaRepresentation.Score = formulaEvaluation(formula, this.CurrentEvaluationBoard);
-                yield return formulaRepresentation;
+                yield return new FormulaRepresentation(formulaScore,formulaString);
             }
         }
 
