@@ -14,10 +14,12 @@ namespace CommonTypes
         {
             return FormulaRepresentationString;
         }
-        public FormulaRepresentation(int score, string representation)
+        public FormulaRepresentation(string representation)
         {
             FormulaRepresentationString = representation;
-            Score = score;
+            
+            // is not yet evaluated
+            Score = 0;
         }
     }
 }
