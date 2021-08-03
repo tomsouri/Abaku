@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ListExtensions
+namespace ReadOnlyListExtensions
 {
     public static class IReadOnlyListExtensions
     {
@@ -69,7 +69,10 @@ namespace ListExtensions
                                                                              int containedIndex2,
                                                                              int maximum)
         {
-            if (containedIndex1 > containedIndex2) (containedIndex2, containedIndex1) = (containedIndex1, containedIndex2);
+            if (containedIndex1 > containedIndex2)
+            {
+                (containedIndex2, containedIndex1) = (containedIndex1, containedIndex2);
+            }
 
             for (int startIndex = minimum; startIndex <= containedIndex1; startIndex++)
             {
