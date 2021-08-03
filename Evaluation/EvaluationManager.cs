@@ -10,7 +10,7 @@ using OperationsManaging;
 using BoardManaging;
 
 using EnumerableCombineExtensions;
-using ReadOnlyListExtensions;
+using ReadOnlyListExtensions.Bounds;
 
 namespace Evaluation
 {
