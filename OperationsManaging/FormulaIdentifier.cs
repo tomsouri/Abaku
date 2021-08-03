@@ -36,94 +36,74 @@ namespace OperationsManaging
 
         public string GetFormulaString(IReadOnlyList<Digit> digits)
         {
-            foreach (int arity in FactorsIdentifier.Arities)
-            {
-                string result = GetFormulaString(digits, arity);
-                if (result!=null) return result;
-            }
-            return null;
+            return FactorsIdentifier.Arities.
+                GetResults(arity => GetFormulaString(digits, arity)).
+                FindFirstNotNull();
         }
 
         private string GetFormulaString(IReadOnlyList<Digit> digits, int arity)
         {
             if (arity == 1) return GetUnaryFormulaString(digits);
             else if (arity == 2) return GetBinaryFormulaString(digits);
-            else
-            {
-                foreach (var parts in digits.SplitIntoParts(arity))
-                {
-                    string result = FactorsIdentifier.GetFormulaString(parts.ToLong());
-                    if (result!=null) return result;
-                }
-            }
-            return null;
+            else return GetOtherFormulaString(digits, arity);
         }
 
         private string GetUnaryFormulaString(IReadOnlyList<Digit> digits)
         {
             
             return digits.SplitIntoTwoParts().
-                GetResults(a => (a.Item1.ToLong(), a.Item2.ToLong())).
-                GetResults(b => FactorsIdentifier.GetFormulaString(b.Item1, b.Item2)).
+                GetResults(digitsTuple => digitsTuple.ToLong()).
+                GetResults(FactorsIdentifier.GetFormulaString).
                 FindFirstNotNull();
-            /*digits.SplitIntoTwoParts().GetResults(a => FactorsIdentifier.GetFormulaString(a.Item1.ToLong(),a.Item2.ToLong()));
-            foreach (var (aFactor, bFactor) in digits.SplitIntoTwoParts())
-            {
-                string result = FactorsIdentifier.GetFormulaString(aFactor.ToLong(), bFactor.ToLong());
-                if (result != null) return result;
-            }
-            return null;*/
         }
         private string GetBinaryFormulaString(IReadOnlyList<Digit> digits)
         {
-            //return digits.SplitIntoThreeParts().
-             //   GetResults(a => (a.Item1.ToLong(), a.Item2.ToLong(), a.Item3.ToLong()).
-               // GetResults(b
-            foreach (var (aFactor, bFactor, cFactor) in digits.SplitIntoThreeParts())
-            {
-                string result = FactorsIdentifier.GetFormulaString(aFactor.ToLong(), bFactor.ToLong(), cFactor.ToLong());
-                if (result != null) return result;
-            }
-            return null;
+            return digits.SplitIntoThreeParts().
+                GetResults(digitsTuple => digitsTuple.ToLong()).
+                GetResults(FactorsIdentifier.GetFormulaString).
+                FindFirstNotNull();
+        }
+        private string GetOtherFormulaString(IReadOnlyList<Digit> digits, int arity)
+        {
+            return digits.SplitIntoParts(arity).
+                    GetResults(parts => parts.ToLong()).
+                    GetResults(FactorsIdentifier.GetFormulaString).
+                    FindFirstNotNull();
         }
 
         public bool IsFormula(IReadOnlyList<Digit> digits)
         {
-            foreach (int arity in FactorsIdentifier.Arities)
-            {
-                if (IsFormula(digits, arity)) return true;
-            }
-            return false;
+            return FactorsIdentifier.Arities.
+                GetResults(arity => IsFormula(digits, arity)).
+                Contains(true);
         }
 
         private bool IsFormula(IReadOnlyList<Digit> digits, int arity)
         {
             if (arity == 1) return IsUnaryFormula(digits);
             else if (arity == 2) return IsBinaryFormula(digits);
-            else
-            {
-                foreach (var parts in digits.SplitIntoParts(arity))
-                {
-                    if (FactorsIdentifier.IsFormula(parts.ToLong())) return true;
-                }
-            }
-            return false;
+            else return IsOtherFormula(digits, arity);
         }
         private bool IsUnaryFormula(IReadOnlyList<Digit> digits)
         {
-            foreach (var (aFactor,bFactor) in digits.SplitIntoTwoParts())
-            {
-                if (FactorsIdentifier.IsFormula(aFactor.ToLong(), bFactor.ToLong())) return true;
-            }
-            return false;
+            return digits.SplitIntoTwoParts().
+                GetResults(digitsTuple => digitsTuple.ToLong()).
+                GetResults(FactorsIdentifier.IsFormula).
+                Contains(true);
         }
         private bool IsBinaryFormula(IReadOnlyList<Digit> digits)
         {
-            foreach (var (aFactor, bFactor, cFactor) in digits.SplitIntoThreeParts())
-            {
-                if (FactorsIdentifier.IsFormula(aFactor.ToLong(), bFactor.ToLong(), cFactor.ToLong())) return true;
-            }
-            return false;
+            return digits.SplitIntoThreeParts().
+                GetResults(digitsTuple => digitsTuple.ToLong()).
+                GetResults(FactorsIdentifier.IsFormula).
+                Contains(true);
+        }
+        private bool IsOtherFormula(IReadOnlyList<Digit> digits, int arity)
+        {
+            return digits.SplitIntoParts(arity).
+                GetResults(parts => parts.ToLong()).
+                GetResults(FactorsIdentifier.IsFormula).
+                Contains(true);
         }
 
     }
