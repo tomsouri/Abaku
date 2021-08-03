@@ -32,5 +32,22 @@ namespace OperationsManaging
             if (factors.Length != Arity + 1) return false;
             return IsFormula(factors[0], factors[1], factors[2]);
         }
+
+        public string GetFormulaString(long factor, long result)
+        {
+            return null;
+        }
+
+        public string GetFormulaString(long aFactor, long bFactor, long result)
+        {
+            if (!IsFormula(aFactor,bFactor,result)) return null;
+            return aFactor.ToString() + OperationString + bFactor.ToString() + EqualityString + result.ToString();
+        }
+
+        public string GetFormulaString(long[] factors)
+        {
+            if (factors.Length != Arity + 1) return null;
+            return GetFormulaString(factors[0], factors[1], factors[2]);
+        }
     }
 }
