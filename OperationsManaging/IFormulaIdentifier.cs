@@ -34,6 +34,6 @@ namespace OperationsManaging
         /// </summary>
         /// <param name="digits">The digits, that build the formula.</param>
         /// <returns></returns>
-        FormulaRepresentation GetFormulaRepresentation(IReadOnlyList<Digit> digits);
+        string GetFormulaString(IReadOnlyList<Digit> digits);
     }
 }

@@ -11,5 +11,7 @@ namespace OperationsManaging
         bool IsFormula(long aFactor, long bFactor);
         bool IsFormula(long aFactor, long bFactor, long cFactor);
         bool IsFormula(long[] factors);
+
+        
     }
 }

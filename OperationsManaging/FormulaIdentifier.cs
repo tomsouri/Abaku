@@ -24,7 +24,7 @@ namespace OperationsManaging
             throw new NotImplementedException();
         }
 
-        public FormulaRepresentation GetFormulaRepresentation(IReadOnlyList<Digit> digits)
+        public string GetFormulaString(IReadOnlyList<Digit> digits)
         {
             throw new NotImplementedException();
         }
