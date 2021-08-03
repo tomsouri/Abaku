@@ -16,8 +16,8 @@ namespace ListExtensions
         /// <param name="list">The list to get sections of.</param>
         /// <param name="containedIndex">Index that should be contained in all the sections.</param>
         /// <returns>Enumerable of section bounds (start and end indices as value tuple).</returns>
-        public static IEnumerable<(int startIndex, int endIndex)> GetSectionsContainingIndex<T>(this IReadOnlyList<T> list,
-                                                                                  int containedIndex)
+        public static IEnumerable<(int startIndex, int endIndex)> GetSectionsContainingIndexBounds<T>(
+            this IReadOnlyList<T> list, int containedIndex)
         {
             int minimum = 0;
             int maximum = list.Count - 1;
@@ -34,11 +34,16 @@ namespace ListExtensions
         /// <param name="containedIndex">Index contained in the sections.</param>
         /// <param name="missingIndex">Index NOT contained in the sections.</param>
         /// <returns>Enumerable of section bounds (start and end indices as value tuple).</returns>
-        public static IEnumerable<(int startIndex, int endIndex)> GetSectionsContainingIndexNotOther<T>(this IReadOnlyList<T> list,
-                                                                                           int containedIndex,
-                                                                                           int missingIndex)
+        public static IEnumerable<(int startIndex, int endIndex)> GetSectionsContainingIndexNotOtherBounds<T>(
+            this IReadOnlyList<T> list, int containedIndex, int missingIndex)
         {
-            if (containedIndex == missingIndex) throw new InvalidOperationException("Arguments " + nameof(containedIndex) + " and " + nameof(missingIndex) + " must NOT be equal.");
+            if (containedIndex == missingIndex)
+            {
+                throw new InvalidOperationException(
+                    "Arguments " + nameof(containedIndex) + " and " + nameof(missingIndex) + " must NOT be equal."
+                    );
+            }
+
             int minimum = (containedIndex < missingIndex) ? 0 : missingIndex + 1;
             int maximum = (containedIndex < missingIndex) ? missingIndex - 1 : list.Count - 1;
 
@@ -56,9 +61,19 @@ namespace ListExtensions
                                                                              int containedIndex,
                                                                              int maximum)
         {
-            for (int startIndex = minimum; startIndex <= containedIndex; startIndex++)
+            return GetBounds(minimum, containedIndex, containedIndex, maximum);
+        }
+
+        private static IEnumerable<(int startIndex, int endIndex)> GetBounds(int minimum,
+                                                                             int containedIndex1,
+                                                                             int containedIndex2,
+                                                                             int maximum)
+        {
+            if (containedIndex1 > containedIndex2) (containedIndex2, containedIndex1) = (containedIndex1, containedIndex2);
+
+            for (int startIndex = minimum; startIndex <= containedIndex1; startIndex++)
             {
-                for (int endIndex = containedIndex; endIndex <= maximum; endIndex++)
+                for (int endIndex = containedIndex2; endIndex <= maximum; endIndex++)
                 {
                     yield return (startIndex, endIndex);
                 }
