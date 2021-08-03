@@ -43,5 +43,26 @@ namespace ReadOnlyListDigitExtensions
 
             return result;
         }
+        
+        /// <summary>
+        /// Convert tuple of lists of digits to tuple of longs.
+        /// </summary>
+        /// <param name="tuple"></param>
+        /// <returns>Long 2-tuple.</returns>
+        public static (long, long) ToLong(this (IReadOnlyList<Digit> digits1, IReadOnlyList<Digit> digits2) tuple)
+        {
+            return (tuple.digits1.ToLong(), tuple.digits2.ToLong());
+        }
+
+        /// <summary>
+        /// Convert tuple of lists of digits to tuple of longs.
+        /// </summary>
+        /// <param name="tuple"></param>
+        /// <returns>Long 3-tuple.</returns>
+        public static (long,long,long) ToLong(
+            this (IReadOnlyList<Digit> digits1, IReadOnlyList<Digit> digits2, IReadOnlyList<Digit> digits3) tuple)
+        {
+            return (tuple.digits1.ToLong(), tuple.digits2.ToLong(), tuple.digits3.ToLong());
+        }
     }
 }
