@@ -131,5 +131,25 @@ namespace OperationsManaging
             }
             return null;
         }
+
+        public bool IsFormula((long a, long b) factors)
+        {
+            return IsFormula(factors.a, factors.b);
+        }
+
+        public bool IsFormula((long a, long b, long c) factors)
+        {
+            return IsFormula(factors.a, factors.b, factors.c);
+        }
+
+        public string GetFormulaString((long a, long b) factors)
+        {
+            return GetFormulaString(factors.a, factors.b);
+        }
+
+        public string GetFormulaString((long a, long b, long c) factors)
+        {
+            return GetFormulaString(factors.a, factors.b, factors.c);
+        }
     }
 }
