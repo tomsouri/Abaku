@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using ReadOnlyListExtensions.Splitting;
 using ReadOnlyListExtensions.Sections;
 using ReadOnlyListDigitExtensions;
-using EnumerableSatisfyingConditionsExtensions;
+using EnumerableExtensions;
 
 namespace OperationsManaging
 {

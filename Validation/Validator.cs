@@ -8,7 +8,7 @@ using CommonTypes;
 using BoardManaging;
 using OperationsManaging;
 using EnumerablePositionExtensions;
-using EnumerableSatisfyingConditionsExtensions;
+using EnumerableExtensions;
 
 namespace Validation
 {
