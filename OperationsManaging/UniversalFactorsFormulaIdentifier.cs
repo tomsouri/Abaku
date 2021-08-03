@@ -39,6 +39,10 @@ namespace OperationsManaging
         private List<UnaryIdentifier> UnaryIdentifiers { get; }
         private List<BinaryIdentifier> BinaryIdentifiers { get; }
         private List<ISimpleFactorsFormulaIdentifier> OtherIdentifiers { get; }
+        private IEnumerable<ISimpleFactorsFormulaIdentifier> AllIdentifiers
+        {
+            get => (UnaryIdentifiers, BinaryIdentifiers, OtherIdentifiers).Combine();
+        }
 
         /// <summary>
         /// If this Universal identifier still has default setting, it clears all lists of identifiers.
@@ -91,7 +95,7 @@ namespace OperationsManaging
 
         public bool IsFormula(long[] factors)
         {
-            foreach (var identifier in (UnaryIdentifiers, BinaryIdentifiers, OtherIdentifiers).Combine())
+            foreach (var identifier in AllIdentifiers)
             {
                 if (identifier.IsFormula(factors)) return true; ;
             }
