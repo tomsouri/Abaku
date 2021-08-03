@@ -71,5 +71,22 @@ namespace EnumerableSatisfyingConditionsExtensions
             }
             return null;
         }
+
+        /// <summary>
+        /// Calls the given Function at every item in the given enumerable
+        /// and return enumerable of results.
+        /// </summary>
+        /// <typeparam name="TInput">Type of items in the input enumerable.</typeparam>
+        /// <typeparam name="TResult">Type of items in the returning enumerable.</typeparam>
+        /// <param name="enumerable">The given enumerable.</param>
+        /// <param name="function">Function returning TResult type and taking one argument of type TInput.</param>
+        /// <returns>Enumerable of TResults, the outputs of the given function.</returns>
+        public static IEnumerable<TResult> GetResults<TInput,TResult>(this IEnumerable<TInput> enumerable, Func<TInput, TResult> function)
+        {
+            foreach (var input in enumerable)
+            {
+                yield return function(input);
+            }
+        }
     }
 }
