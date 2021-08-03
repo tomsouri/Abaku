@@ -10,7 +10,7 @@ namespace ReadOnlyListDigitExtensions
 {
     public static class ReadOnlyListDigitExtensions
     {
-        private static int BASE = 10;
+        private static int BASE => 10;
         /// <summary>
         /// Converts list of digits to long representing the string of digits
         /// using Horner schema in decimal system.

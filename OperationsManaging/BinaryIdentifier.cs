@@ -20,7 +20,7 @@ namespace OperationsManaging
         private BinaryOperationDelegate OperationDelegate { get; }
         private string OperationString { get; }
 
-        private static string EqualityString = "=";
+        private static string EqualityString => "=";
         public string Description { get; }
 
         public bool IsFormula(long aFactor, long bFactor) => false;
