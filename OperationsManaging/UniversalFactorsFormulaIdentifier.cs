@@ -101,5 +101,35 @@ namespace OperationsManaging
             }
             return false;
         }
+
+        public string GetFormulaString(long aFactor, long bFactor)
+        {
+            foreach (var identifier in (UnaryIdentifiers, OtherIdentifiers).Combine())
+            {
+                var formulaString = identifier.GetFormulaString(aFactor, bFactor);
+                if (formulaString is not null) return formulaString;
+            }
+            return null;
+        }
+
+        public string GetFormulaString(long aFactor, long bFactor, long cFactor)
+        {
+            foreach (var identifier in (BinaryIdentifiers, OtherIdentifiers).Combine())
+            {
+                var formulaString = identifier.GetFormulaString(aFactor, bFactor, cFactor);
+                if (formulaString is not null) return formulaString;
+            }
+            return null;
+        }
+
+        public string GetFormulaString(long[] factors)
+        {
+            foreach (var identifier in AllIdentifiers)
+            {
+                var formulaString = identifier.GetFormulaString(factors);
+                if (formulaString is not null) return formulaString;
+            }
+            return null;
+        }
     }
 }
