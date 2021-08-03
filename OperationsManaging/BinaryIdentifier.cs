@@ -9,15 +9,18 @@ namespace OperationsManaging
     internal delegate bool BinaryOperationDelegate(long aFactor, long bFactor, long result);
     internal sealed class BinaryIdentifier: ISimpleFactorsFormulaIdentifier
     {
-        public BinaryIdentifier(string description, BinaryOperationDelegate operationDelegate)
+        public BinaryIdentifier(string description, BinaryOperationDelegate operationDelegate, string operationString)
         {
             Description = description;
             OperationDelegate = operationDelegate;
+            OperationString = operationString;
         }
         public static int Arity => 2;
         public int OperatorArity => Arity;
         private BinaryOperationDelegate OperationDelegate { get; }
+        private string OperationString { get; }
 
+        private static string EqualityString = "=";
         public string Description { get; }
 
         public bool IsFormula(long aFactor, long bFactor) => false;
