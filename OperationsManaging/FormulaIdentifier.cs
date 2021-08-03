@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using ReadOnlyListExtensions;
+using ReadOnlyListExtensions.Splitting;
 using ReadOnlyListDigitExtensions;
 
 namespace OperationsManaging
@@ -53,7 +53,32 @@ namespace OperationsManaging
 
         private bool IsFormula(IReadOnlyList<Digit> digits, int arity)
         {
-            throw new NotImplementedException();
+            if (arity == 1) return IsUnaryFormula(digits);
+            else if (arity == 2) return IsBinaryFormula(digits);
+            else
+            {
+                foreach (var parts in digits.SplitIntoParts(arity))
+                {
+                    if (FactorsIdentifier.IsFormula(parts.ToLong())) return true;
+                }
+            }
+            return false;
+        }
+        private bool IsUnaryFormula(IReadOnlyList<Digit> digits)
+        {
+            foreach (var (aFactor,bFactor) in digits.SplitIntoTwoParts())
+            {
+                if (FactorsIdentifier.IsFormula(aFactor.ToLong(), bFactor.ToLong())) return true;
+            }
+            return false;
+        }
+        private bool IsBinaryFormula(IReadOnlyList<Digit> digits)
+        {
+            foreach (var (aFactor, bFactor, cFactor) in digits.SplitIntoThreeParts())
+            {
+                if (FactorsIdentifier.IsFormula(aFactor.ToLong(), bFactor.ToLong(), cFactor.ToLong())) return true;
+            }
+            return false;
         }
 
     }
