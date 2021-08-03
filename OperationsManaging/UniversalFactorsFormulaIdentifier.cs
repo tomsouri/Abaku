@@ -73,32 +73,29 @@ namespace OperationsManaging
 
         public bool IsFormula(long aFactor, long bFactor)
         {
-            bool isFormula = false;
             foreach (var identifier in (UnaryIdentifiers,OtherIdentifiers).Combine())
             {
-                isFormula |= identifier.IsFormula(aFactor, bFactor);
+                if (identifier.IsFormula(aFactor, bFactor)) return true;
             }
-            return isFormula;
+            return false;
         }
 
         public bool IsFormula(long aFactor, long bFactor, long cFactor)
         {
-            bool isFormula = false;
             foreach (var identifier in (BinaryIdentifiers,OtherIdentifiers).Combine())
             {
-                isFormula |= identifier.IsFormula(aFactor, bFactor, cFactor);
+                if(identifier.IsFormula(aFactor, bFactor, cFactor)) return true;
             }
-            return isFormula;
+            return false;
         }
 
         public bool IsFormula(long[] factors)
         {
-            bool isFormula = false;
             foreach (var identifier in (UnaryIdentifiers, BinaryIdentifiers, OtherIdentifiers).Combine())
             {
-                isFormula |= identifier.IsFormula(factors);
+                if (identifier.IsFormula(factors)) return true; ;
             }
-            return isFormula;
+            return false;
         }
     }
 }
