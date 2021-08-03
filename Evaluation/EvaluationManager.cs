@@ -251,135 +251,143 @@ namespace Evaluation
             return list;
         }
         #endregion
-
+        
         /// <summary>
-        /// Finds all formulas included in the move.
+        /// Leads finding of all formulas in given Move.
         /// </summary>
-        /// <param name="move">Current move.</param>
-        /// <param name="board">Current board.</param>
-        /// <param name="formulaIdentifier">Current IFormulaIdentifier.</param>
-        /// <returns>IEnumerable of Formulae (the nested structure).</returns>
-        private static IEnumerable<Formula> GetAllFormulas(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
+        private static class FormulaGetter
         {
-            var boardAfterMove = new BoardAfterMove(board, move);
-            var positions = move.PositionsSorted;
-            if (positions.Count == 1)
+            /// <summary>
+            /// Finds all formulas included in the move.
+            /// </summary>
+            /// <param name="move">Current move.</param>
+            /// <param name="board">Current board.</param>
+            /// <param name="formulaIdentifier">Current IFormulaIdentifier.</param>
+            /// <returns>IEnumerable of Formulae (the nested structure).</returns>
+            internal static IEnumerable<Formula> GetAllFormulas(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
             {
-                var formulas = Enumerable.Empty<Formula>();
-                foreach (var direction in Direction.SimpleDirections)
+                var boardAfterMove = new BoardAfterMove(board, move);
+                var positions = move.PositionsSorted;
+                if (positions.Count == 1)
                 {
-                    formulas = formulas.CombineWith(GetFormulasFromLine(boardAfterMove, positions[0], direction, formulaIdentifier));
+                    var formulas = Enumerable.Empty<Formula>();
+                    foreach (var direction in Direction.SimpleDirections)
+                    {
+                        formulas = formulas.CombineWith(GetFormulasFromLine(boardAfterMove, positions[0], direction, formulaIdentifier));
+                    }
+                    return formulas;
                 }
-                return formulas;
+                else
+                {
+                    var formulas = GetFormulasFromLine(boardAfterMove, positions, formulaIdentifier);
+                    var direction = positions[0].GetDirectionTo(positions[positions.Count - 1]);
+                    var flippedDirection = direction.Flipped;
+                    foreach (var position in positions)
+                    {
+                        formulas = formulas.CombineWith(GetFormulasFromLine(boardAfterMove, position, flippedDirection, formulaIdentifier));
+                    }
+                    return formulas;
+                }
             }
-            else
+
+            /// <summary>
+            /// Get all formulas that are in the line (row/column), where all the positions are,
+            /// such that each formula includes at least one of the positions.
+            /// </summary>
+            /// <param name="board">BoardAfterMove representing the current state of the board.</param>
+            /// <param name="positions">Positions determining the line and to be included.</param>
+            /// <param name="formulaIdentifier"></param>
+            /// <returns>Enumerable of Formulas.</returns>
+            internal static IEnumerable<Formula> GetFormulasFromLine(BoardAfterMove board,
+                                                             IReadOnlyList<Position> positions,
+                                                             IFormulaIdentifier formulaIdentifier)
             {
-                var formulas = GetFormulasFromLine(boardAfterMove, positions, formulaIdentifier);
+                (Position sectionStart, Position sectionEnd) = board.GetLongestFilledSectionBounds(positions);
+                IReadOnlyList<Digit> digits = board.GetSection(sectionStart, sectionEnd);
+                int firstPositionIndex = positions[0] - sectionStart;
                 var direction = positions[0].GetDirectionTo(positions[positions.Count - 1]);
-                var flippedDirection = direction.Flipped;
-                foreach (var position in positions)
+                var formulas = GetBoundedFormulas(digits,
+                                                         board,
+                                                         sectionStart,
+                                                         direction,
+                                                         formulaIdentifier,
+                                                         digits.GetSectionsContainingIndex(firstPositionIndex));
+
+                for (int i = 1; i < positions.Count; i++)
                 {
-                    formulas = formulas.CombineWith(GetFormulasFromLine(boardAfterMove, position, flippedDirection, formulaIdentifier));
+                    var containedPosition = positions[i];
+                    var notContainedPosition = positions[i - 1];
+
+                    var containedIndex = containedPosition - sectionStart;
+                    var notContainedIndex = notContainedPosition - sectionStart;
+
+                    formulas = formulas.CombineWith(GetBoundedFormulas(
+                        digits,
+                        board,
+                        sectionStart,
+                        direction,
+                        formulaIdentifier,
+                        digits.GetSectionsContainingIndexNotOther(containedIndex, notContainedIndex)));
                 }
+
                 return formulas;
             }
-        }
 
-        /// <summary>
-        /// Get all formulas that are in the line (row/column), where all the positions are,
-        /// such that each formula includes at least one of the positions.
-        /// </summary>
-        /// <param name="board">BoardAfterMove representing the current state of the board.</param>
-        /// <param name="positions">Positions determining the line and to be included.</param>
-        /// <param name="formulaIdentifier"></param>
-        /// <returns>Enumerable of Formulas.</returns>
-        private static IEnumerable<Formula> GetFormulasFromLine(BoardAfterMove board,
-                                                         IReadOnlyList<Position> positions,
-                                                         IFormulaIdentifier formulaIdentifier)
-        {
-            (Position sectionStart, Position sectionEnd) = board.GetLongestFilledSectionBounds(positions);
-            IReadOnlyList<Digit> digits = board.GetSection(sectionStart, sectionEnd);
-            int firstPositionIndex = positions[0] - sectionStart;
-            var direction = positions[0].GetDirectionTo(positions[positions.Count - 1]);
-            var formulas = GetBoundedFormulas(digits,
-                                                     board,
-                                                     sectionStart,
-                                                     direction,
-                                                     formulaIdentifier,
-                                                     digits.GetSectionsContainingIndex(firstPositionIndex));
-
-            for (int i = 1; i < positions.Count; i++)
+            /// <summary>
+            /// Get all formulas from digits including the given index.
+            /// </summary>
+            /// <param name="digits">List of digits, from which we get the formulas.</param>
+            /// <param name="board">To be saved in the Formula struct.</param>
+            /// <param name="sectionStart">The Position representing 0 index of digits list.</param>
+            /// <param name="direction">The direction the line goes.</param>
+            /// <param name="formulaIdentifier"></param>
+            /// <param name="sectionBounds">Enum of starting and ending indices bounding the formulas.</param>
+            /// <returns>Enumerable of Formula structs.</returns>
+            internal static IEnumerable<Formula> GetBoundedFormulas(IReadOnlyList<Digit> digits,
+                                                  BoardAfterMove board,
+                                                  Position sectionStart,
+                                                  Direction direction,
+                                                  IFormulaIdentifier formulaIdentifier,
+                                                  IEnumerable<(int startIndex, int endIndex)> sectionBounds)
             {
-                var containedPosition = positions[i];
-                var notContainedPosition = positions[i - 1];
-
-                var containedIndex = containedPosition - sectionStart;
-                var notContainedIndex = notContainedPosition - sectionStart;
-
-                formulas = formulas.CombineWith(GetBoundedFormulas(
-                    digits,
-                    board,
-                    sectionStart,
-                    direction,
-                    formulaIdentifier,
-                    digits.GetSectionsContainingIndexNotOther(containedIndex, notContainedIndex)));
-            }
-
-            return formulas;
-        }
-
-        /// <summary>
-        /// Get all formulas from digits including the given index.
-        /// </summary>
-        /// <param name="digits">List of digits, from which we get the formulas.</param>
-        /// <param name="board">To be saved in the Formula struct.</param>
-        /// <param name="sectionStart">The Position representing 0 index of digits list.</param>
-        /// <param name="direction">The direction the line goes.</param>
-        /// <param name="formulaIdentifier"></param>
-        /// <param name="sectionBounds">Enum of starting and ending indices bounding the formulas.</param>
-        /// <returns>Enumerable of Formula structs.</returns>
-        private static IEnumerable<Formula> GetBoundedFormulas(IReadOnlyList<Digit> digits,
-                                              BoardAfterMove board,
-                                              Position sectionStart,
-                                              Direction direction,
-                                              IFormulaIdentifier formulaIdentifier,
-                                              IEnumerable<(int startIndex, int endIndex)> sectionBounds)
-        {
-            foreach (var (startIndex, endIndex) in sectionBounds)
-            {
-                var segment = new ReadOnlyListSegment<Digit>(digits, startIndex, endIndex - startIndex + 1);
-                if (formulaIdentifier.IsFormula(segment))
+                foreach (var (startIndex, endIndex) in sectionBounds)
                 {
-                    var startPosition = sectionStart + startIndex * direction;
-                    var endPosition = sectionStart + endIndex * direction;
-                    yield return new Formula(startPosition, endPosition, board);
+                    var segment = new ReadOnlyListSegment<Digit>(digits, startIndex, endIndex - startIndex + 1);
+                    if (formulaIdentifier.IsFormula(segment))
+                    {
+                        var startPosition = sectionStart + startIndex * direction;
+                        var endPosition = sectionStart + endIndex * direction;
+                        yield return new Formula(startPosition, endPosition, board);
+                    }
                 }
             }
+
+            /// <summary>
+            /// Get all formulas including the given position, which lie in the given direction on the board after move.
+            /// </summary>
+            /// <param name="board">BoardAfterMove representing the current state of the board.</param>
+            /// <param name="position">Position to be included.</param>
+            /// <param name="direction">Direction, combined with position determining the line.</param>
+            /// <param name="formulaIdentifier"></param>
+            /// <returns>Enumerable of formulas.</returns>
+            internal static IEnumerable<Formula> GetFormulasFromLine(BoardAfterMove board,
+                                                             Position position,
+                                                             Direction direction,
+                                                             IFormulaIdentifier formulaIdentifier)
+            {
+                (Position sectionStart, Position sectionEnd) = board.GetLongestFilledSectionBounds(position, direction);
+                IReadOnlyList<Digit> digits = board.GetSection(sectionStart, sectionEnd);
+                int positionIndex = position - sectionStart;
+                return GetBoundedFormulas(digits,
+                                                 board,
+                                                 sectionStart,
+                                                 direction,
+                                                 formulaIdentifier,
+                                                 digits.GetSectionsContainingIndex(positionIndex));
+            }
         }
 
-        /// <summary>
-        /// Get all formulas including the given position, which lie in the given direction on the board after move.
-        /// </summary>
-        /// <param name="board">BoardAfterMove representing the current state of the board.</param>
-        /// <param name="position">Position to be included.</param>
-        /// <param name="direction">Direction, combined with position determining the line.</param>
-        /// <param name="formulaIdentifier"></param>
-        /// <returns>Enumerable of formulas.</returns>
-        private static IEnumerable<Formula> GetFormulasFromLine(BoardAfterMove board,
-                                                         Position position,
-                                                         Direction direction,
-                                                         IFormulaIdentifier formulaIdentifier)
-        {
-            (Position sectionStart, Position sectionEnd) = board.GetLongestFilledSectionBounds(position, direction);
-            IReadOnlyList<Digit> digits = board.GetSection(sectionStart, sectionEnd);
-            int positionIndex = position - sectionStart;
-            return GetBoundedFormulas(digits,
-                                             board,
-                                             sectionStart,
-                                             direction,
-                                             formulaIdentifier,
-                                             digits.GetSectionsContainingIndex(positionIndex));
-        }
+        
         /// <summary>
         /// Evaluates the move in the current situation using also validation.
         /// </summary>
@@ -398,7 +406,9 @@ namespace Evaluation
         }
 
         /// <summary>
-        /// Evaluates the valid move in the current situation using the default formula evaluation delegate.
+        /// Evaluates the valid move in the current situation 
+        /// using the default formula evaluation delegate
+        /// and the default evaluation board.
         /// </summary>
         /// <param name="move"></param>
         /// <param name="board"></param>
@@ -406,7 +416,7 @@ namespace Evaluation
         /// <returns>The score you get after applying the move.</returns>
         private int EvaluateValidMoveUnsafe(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
         {
-            return EvaluateValidMoveUnsafe(move, board, formulaIdentifier, CurrentFormulaEvaluationDelegate);
+            return EvaluateValidMoveUnsafe(move, board, formulaIdentifier, CurrentFormulaEvaluationDelegate, CurrentEvaluationBoard);
         }
 
         /// <summary>
@@ -429,21 +439,24 @@ namespace Evaluation
         /// <param name="formulaIdentifier"></param>
         /// <param name="formulaEvaluation">The specified delegate used to evaluate each formula.</param>
         /// <returns></returns>
-        private int EvaluateValidMoveUnsafe(Move move,
-                                      IBoard board,
-                                      IFormulaIdentifier formulaIdentifier,
-                                      FormulaEvaluationDelegate formulaEvaluation)
+        private static int EvaluateValidMoveUnsafe(Move move,
+                                            IBoard board,
+                                            IFormulaIdentifier formulaIdentifier,
+                                            FormulaEvaluationDelegate formulaEvaluation,
+                                            IEvaluationBoard evaluationBoard)
         {
             int score = 0;
-            foreach (var formula in GetAllFormulas(move, board, formulaIdentifier))
+            foreach (var formula in FormulaGetter.GetAllFormulas(move, board, formulaIdentifier))
             {
-                score += formulaEvaluation(formula, this.CurrentEvaluationBoard);
+                score += formulaEvaluation(formula, evaluationBoard);
             }
             return score;
         }
 
         /// <summary>
-        /// Checks validity and uses the defalut formula evaluation delegate to find representations of all formulae and evaluate them.
+        /// Checks validity and uses the defalut formula evaluation delegate
+        /// to find representations of all formulas and evaluate them
+        /// using the default evaluation board.
         /// The expected usage is for displaying all formulae contained in the move with their scores
         /// after applying the move by a player.
         /// </summary>
@@ -451,12 +464,18 @@ namespace Evaluation
         /// <param name="board"></param>
         /// <param name="formulaIdentifier"></param>
         /// <returns>IEnumerable of FormulaRepresentation. If the move is not valid, returns empty enumerable.</returns>
-        IEnumerable<FormulaRepresentation> IEvaluationManager.GetAllFormulasIncludedIn(Move move, IBoard board, IFormulaIdentifier formulaIdentifier, MoveValidationDelegate validationDelegate)
+        IEnumerable<FormulaRepresentation> IEvaluationManager.GetAllFormulasIncludedIn(Move move, IBoard board,
+            IFormulaIdentifier formulaIdentifier, MoveValidationDelegate validationDelegate)
         {
             if (!validationDelegate(move, board, formulaIdentifier)) return Enumerable.Empty<FormulaRepresentation>();
             else
             {
-                return GetAllFormulasIncludedInUnsafe(move, board, formulaIdentifier, CurrentFormulaEvaluationDelegate);
+                return GetAllFormulasIncludedInUnsafe(
+                    move,
+                    board,
+                    formulaIdentifier,
+                    CurrentFormulaEvaluationDelegate,
+                    CurrentEvaluationBoard);
             }
         }
 
@@ -468,15 +487,17 @@ namespace Evaluation
         /// <param name="formulaIdentifier"></param>
         /// <param name="formulaEvaluation">The specified formula evaluation delegate.</param>
         /// <returns>IEnumerable of FormulaRepresentation.</returns>
-        private IEnumerable<FormulaRepresentation> GetAllFormulasIncludedInUnsafe(Move move, IBoard board, IFormulaIdentifier formulaIdentifier, FormulaEvaluationDelegate formulaEvaluation)
+        private static IEnumerable<FormulaRepresentation> GetAllFormulasIncludedInUnsafe(Move move, IBoard board,
+            IFormulaIdentifier formulaIdentifier, FormulaEvaluationDelegate formulaEvaluation,
+            IEvaluationBoard evaluationBoard)
         {
-            foreach (var formula in GetAllFormulas(move, board, formulaIdentifier))
+            foreach (var formula in FormulaGetter.GetAllFormulas(move, board, formulaIdentifier))
             {
 
                 var (start, end) = formula.GetBounds();
                 var section = new BoardAfterMove(board,move).GetSection(start, end);
                 var formulaString = formulaIdentifier.GetFormulaString(section);
-                int formulaScore = formulaEvaluation(formula, this.CurrentEvaluationBoard);
+                int formulaScore = formulaEvaluation(formula, evaluationBoard);
 
                 yield return new FormulaRepresentation(formulaScore,formulaString);
             }
