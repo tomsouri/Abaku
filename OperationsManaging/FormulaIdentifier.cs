@@ -33,14 +33,47 @@ namespace OperationsManaging
 
         public string GetFormulaString(IReadOnlyList<Digit> digits)
         {
-            throw new NotImplementedException();
+            foreach (int arity in FactorsIdentifier.Arities)
+            {
+                string result = GetFormulaString(digits, arity);
+                if (result!=null) return result;
+            }
+            return null;
         }
 
         private string GetFormulaString(IReadOnlyList<Digit> digits, int arity)
         {
-            throw new NotImplementedException();
+            if (arity == 1) return GetUnaryFormulaString(digits);
+            else if (arity == 2) return GetBinaryFormulaString(digits);
+            else
+            {
+                foreach (var parts in digits.SplitIntoParts(arity))
+                {
+                    string result = FactorsIdentifier.GetFormulaString(parts.ToLong());
+                    if (result!=null) return result;
+                }
+            }
+            return null;
         }
 
+        private string GetUnaryFormulaString(IReadOnlyList<Digit> digits)
+        {
+            foreach (var (aFactor, bFactor) in digits.SplitIntoTwoParts())
+            {
+                string result = FactorsIdentifier.GetFormulaString(aFactor.ToLong(), bFactor.ToLong());
+                if (result != null) return result;
+            }
+            return null;
+        }
+        private string GetBinaryFormulaString(IReadOnlyList<Digit> digits)
+        {
+            foreach (var (aFactor, bFactor, cFactor) in digits.SplitIntoThreeParts())
+            {
+                string result = FactorsIdentifier.GetFormulaString(aFactor.ToLong(), bFactor.ToLong(), cFactor.ToLong());
+                if (result != null) return result;
+            }
+            return null;
+        }
 
         public bool IsFormula(IReadOnlyList<Digit> digits)
         {
