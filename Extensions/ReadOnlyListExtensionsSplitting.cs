@@ -12,7 +12,7 @@ namespace ReadOnlyListExtensions
     {
         public static class SplitReadOnlyListExtensions
         {
-            public static IEnumerable<(IReadOnlyList<T>, IReadOnlyList<T>)> SplitIntoTwoParts<T>(IReadOnlyList<T> list)
+            public static IEnumerable<(IReadOnlyList<T>, IReadOnlyList<T>)> SplitIntoTwoParts<T>(this IReadOnlyList<T> list)
             {
                 for (int firstCount = 1; firstCount < list.Count; firstCount++)
                 {
@@ -20,7 +20,7 @@ namespace ReadOnlyListExtensions
                         new ReadOnlyListSegment<T>(list, startIndex:firstCount, count: list.Count - firstCount));
                 }
             }
-            public static IEnumerable<(IReadOnlyList<T>, IReadOnlyList<T>, IReadOnlyList<T>)> SplitIntoThreeParts<T>(IReadOnlyList<T> list)
+            public static IEnumerable<(IReadOnlyList<T>, IReadOnlyList<T>, IReadOnlyList<T>)> SplitIntoThreeParts<T>(this IReadOnlyList<T> list)
             {
                 for (int  firstCount = 1;  firstCount < list.Count - 1;  firstCount++)
                 {
@@ -41,7 +41,7 @@ namespace ReadOnlyListExtensions
             /// <param name="list"></param>
             /// <param name="partsCount"></param>
             /// <returns></returns>
-            public static IEnumerable<IReadOnlyList<T>[]> SplitIntoParts<T>(IReadOnlyList<T> list, int partsCount)
+            public static IEnumerable<IReadOnlyList<T>[]> SplitIntoParts<T>(this IReadOnlyList<T> list, int partsCount)
             {
                 if (partsCount == 1) yield return new IReadOnlyList<T>[] { list };
                 else if (partsCount == 2)
