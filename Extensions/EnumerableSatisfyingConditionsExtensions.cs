@@ -54,5 +54,22 @@ namespace EnumerableSatisfyingConditionsExtensions
             // is the same as the number of positions.
             return itemsCount == equalitiesCount;
         }
+
+
+        /// <summary>
+        /// Finds first not-null item in enumerable.
+        /// If there is no such item, returns null.
+        /// </summary>
+        /// <typeparam name="T">Type of items.</typeparam>
+        /// <param name="enumerable">Enumerable to look for items.</param>
+        /// <returns>Not-null item or null.</returns>
+        public static T FindFirstNotNull<T>(this IEnumerable<T> enumerable) where T : class
+        {
+            foreach (var item in enumerable)
+            {
+                if (item != null) return item;
+            }
+            return null;
+        }
     }
 }
