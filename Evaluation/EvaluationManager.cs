@@ -10,7 +10,7 @@ using OperationsManaging;
 using BoardManaging;
 
 using EnumerableCombineExtensions;
-using ListExtensions;
+using ReadOnlyListExtensions;
 
 namespace Evaluation
 {
@@ -311,7 +311,7 @@ namespace Evaluation
                                                          sectionStart,
                                                          direction,
                                                          formulaIdentifier,
-                                                         digits.GetSectionsContainingIndex(firstPositionIndex));
+                                                         digits.GetSectionsContainingIndexBounds(firstPositionIndex));
 
                 for (int i = 1; i < positions.Count; i++)
                 {
@@ -327,7 +327,7 @@ namespace Evaluation
                         sectionStart,
                         direction,
                         formulaIdentifier,
-                        digits.GetSectionsContainingIndexNotOther(containedIndex, notContainedIndex)));
+                        digits.GetSectionsContainingIndexNotOtherBounds(containedIndex, notContainedIndex)));
                 }
 
                 return formulas;
@@ -383,7 +383,7 @@ namespace Evaluation
                                                  sectionStart,
                                                  direction,
                                                  formulaIdentifier,
-                                                 digits.GetSectionsContainingIndex(positionIndex));
+                                                 digits.GetSectionsContainingIndexBounds(positionIndex));
             }
         }
 
