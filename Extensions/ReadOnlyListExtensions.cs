@@ -4,12 +4,51 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using CommonTypes;
+
 namespace ReadOnlyListExtensions
 {
     public static class IReadOnlyListExtensions
     {
         /// <summary>
-        /// Get bounds of all sections of given IList, 
+        /// Get all sections of given list, 
+        /// such that the given index is contained in the section.
+        /// </summary>
+        /// <typeparam name="T">Type of items in the list.</typeparam>
+        /// <param name="list">The list to get sections of.</param>
+        /// <param name="containedIndex">Index that should be contained in all the sections.</param>
+        /// <returns>Enumerable of section bounds (start and end indices as value tuple).</returns>
+        public static IEnumerable<IReadOnlyList<T>> GetSectionsContainingIndex<T>(this IReadOnlyList<T> list,
+                                                                                  int containedIndex)
+        {
+            foreach (var (startIndex, endIndex) in GetSectionsContainingIndexBounds(list,containedIndex))
+            {
+                yield return new ReadOnlyListSegment<T>(list, startIndex, endIndex - startIndex + 1);
+            }
+        }
+
+        /// <summary>
+        /// Get all sections of given list, 
+        /// such that the given indices are contained in the section.
+        /// </summary>
+        /// <typeparam name="T">Type of items in the list.</typeparam>
+        /// <param name="list">The list to get sections of.</param>
+        /// <param name="containedIndex1">Index that should be contained in all the sections.</param>
+        /// <param name="containedIndex2">Other index that should be contained in all the sections.</param>
+        /// <returns>Enumerable of section bounds (start and end indices as value tuple).</returns>
+        public static IEnumerable<IReadOnlyList<T>> GetSectionsContainingIndices<T>(this IReadOnlyList<T> list,
+                                                                          int containedIndex1,
+                                                                          int containedIndex2)
+        {
+            foreach (var (startIndex, endIndex) in GetSectionsContainingIndicesBounds(list, containedIndex1, containedIndex2))
+            {
+                yield return new ReadOnlyListSegment<T>(list, startIndex, endIndex - startIndex + 1);
+            }
+        }
+
+
+        /// <summary>
+        /// Get bounds of all sections of given list, 
         /// such that the given index is contained in the section.
         /// </summary>
         /// <typeparam name="T">Type of items in the list.</typeparam>
@@ -25,7 +64,7 @@ namespace ReadOnlyListExtensions
         }
 
         /// <summary>
-        /// Get bounds of all sections of given IList, 
+        /// Get bounds of all sections of given list, 
         /// such that the given index is contained in the section
         /// and the other index is not.
         /// </summary>
@@ -51,6 +90,25 @@ namespace ReadOnlyListExtensions
         }
 
         /// <summary>
+        /// Get bounds of all sections of given list, 
+        /// such that the given indices are contained in the section.
+        /// </summary>
+        /// <typeparam name="T">Type of items in the list.</typeparam>
+        /// <param name="list">The list to get sections of.</param>
+        /// <param name="containedIndex1">Index that should be contained in all the sections.</param>
+        /// <param name="containedIndex2">Other index that should be contained in all the sections.</param>
+        /// <returns>Enumerable of section bounds (start and end indices as value tuple).</returns>
+        public static IEnumerable<(int startIndex, int endIndex)> GetSectionsContainingIndicesBounds<T>(
+            this IReadOnlyList<T> list, int containedIndex1, int containedIndex2)
+        {
+            int minimum = 0;
+            int maximum = list.Count - 1;
+
+            return GetBounds(minimum, containedIndex1, containedIndex2, maximum);
+        }
+
+
+        /// <summary>
         /// Get bounds of all sections, startIndex at least minimum,
         /// endIndex is at most maximum
         /// and the given index is contained in the section.
@@ -64,6 +122,14 @@ namespace ReadOnlyListExtensions
             return GetBounds(minimum, containedIndex, containedIndex, maximum);
         }
 
+        /// <summary>
+        /// Get bounds of all sections, startIndex at least minimum,
+        /// endIndex is at most maximum
+        /// and the given indices are contained in the section.
+        /// </summary>
+        /// <param name="containedIndex1">Index contained in the sections.</param>
+        /// <param name="containedIndex2">Other index contained in the sections.</param>
+        /// <returns>Enumerable of section bounds (start and end indices as value tuple).</returns>
         private static IEnumerable<(int startIndex, int endIndex)> GetBounds(int minimum,
                                                                              int containedIndex1,
                                                                              int containedIndex2,
