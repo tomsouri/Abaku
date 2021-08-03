@@ -6,7 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 using ReadOnlyListExtensions.Splitting;
+using ReadOnlyListExtensions.Sections;
 using ReadOnlyListDigitExtensions;
+using EnumerableSatisfyingConditionsExtensions;
 
 namespace OperationsManaging
 {
@@ -23,13 +25,14 @@ namespace OperationsManaging
         }
         public bool ContainsFormulaIncludingIndex(IReadOnlyList<Digit> digits, int index)
         {
-            throw new NotImplementedException();
+            return digits.GetSectionsContainingIndex(index).AtLeastOneSatisfies(IsFormula);
         }
 
         public bool ContainsFormulaIncludingIndices(IReadOnlyList<Digit> digits, int index1, int index2)
         {
-            throw new NotImplementedException();
+            return digits.GetSectionsContainingIndices(index1, index2).AtLeastOneSatisfies(IsFormula);
         }
+        
 
         public string GetFormulaString(IReadOnlyList<Digit> digits)
         {
