@@ -63,31 +63,33 @@ namespace OperationsManaging
             private static List<ISimpleFactorsFormulaIdentifier> otherIdentifiers { get; }
             static AllOperationsIdentifiers()
             {
-                var unaryDescriptionsAndLambdas = new List<(string description, UnaryOperationDelegate operation)>()
+                var unaryDescriptionsAndLambdas = 
+                    new List<(string description, string operationString, UnaryOperationDelegate operation)>()
                 {
-                    ("Square root", (long factor, long result) => result*result == factor),
-                    ("Cube root", (long factor, long result) => result*result*result == factor),
-                    ("Second power", (long factor, long result) => factor*factor == result),
-                    ("Third power", (long factor, long result) => factor*factor*factor == result)
+                    ("Square root", "^1/2", (long factor, long result) => result*result == factor),
+                    ("Cube root", "^1/3", (long factor, long result) => result*result*result == factor),
+                    ("Second power", "^2", (long factor, long result) => factor*factor == result),
+                    ("Third power", "^3", (long factor, long result) => factor*factor*factor == result)
                 };
-                var binaryDescriptionsAndLambdas = new List<(string description, BinaryOperationDelegate operation)>()
+                var binaryDescriptionsAndLambdas = 
+                    new List<(string description, string operationString, BinaryOperationDelegate operation)>()
                 {
-                    ("Addition", (long a, long b, long result) => a + b == result),
-                    ("Subtraction", (long a, long b, long result) => a - b == result),
-                    ("Multiplication", (long a, long b, long result) => a * b == result),
-                    ("Division", (long a, long b, long result) => a == b * result)
+                    ("Addition", "+", (long a, long b, long result) => a + b == result),
+                    ("Subtraction", "-", (long a, long b, long result) => a - b == result),
+                    ("Multiplication", "*", (long a, long b, long result) => a * b == result),
+                    ("Division", "/", (long a, long b, long result) => a == b * result)
                 };
                 unaryIdentifiers = new List<UnaryIdentifier>();
                 binaryIdentifiers = new List<BinaryIdentifier>();
                 otherIdentifiers = new List<ISimpleFactorsFormulaIdentifier>();
 
-                foreach (var (description, operation) in unaryDescriptionsAndLambdas)
+                foreach (var (description, operationString, operation) in unaryDescriptionsAndLambdas)
                 {
-                    unaryIdentifiers.Add(new UnaryIdentifier(description, operation));
+                    unaryIdentifiers.Add(new UnaryIdentifier(description, operation, operationString));
                 }
-                foreach (var (description, operation) in binaryDescriptionsAndLambdas)
+                foreach (var (description, operationString, operation) in binaryDescriptionsAndLambdas)
                 {
-                    binaryIdentifiers.Add(new BinaryIdentifier(description, operation));
+                    binaryIdentifiers.Add(new BinaryIdentifier(description, operation, operationString));
                 }
             }
         }
