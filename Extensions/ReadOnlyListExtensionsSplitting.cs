@@ -33,9 +33,36 @@ namespace ReadOnlyListExtensions
                     }
                 }
             }
-            public static IEnumerable<IReadOnlyList<T>[]> SplitToParts<T>(IReadOnlyList<T> list, int partsCount)
+
+            /// <summary>
+            /// Works only for partsCount = 1, 2 or 3.
+            /// </summary>
+            /// <typeparam name="T"></typeparam>
+            /// <param name="list"></param>
+            /// <param name="partsCount"></param>
+            /// <returns></returns>
+            public static IEnumerable<IReadOnlyList<T>[]> SplitIntoParts<T>(IReadOnlyList<T> list, int partsCount)
             {
-                throw new NotImplementedException();
+                if (partsCount == 1) yield return new IReadOnlyList<T>[] { list };
+                else if (partsCount == 2)
+                {
+                    foreach (var (p1,p2) in SplitIntoTwoParts<T>(list))
+                    {
+                        yield return new IReadOnlyList<T>[] { p1, p2 };
+                    }
+                }
+                else if (partsCount == 3)
+                {
+                    foreach (var (p1, p2, p3) in SplitIntoThreeParts<T>(list))
+                    {
+                        yield return new IReadOnlyList<T>[] { p1, p2, p3 };
+                    }
+                }
+                else
+                {
+                    // TODO: implement, when a more than binary operators are needed.
+                    throw new NotImplementedException();
+                }
             }
         }
     }
