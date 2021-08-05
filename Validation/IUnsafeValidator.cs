@@ -20,6 +20,10 @@ namespace Validation
         /// <param name="move"></param>
         /// <param name="board"></param>
         /// <param name="formulaIdentifier"></param>
+        /// <param name="auxiliaryArray">Array of digits, that can be rewritten during computations.
+        /// The owner of that array should not change its content, until the computation finishes.
+        /// The length of the array should be at least the length of the longest part of the board,
+        /// that is the longest column or row.</param>
         /// <returns>True if it is ok.</returns>
         bool CheckContainedFormulas(Move move, IBoard board, IFormulaIdentifier formulaIdentifier, Digit[] auxiliaryArray);
     }
