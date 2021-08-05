@@ -71,6 +71,17 @@ namespace Optimizing
                                                 IFormulaIdentifier formulaIdentifier,
                                                 IUnsafeValidator validator)
         {
+            var auxiliaryArray = new Digit[Math.Max(board.ColumnsCount,board.RowsCount)];
+            foreach (var move in GetPosionallyValidMoves(availableDigits,board))
+            {
+                if (validator.CheckContainedFormulas(move, board, formulaIdentifier, auxiliaryArray))
+                {
+                    yield return move;
+                }
+            }
+        }
+        private IEnumerable<Move> GetPosionallyValidMoves(IReadOnlyList<Digit> availableDigits, IExtendedBoard board)
+        {
             throw new NotImplementedException();
         }
     }
