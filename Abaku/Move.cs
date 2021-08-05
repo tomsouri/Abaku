@@ -39,6 +39,16 @@ namespace CommonTypes
         public int Score { get; private set; }
         public bool IsEvaluated { get; private set; }
 
+        /// <summary>
+        /// Set Score and IsEvaluated fields.
+        /// </summary>
+        /// <param name="score"></param>
+        public void SetEvaluation(int score)
+        {
+            Score = score;
+            IsEvaluated = true;
+        }
+
         public bool ContainsPosition(Position position)
         {
             foreach (var (_, pos) in PlacedStones)
