@@ -36,15 +36,15 @@ namespace Optimizing
 
             Move? bestMove = null;
             int bestScore = 0;
-            
+
             //TODO precomputations
 
-            foreach (var validMove in GetValidMoves(availableDigits,board,formulaIdentifier,validator))
+            foreach (var move in GetEvaluatedValidMoves(availableDigits,board,formulaIdentifier, evaluator,validator))
             {
-                if (validMove.Score >= bestScore)
+                if (move.Score >= bestScore)
                 {
-                    bestMove = validMove;
-                    bestScore = validMove.Score;
+                    bestMove = move;
+                    bestScore = move.Score;
                 }
                 if (stopwatch.ElapsedMilliseconds > maxDurationMilliseconds)
                 {
