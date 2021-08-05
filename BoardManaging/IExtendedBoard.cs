@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BoardManaging
 {
-    public interface IExtendedBoard
+    public interface IExtendedBoard :IBoard
     {
     }
 }
