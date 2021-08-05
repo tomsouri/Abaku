@@ -8,5 +8,7 @@ namespace BoardManaging
 {
     public interface IExtendedBoard :IBoard
     {
+        int RowsCount { get; }
+        int ColumnsCount { get; }
     }
 }
