@@ -36,13 +36,22 @@ namespace Optimizing
 
             Move? bestMove = null;
             int bestScore = 0;
+            
             //TODO precomputations
+
             foreach (var validMove in GetValidMoves(availableDigits,board,formulaIdentifier,validator))
             {
-                int score = evaluator.EvaluateValidMove(validMove,board,formulaIdentifier);
-
+                if (validMove.Score >= bestScore)
+                {
+                    bestMove = validMove;
+                    bestScore = validMove.Score;
+                }
+                if (stopwatch.ElapsedMilliseconds > maxDurationMilliseconds)
+                {
+                    break;
+                }
             }
-            throw new NotImplementedException();
+            return bestMove;
         }
         private IEnumerable<Move> GetEvaluatedValidMoves(IReadOnlyList<Digit> availableDigits,
                                   IExtendedBoard board,
