@@ -21,6 +21,6 @@ namespace Validation
         /// <param name="board"></param>
         /// <param name="formulaIdentifier"></param>
         /// <returns>True if it is ok.</returns>
-        bool CheckContainedFormulas(Move move, IBoard board, IFormulaIdentifier formulaIdentifier);
+        bool CheckContainedFormulas(Move move, IBoard board, IFormulaIdentifier formulaIdentifier, Digit[] auxiliaryArray);
     }
 }
