@@ -13,6 +13,8 @@ namespace Optimizing
 {
     public interface IOptimizer
     {
+        //Move GetBestMove(IReadOnlyList<Digit> availableDigits, IFormulaIdentifier formulaIdentifier,);
+        
         //IReadOnlyList<Move> GetBestMoves(I, IBoard board, IFormulaIdentifier formulaIdentifier, MoveValidationDelegate validation, )
     }
 }
