@@ -38,81 +38,91 @@ namespace Optimizing
                                  IUnsafeEvaluator evaluator,
                                  IUnsafeValidator validator)
         {
-            return GetBestMove(availableDigits, board, formulaIdentifier, evaluator, validator,
+            return BestMovesFinder.GetBestMove(availableDigits, board, formulaIdentifier, evaluator, validator,
                 DefaultMaximalDurationMilliseconds);
         }
 
-        /// <summary>
-        /// Finds the best move in the current situation,
-        /// with the given time limitation.
-        /// </summary>
-        /// <param name="availableDigits">Digits that can be placed in the move.</param>
-        /// <param name="board">Board with the current situation.</param>
-        /// <param name="formulaIdentifier">Identifier to identify formulas.</param>
-        /// <param name="evaluator">Evaluator to get score of the moves.</param>
-        /// <param name="validator">Validator to validate the moves.</param>
-        /// <param name="maxDurationMilliseconds">Maximal duration of the computation.</param>
-        /// <returns></returns>
-        private EvaluatedMove? GetBestMove(IReadOnlyList<Digit> availableDigits,
-                                  IExtendedBoard board,
-                                  IFormulaIdentifier formulaIdentifier,
-                                  IUnsafeEvaluator evaluator,
-                                  IUnsafeValidator validator,
-                                  long maxDurationMilliseconds)
+        private static class BestMovesFinder
         {
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
-
-            EvaluatedMove? bestMove = null;
-            int bestScore = 0;
-
-            //TODO precomputations
-
-            foreach (var move in GetEvaluatedValidMoves(availableDigits,board,formulaIdentifier, evaluator,validator))
+            /// <summary>
+            /// Finds the best move in the current situation,
+            /// with the given time limitation.
+            /// </summary>
+            /// <param name="availableDigits">Digits that can be placed in the move.</param>
+            /// <param name="board">Board with the current situation.</param>
+            /// <param name="formulaIdentifier">Identifier to identify formulas.</param>
+            /// <param name="evaluator">Evaluator to get score of the moves.</param>
+            /// <param name="validator">Validator to validate the moves.</param>
+            /// <param name="maxDurationMilliseconds">Maximal duration of the computation.</param>
+            /// <returns></returns>
+            public static EvaluatedMove? GetBestMove(IReadOnlyList<Digit> availableDigits,
+                                      IExtendedBoard board,
+                                      IFormulaIdentifier formulaIdentifier,
+                                      IUnsafeEvaluator evaluator,
+                                      IUnsafeValidator validator,
+                                      long maxDurationMilliseconds)
             {
-                if (move.Score >= bestScore)
+                var stopwatch = new Stopwatch();
+                stopwatch.Start();
+
+                EvaluatedMove? bestMove = null;
+                int bestScore = 0;
+
+                var evaluatedMoves = GetEvaluatedMoves(availableDigits, board, formulaIdentifier, evaluator, validator);
+                //TODO precomputations
+
+                foreach (var move in evaluatedMoves)
                 {
-                    bestMove = move;
-                    bestScore = move.Score;
+                    if (move.Score >= bestScore)
+                    {
+                        bestMove = move;
+                        bestScore = move.Score;
+                    }
+                    if (stopwatch.ElapsedMilliseconds > maxDurationMilliseconds)
+                    {
+                        break;
+                    }
                 }
-                if (stopwatch.ElapsedMilliseconds > maxDurationMilliseconds)
-                {
-                    break;
-                }
+                return bestMove;
             }
-            return bestMove;
-        }
-
-
-        private IEnumerable<EvaluatedMove> GetEvaluatedValidMoves(IReadOnlyList<Digit> availableDigits,
-                                  IExtendedBoard board,
-                                  IFormulaIdentifier formulaIdentifier,
-                                  IUnsafeEvaluator evaluator,
-                                  IUnsafeValidator validator)
-        {
-            foreach (var validMove in GetValidMoves(availableDigits,board,formulaIdentifier,validator))
+            private static IEnumerable<EvaluatedMove> GetEvaluatedMoves(IReadOnlyList<Digit> availableDigits,
+                          IExtendedBoard board,
+                          IFormulaIdentifier formulaIdentifier,
+                          IUnsafeEvaluator evaluator,
+                          IUnsafeValidator validator)
             {
-                yield return new EvaluatedMove(validMove, evaluator.EvaluateValidMove(validMove, board, formulaIdentifier));
-            }
-        }
-        
-        private IEnumerable<Move> GetValidMoves(IReadOnlyList<Digit> availableDigits,
-                                                IExtendedBoard board,
-                                                IFormulaIdentifier formulaIdentifier,
-                                                IUnsafeValidator validator)
-        {
-            var auxiliaryArray = new Digit[Math.Max(board.ColumnsCount,board.RowsCount)];
-            foreach (var move in GetPosionallyValidMoves(availableDigits,board))
-            {
-                if (validator.CheckContainedFormulas(move, board, formulaIdentifier, auxiliaryArray))
+                foreach (var validMove in GetValidMoves(availableDigits, board, formulaIdentifier, validator))
                 {
-                    yield return move;
+                    yield return new EvaluatedMove(validMove, evaluator.EvaluateValidMove(validMove, board, formulaIdentifier));
                 }
             }
+
+            private static IEnumerable<Move> GetValidMoves(IReadOnlyList<Digit> availableDigits,
+                                                    IExtendedBoard board,
+                                                    IFormulaIdentifier formulaIdentifier,
+                                                    IUnsafeValidator validator)
+            {
+                var auxiliaryArray = new Digit[Math.Max(board.ColumnsCount, board.RowsCount)];
+                foreach (var move in GetPosionallyValidMoves(availableDigits, board))
+                {
+                    if (validator.CheckContainedFormulas(move, board, formulaIdentifier, auxiliaryArray))
+                    {
+                        yield return move;
+                    }
+                }
+            }
+            private static IEnumerable<Move> GetPosionallyValidMoves(IReadOnlyList<Digit> availableDigits, IExtendedBoard board)
+            {
+                throw new NotImplementedException();
+            }
         }
-        private IEnumerable<Move> GetPosionallyValidMoves(IReadOnlyList<Digit> availableDigits, IExtendedBoard board)
+
+        private static class DigitsSequenceGenerator
         {
-            throw new NotImplementedException();
+            public static IEnumerable<Digit[]> GetAllSequences(IReadOnlyList<Digit> availableDigits)
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }
