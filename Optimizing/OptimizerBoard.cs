@@ -51,6 +51,25 @@ namespace Optimizing
         }
 
         private Cell[][] _board;
+        private class Board
+        {
+            public Board(int rowsCount, int columnsCount)
+            {
+                _board = new Cell[rowsCount][];
+
+                for (int i = 0; i < rowsCount; i++)
+                {
+                    var row = new Cell[columnsCount];
+                    for (int j = 0; j < row.Length; j++)
+                    {
+                        row[j] = new Cell();
+                    }
+                    _board[i] = row;
+                }
+            }
+            private Cell[][] _board;
+            public Cell this[Position position] => _board[position.Row][position.Column];
+        }
         private Cell this[Position position]
         {
             get
