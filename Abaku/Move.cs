@@ -8,6 +8,20 @@ using System.Threading.Tasks;
 namespace CommonTypes
 {
     /// <summary>
+    /// Represents a move including the score you get for it.
+    /// </summary>
+    public struct EvaluatedMove
+    {
+        public EvaluatedMove(Move move, int score)
+        {
+            Move = move;
+            Score = score;
+        }
+        public Move Move { get; }
+        public int Score { get; }
+    }
+
+    /// <summary>
     /// Represents one move in a game of Abaku, that is the array of placed stones (digits) with their positions.
     /// Supports also the move evaluation, that is adding the point score of the move.
     /// </summary>
