@@ -1,0 +1,51 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using CommonTypes;
+using BoardManaging;
+
+namespace Optimizing
+{
+    internal interface IOptimizerBoard
+    {
+        
+    }
+    internal class OptimizerBoard// : IOptimizerBoard
+    {
+
+        
+        private struct DirectionIndexedTuple<T>
+        {
+            private (T rowItem, T columnItem) Items;
+            public T this[Direction direction]
+            {
+                get
+                {
+                    if (direction.RowDirection != 0) return Items.rowItem;
+                    else return Items.columnItem;
+                }
+                set
+                {
+                    if (direction.RowDirection != 0) Items.rowItem = value;
+                    else Items.columnItem = value;
+                }
+            }
+        }
+        private class Cell
+        {
+            public bool IsAdjacent { get; set; }
+            public bool IsEmpty { get; set; }
+            public DirectionIndexedTuple<byte> FreeCellsBeyondCounts { get; set; }
+            public DirectionIndexedTuple<byte> NonAdjCellsBeyondCounts { get; set; }
+            public DirectionIndexedTuple<IReadOnlyList<Position>> EmptyPositionsBeyond { get; set; }
+            public IReadOnlyList<Position> GetEmptyPositionsBeyond(Direction direction, int length)
+            {
+                return new ReadOnlyListSegment<Position>(EmptyPositionsBeyond[direction],0,length);
+            }
+        }
+
+    }
+}
