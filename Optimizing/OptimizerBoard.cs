@@ -16,7 +16,16 @@ namespace Optimizing
     internal class OptimizerBoard// : IOptimizerBoard
     {
 
-        
+
+        private Cell[][] _board;
+        private Cell this[Position position]
+        {
+            get
+            {
+                return _board[position.Row][position.Column];
+            }
+        }
+
         private struct DirectionIndexedTuple<T>
         {
             private (T rowItem, T columnItem) Items;

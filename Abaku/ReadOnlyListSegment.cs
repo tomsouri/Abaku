@@ -21,6 +21,7 @@ namespace CommonTypes
             _startIndex = startIndex;
             _count = count;
         }
+
         public T this[int index] => _list[index + _startIndex];
 
         public int Count => _count;
