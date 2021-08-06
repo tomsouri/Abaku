@@ -15,27 +15,21 @@ namespace Optimizing
     }
     internal class OptimizerBoard// : IOptimizerBoard
     {
+        private Board _board;
         public OptimizerBoard(IExtendedBoard extendedBoard)
         {
-            Initialize(extendedBoard);
+            _board = Initialize(extendedBoard);
         }
-        private void Initialize(IExtendedBoard extendedBoard)
-        {
-            CreateBoard(extendedBoard);
-            LoadEmptyCells(extendedBoard);
-        }
-        private void CreateBoard(IExtendedBoard extendedBoard)
+        private Board Initialize(IExtendedBoard extendedBoard)
         {
             var rowsCount = extendedBoard.RowsCount;
             var colsCount = extendedBoard.ColumnsCount;
-
-            _board = new Cell[rowsCount][];
-            for (int i = 0; i < rowsCount; i++)
-            {
-                _board[i] = new Cell[colsCount];
-            }
+            var board = new Board(rowsCount, colsCount);
+            LoadEmptyCells(extendedBoard,board);
+            // TODO: dalsi inicializace
+            return board;
         }
-        private void LoadEmptyCells(IExtendedBoard extendedBoard)
+        private void LoadEmptyCells(IExtendedBoard extendedBoard, Board target)
         {
             var rowsCount = extendedBoard.RowsCount;
             var colsCount = extendedBoard.ColumnsCount;
@@ -45,12 +39,10 @@ namespace Optimizing
                 for (int colIndex = 0; colIndex < colsCount; colIndex++)
                 {
                     var position = new Position(rowIndex, colIndex);
-                    this[position].IsEmpty = extendedBoard.IsPositionEmpty(position);
+                    target[position].IsEmpty = extendedBoard.IsPositionEmpty(position);
                 }
             }
         }
-
-        private Cell[][] _board;
         private class Board
         {
             public Board(int rowsCount, int columnsCount)
@@ -70,14 +62,6 @@ namespace Optimizing
             private Cell[][] _board;
             public Cell this[Position position] => _board[position.Row][position.Column];
         }
-        private Cell this[Position position]
-        {
-            get
-            {
-                return _board[position.Row][position.Column];
-            }
-        }
-
         private struct DirectionIndexedTuple<T>
         {
             private (T rowItem, T columnItem) Items;
