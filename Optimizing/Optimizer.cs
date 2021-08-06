@@ -114,6 +114,13 @@ namespace Optimizing
             private static IEnumerable<Move> GetPosionallyValidMoves(IReadOnlyList<Digit> availableDigits, IExtendedBoard board)
             {
                 throw new NotImplementedException();
+                // TODO
+                // vytvor OptimizerBoard
+
+                // pro kazdou sekvenci
+                //      pro kazdy direction
+                //          pro kazdou bunku(pozici), vhodnou pro danou delku (podle toho, co dostanu od OptBoardu
+                //              yield return new Move(sekvence digits, sekvence positions, kterou dostanu od OptBoardu)
             }
         }
 
@@ -121,6 +128,10 @@ namespace Optimizing
         {
             public static IEnumerable<Digit[]> GetAllSequences(IReadOnlyList<Digit> availableDigits)
             {
+                // TODO
+                // pomoci rekurzivniho algoritmu vytvori vsechny mozne posloupnosti cifer,
+                // ktere muzeme polozit, mame-li na ruce dane cifry
+                // - kazdou posloupnost chceme vratit prave jednou
                 throw new NotImplementedException();
             }
         }

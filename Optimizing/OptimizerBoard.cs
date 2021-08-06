@@ -11,7 +11,26 @@ namespace Optimizing
 {
     internal interface IOptimizerBoard
     {
-        
+        /// <summary>
+        /// For the given count of digits to be placed returns all empty positions,
+        /// that, in the given direction, contains enough empty positions beyond
+        /// and not to much nonadjacent positions beyond, that is, all positions,
+        /// where we can start to place the digits and end up with a positionally
+        /// valid move.
+        /// </summary>
+        /// <param name="digitsCount"></param>
+        /// <returns></returns>
+        IEnumerable<Position> GetPositionsAvailableForDigitsCount(Direction direction, int digitsCount);
+
+        /// <summary>
+        /// Return the RO list including count empty positions, starting with the given empty position
+        /// and continuing with other empty positions, that lie in the given direction beyond the given position.
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="direction"></param>
+        /// <returns>RO list of Positions to be placed into Move struct.</returns>
+        IReadOnlyList<Position> GetEmptyPositionsBeyond(Position position, Direction direction, int count);
+
     }
     internal class OptimizerBoard// : IOptimizerBoard
     {
@@ -19,6 +38,15 @@ namespace Optimizing
         public OptimizerBoard(IExtendedBoard extendedBoard)
         {
             _board = Initialize(extendedBoard);
+            // TODO: nacist delku availableDigits, abych vedel, jake bunky
+            // mam vracet v enumerables prazdnych bunek - pro pocet digits 5
+            // chci mit pripravene enumerables (pro kazde direction)
+            // s 5 a vice prazdnymi bunkami za a mene nez 5 nonadj bunkami za,
+            // dale s 4 prazdnymi a 3 non adj
+            // dale s 3 prazdnymi a 2 nonadj
+            // dale s 2 prazdnymi a 1 nonadj
+            // dale s 1 prazdnou a 0 nonadj
+            // Pak pro danou delku digits vratim sjednoceni konkretnich enumerables.
         }
         private Board Initialize(IExtendedBoard extendedBoard)
         {
@@ -27,6 +55,15 @@ namespace Optimizing
             var board = new Board(rowsCount, colsCount);
             LoadEmptyCells(extendedBoard,board);
             // TODO: dalsi inicializace
+            // - LoadAdjacentCells
+            // Pro kazdou direction:
+            // - Nacti pocty nonadj bunek za kazdou bunkou vcetne ni
+            // - nacti a uloz pocty empty bunek za kazdkou bunkou vcetne ni
+            // - vytvor pole volnych pozic (pro kazdy sloupec a radek)
+            // a kazde volne pozici dej jeji cast (pocinaje jejim indexem)
+            // - kazde obsazene pozici dej prazdne pole
+            // - vytvor enumerables (spis readonlylists) positions pro dane pocty
+            // prazdnych a nonadj bunek za
             return board;
         }
         private void LoadEmptyCells(IExtendedBoard extendedBoard, Board target)
