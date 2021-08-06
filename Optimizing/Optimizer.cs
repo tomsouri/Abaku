@@ -32,7 +32,7 @@ namespace Optimizing
         /// <param name="evaluator">Evaluator to get score of the moves.</param>
         /// <param name="validator">Validator to validate the moves.</param>
         /// <returns>The move with the highest score, or null, if there is no valid move.</returns>
-        public Move? GetBestMove(IReadOnlyList<Digit> availableDigits,
+        public EvaluatedMove? GetBestMove(IReadOnlyList<Digit> availableDigits,
                                  IExtendedBoard board,
                                  IFormulaIdentifier formulaIdentifier,
                                  IUnsafeEvaluator evaluator,
@@ -53,7 +53,7 @@ namespace Optimizing
         /// <param name="validator">Validator to validate the moves.</param>
         /// <param name="maxDurationMilliseconds">Maximal duration of the computation.</param>
         /// <returns></returns>
-        private Move? GetBestMove(IReadOnlyList<Digit> availableDigits,
+        private EvaluatedMove? GetBestMove(IReadOnlyList<Digit> availableDigits,
                                   IExtendedBoard board,
                                   IFormulaIdentifier formulaIdentifier,
                                   IUnsafeEvaluator evaluator,
@@ -63,7 +63,7 @@ namespace Optimizing
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            Move? bestMove = null;
+            EvaluatedMove? bestMove = null;
             int bestScore = 0;
 
             //TODO precomputations
@@ -84,7 +84,7 @@ namespace Optimizing
         }
 
 
-        private IEnumerable<Move> GetEvaluatedValidMoves(IReadOnlyList<Digit> availableDigits,
+        private IEnumerable<EvaluatedMove> GetEvaluatedValidMoves(IReadOnlyList<Digit> availableDigits,
                                   IExtendedBoard board,
                                   IFormulaIdentifier formulaIdentifier,
                                   IUnsafeEvaluator evaluator,
@@ -92,8 +92,7 @@ namespace Optimizing
         {
             foreach (var validMove in GetValidMoves(availableDigits,board,formulaIdentifier,validator))
             {
-                validMove.SetEvaluation(evaluator.EvaluateValidMove(validMove, board, formulaIdentifier));
-                yield return validMove;
+                yield return new EvaluatedMove(validMove, evaluator.EvaluateValidMove(validMove, board, formulaIdentifier));
             }
         }
         

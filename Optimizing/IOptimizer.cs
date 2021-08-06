@@ -23,6 +23,6 @@ namespace Optimizing
         /// <param name="evaluator">Evaluator to get score of the moves.</param>
         /// <param name="validator">Validator to validate the moves.</param>
         /// <returns>The move with the highest score, or null, if there is no valid move.</returns>
-        Move? GetBestMove(IReadOnlyList<Digit> availableDigits, IExtendedBoard board, IFormulaIdentifier formulaIdentifier, IUnsafeEvaluator evaluator, IUnsafeValidator validator);
+        EvaluatedMove? GetBestMove(IReadOnlyList<Digit> availableDigits, IExtendedBoard board, IFormulaIdentifier formulaIdentifier, IUnsafeEvaluator evaluator, IUnsafeValidator validator);
     }
 }
