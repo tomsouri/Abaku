@@ -31,8 +31,6 @@ namespace CommonTypes
         {
             PlacedStones = placedStones;
             Array.Sort(PlacedStones, (a, b) => a.position.CompareTo(b.position));
-            Score = 0;
-            IsEvaluated = false;
         }
         public Digit this[Position position]
         {
@@ -47,21 +45,6 @@ namespace CommonTypes
         }
         private readonly (Digit digit, Position position)[] PlacedStones;
 
-        /// <summary>
-        /// The score you get playing this move.
-        /// </summary>
-        public int Score { get; private set; }
-        public bool IsEvaluated { get; private set; }
-
-        /// <summary>
-        /// Set Score and IsEvaluated fields.
-        /// </summary>
-        /// <param name="score"></param>
-        public void SetEvaluation(int score)
-        {
-            Score = score;
-            IsEvaluated = true;
-        }
 
         public bool ContainsPosition(Position position)
         {
