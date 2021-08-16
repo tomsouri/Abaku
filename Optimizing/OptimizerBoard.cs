@@ -53,7 +53,8 @@ namespace Optimizing
             var rowsCount = extendedBoard.RowsCount;
             var colsCount = extendedBoard.ColumnsCount;
             var board = new Board(rowsCount, colsCount);
-            LoadEmptyCells(extendedBoard,board);
+            board.LoadEmptyCells(extendedBoard);
+            board.LoadAdjacentCells(extendedBoard);
             // TODO: dalsi inicializace
             // Pro kazdou direction:
             // - Nacti pocty nonadj bunek za kazdou bunkou vcetne ni
@@ -65,20 +66,7 @@ namespace Optimizing
             // prazdnych a nonadj bunek za
             return board;
         }
-        private static void LoadEmptyCells(IExtendedBoard extendedBoard, Board target)
-        {
-            foreach (var position in target.GetAllPositions())
-            {
-                target[position].IsEmpty = extendedBoard.IsPositionEmpty(position);
-            }
-        }
-        private static void LoadAdjacentCells(IExtendedBoard extendedBoard, Board target)
-        {
-            foreach (var position in target.GetAllPositions())
-            {
-                target[position].IsAdjacent = extendedBoard.IsAdjacentToOccupiedPosition(position);
-            }
-        }
+
 
         private class Board
         {
@@ -112,6 +100,7 @@ namespace Optimizing
                 }
             }
             public Position MaximalContainedPosition => new Position(RowsCount - 1, ColumnsCount - 1);
+
             /// <summary>
             /// Returns all positions contained in the board that are beyond the given position,
             /// including the given position (if it is inside the board).
@@ -125,6 +114,21 @@ namespace Optimizing
                 while (currentPosition <= MaximalContainedPosition)
                 {
                     yield return currentPosition;
+                }
+            }
+
+            public void LoadEmptyCells(IExtendedBoard extendedBoard)
+            {
+                foreach (var position in GetAllPositions())
+                {
+                    this[position].IsEmpty = extendedBoard.IsPositionEmpty(position);
+                }
+            }
+            public void LoadAdjacentCells(IExtendedBoard extendedBoard)
+            {
+                foreach (var position in GetAllPositions())
+                {
+                    this[position].IsAdjacent = extendedBoard.IsAdjacentToOccupiedPosition(position);
                 }
             }
         }
