@@ -80,8 +80,14 @@ namespace Optimizing
                 }
             }
         }
+        private static void LoadAdjacentCells(IExtendedBoard extendedBoard, Board target)
+        {
+
+        }
         private class Board
         {
+            public int RowsCount => _board.Length;
+            public int ColumnsCount => _board[0].Length;
             public Board(int rowsCount, int columnsCount)
             {
                 _board = new Cell[rowsCount][];
@@ -98,6 +104,17 @@ namespace Optimizing
             }
             private Cell[][] _board;
             public Cell this[Position position] => _board[position.Row][position.Column];
+            public IEnumerable<Position> GetAllPositions()
+            {
+                for (int rowNumber = 0; rowNumber < RowsCount; rowNumber++)
+                {
+                    var row = new Cell[ColumnsCount];
+                    for (int columnNumber = 0; columnNumber < row.Length; columnNumber++)
+                    {
+                        yield return new Position(rowNumber, columnNumber);
+                    }
+                }
+            }
         }
         private struct DirectionIndexedTuple<T>
         {
