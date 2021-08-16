@@ -73,7 +73,13 @@ namespace Optimizing
                 target[position].IsEmpty = extendedBoard.IsPositionEmpty(position);
             }
         }
-
+        private static void LoadAdjacentCells(IExtendedBoard extendedBoard, Board target)
+        {
+            foreach (var position in target.GetAllPositions())
+            {
+                target[position].IsAdjacent = extendedBoard.IsAdjacentToOccupiedPosition(position);
+            }
+        }
 
         private class Board
         {
