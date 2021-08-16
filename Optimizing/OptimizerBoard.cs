@@ -68,22 +68,13 @@ namespace Optimizing
         }
         private static void LoadEmptyCells(IExtendedBoard extendedBoard, Board target)
         {
-            var rowsCount = extendedBoard.RowsCount;
-            var colsCount = extendedBoard.ColumnsCount;
-
-            for (int rowIndex = 0; rowIndex < rowsCount; rowIndex++)
+            foreach (var position in target.GetAllPositions())
             {
-                for (int colIndex = 0; colIndex < colsCount; colIndex++)
-                {
-                    var position = new Position(rowIndex, colIndex);
-                    target[position].IsEmpty = extendedBoard.IsPositionEmpty(position);
-                }
+                target[position].IsEmpty = extendedBoard.IsPositionEmpty(position);
             }
         }
-        private static void LoadAdjacentCells(IExtendedBoard extendedBoard, Board target)
-        {
 
-        }
+
         private class Board
         {
             public int RowsCount => _board.Length;
