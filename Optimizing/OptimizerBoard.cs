@@ -55,6 +55,8 @@ namespace Optimizing
             var board = new Board(rowsCount, colsCount);
             board.LoadEmptyCells(extendedBoard);
             board.LoadAdjacentCells(extendedBoard);
+            board.LoadEmptyCellsCounts();
+            board.LoadNonAdjacentCellsCounts();
             // TODO: dalsi inicializace
             // Pro kazdou direction:
             // - Nacti pocty nonadj bunek za kazdou bunkou vcetne ni
@@ -130,6 +132,14 @@ namespace Optimizing
                     this[position].IsAdjacent = extendedBoard.IsAdjacentToOccupiedPosition(position);
                 }
             }
+            public void LoadNonAdjacentCellsCounts()
+            {
+
+            }
+            public void LoadEmptyCellsCounts()
+            {
+
+            }
         }
         private struct DirectionIndexedTuple<T>
         {
@@ -152,9 +162,9 @@ namespace Optimizing
         {
             public bool IsAdjacent { get; set; }
             public bool IsEmpty { get; set; }
-            public DirectionIndexedTuple<byte> FreeCellsBeyondCounts { get; set; }
-            public DirectionIndexedTuple<byte> NonAdjCellsBeyondCounts { get; set; }
-            public DirectionIndexedTuple<IReadOnlyList<Position>> EmptyPositionsBeyond { get; set; }
+            public DirectionIndexedTuple<byte> FreeCellsBeyondCounts;
+            public DirectionIndexedTuple<byte> NonAdjCellsBeyondCounts;
+            public DirectionIndexedTuple<IReadOnlyList<Position>> EmptyPositionsBeyond;
             public IReadOnlyList<Position> GetEmptyPositionsBeyond(Direction direction, int length)
             {
                 return new ReadOnlyListSegment<Position>(EmptyPositionsBeyond[direction],0,length);
