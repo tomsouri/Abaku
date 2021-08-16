@@ -66,7 +66,7 @@ namespace Optimizing
             // prazdnych a nonadj bunek za
             return board;
         }
-        private void LoadEmptyCells(IExtendedBoard extendedBoard, Board target)
+        private static void LoadEmptyCells(IExtendedBoard extendedBoard, Board target)
         {
             var rowsCount = extendedBoard.RowsCount;
             var colsCount = extendedBoard.ColumnsCount;
