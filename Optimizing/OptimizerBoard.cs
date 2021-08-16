@@ -141,7 +141,7 @@ namespace Optimizing
                         int count = 0;
                         foreach (var otherPosition in GetPositionsBeyond(position, direction))
                         {
-                            if (this[position].IsAdjacent) break;
+                            if (this[otherPosition].IsAdjacent) break;
                             else count++;
                         }
                         this[position].NonAdjCellsBeyondCounts[direction] = count;
@@ -150,7 +150,18 @@ namespace Optimizing
             }
             public void LoadEmptyCellsCounts()
             {
-
+                foreach (var direction in Direction.SimpleDirections)
+                {
+                    foreach (var position in GetAllPositions())
+                    {
+                        int count = 0;
+                        foreach (var otherPosition in GetPositionsBeyond(position, direction))
+                        {
+                            if (this[otherPosition].IsEmpty) count++;
+                        }
+                        this[position].NonAdjCellsBeyondCounts[direction] = count;
+                    }
+                }
             }
         }
         private struct DirectionIndexedTuple<T>
