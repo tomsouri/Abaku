@@ -162,8 +162,8 @@ namespace Optimizing
         {
             public bool IsAdjacent { get; set; }
             public bool IsEmpty { get; set; }
-            public DirectionIndexedTuple<byte> FreeCellsBeyondCounts;
-            public DirectionIndexedTuple<byte> NonAdjCellsBeyondCounts;
+            public DirectionIndexedTuple<int> FreeCellsBeyondCounts;
+            public DirectionIndexedTuple<int> NonAdjCellsBeyondCounts;
             public DirectionIndexedTuple<IReadOnlyList<Position>> EmptyPositionsBeyond;
             public IReadOnlyList<Position> GetEmptyPositionsBeyond(Direction direction, int length)
             {
