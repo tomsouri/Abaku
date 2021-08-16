@@ -67,7 +67,6 @@ namespace Optimizing
             return board;
         }
 
-
         private class Board
         {
             public int RowsCount => _board.Length;
@@ -88,7 +87,7 @@ namespace Optimizing
             }
             private Cell[][] _board;
             public Cell this[Position position] => _board[position.Row][position.Column];
-            public IEnumerable<Position> GetAllPositions()
+            private IEnumerable<Position> GetAllPositions()
             {
                 for (int rowNumber = 0; rowNumber < RowsCount; rowNumber++)
                 {
@@ -99,7 +98,7 @@ namespace Optimizing
                     }
                 }
             }
-            public Position MaximalContainedPosition => new Position(RowsCount - 1, ColumnsCount - 1);
+            private Position MaximalContainedPosition => new Position(RowsCount - 1, ColumnsCount - 1);
 
             /// <summary>
             /// Returns all positions contained in the board that are beyond the given position,
@@ -108,7 +107,7 @@ namespace Optimizing
             /// <param name="start"></param>
             /// <param name="direction"></param>
             /// <returns></returns>
-            public IEnumerable<Position> GetPositionsBeyond(Position start, Direction direction)
+            private IEnumerable<Position> GetPositionsBeyond(Position start, Direction direction)
             {
                 var currentPosition = start;
                 while (currentPosition <= MaximalContainedPosition)
