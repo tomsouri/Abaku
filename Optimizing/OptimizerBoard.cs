@@ -57,13 +57,10 @@ namespace Optimizing
             board.LoadAdjacentCells(extendedBoard);
             board.LoadEmptyCellsCounts();
             board.LoadNonAdjacentCellsCounts();
+            board.LoadEmptyCellsArrays();
             // TODO: dalsi inicializace
             // Pro kazdou direction:
-            // - Nacti pocty nonadj bunek za kazdou bunkou vcetne ni
-            // - nacti a uloz pocty empty bunek za kazdkou bunkou vcetne ni
-            // - vytvor pole volnych pozic (pro kazdy sloupec a radek)
-            // a kazde volne pozici dej jeji cast (pocinaje jejim indexem)
-            // - kazde obsazene pozici dej prazdne pole
+            
             // - vytvor enumerables (spis readonlylists) positions pro dane pocty
             // prazdnych a nonadj bunek za
             return board;
@@ -163,6 +160,15 @@ namespace Optimizing
                     }
                 }
             }
+            public void LoadEmptyCellsArrays()
+            {
+                throw new NotImplementedException();
+                // TODO:
+                // Pro kazdou direction:
+                // - vytvor pole volnych pozic (pro kazdy sloupec a radek)
+                // a kazde volne pozici dej jeji cast (pocinaje jejim indexem)
+                // - kazde obsazene pozici dej prazdne pole
+            }
         }
         private struct DirectionIndexedTuple<T>
         {
@@ -185,7 +191,17 @@ namespace Optimizing
         {
             public bool IsAdjacent { get; set; }
             public bool IsEmpty { get; set; }
+
+            /// <summary>
+            /// For every simple direction: the count of empty cells that are in the given row/column
+            /// beyond this cell (including this cell).
+            /// </summary>
             public DirectionIndexedTuple<int> EmptyCellsBeyondCounts;
+
+            /// <summary>
+            /// For every simple direction: the count of nonadjacent cells that are in the given row/column
+            /// directly beyond this cell (including this cell).
+            /// </summary>
             public DirectionIndexedTuple<int> NonAdjCellsBeyondCounts;
             public DirectionIndexedTuple<IReadOnlyList<Position>> EmptyPositionsBeyond;
             public IReadOnlyList<Position> GetEmptyPositionsBeyond(Direction direction, int length)
