@@ -134,7 +134,19 @@ namespace Optimizing
             }
             public void LoadNonAdjacentCellsCounts()
             {
-
+                foreach (var direction in Direction.SimpleDirections)
+                {
+                    foreach (var position in GetAllPositions())
+                    {
+                        int count = 0;
+                        foreach (var otherPosition in GetPositionsBeyond(position, direction))
+                        {
+                            if (this[position].IsAdjacent) break;
+                            else count++;
+                        }
+                        this[position].NonAdjCellsBeyondCounts[direction] = count;
+                    }
+                }
             }
             public void LoadEmptyCellsCounts()
             {
