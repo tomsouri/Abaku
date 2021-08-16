@@ -55,7 +55,6 @@ namespace Optimizing
             var board = new Board(rowsCount, colsCount);
             LoadEmptyCells(extendedBoard,board);
             // TODO: dalsi inicializace
-            // - LoadAdjacentCells
             // Pro kazdou direction:
             // - Nacti pocty nonadj bunek za kazdou bunkou vcetne ni
             // - nacti a uloz pocty empty bunek za kazdkou bunkou vcetne ni
@@ -110,6 +109,22 @@ namespace Optimizing
                     {
                         yield return new Position(rowNumber, columnNumber);
                     }
+                }
+            }
+            public Position MaximalContainedPosition => new Position(RowsCount - 1, ColumnsCount - 1);
+            /// <summary>
+            /// Returns all positions contained in the board that are beyond the given position,
+            /// including the given position (if it is inside the board).
+            /// </summary>
+            /// <param name="start"></param>
+            /// <param name="direction"></param>
+            /// <returns></returns>
+            public IEnumerable<Position> GetPositionsBeyond(Position start, Direction direction)
+            {
+                var currentPosition = start;
+                while (currentPosition <= MaximalContainedPosition)
+                {
+                    yield return currentPosition;
                 }
             }
         }
