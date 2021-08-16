@@ -139,9 +139,9 @@ namespace Optimizing
                     foreach (var position in GetAllPositions())
                     {
                         int count = 0;
-                        foreach (var otherPosition in GetPositionsBeyond(position, direction))
+                        foreach (var positionBeyond in GetPositionsBeyond(position, direction))
                         {
-                            if (this[otherPosition].IsAdjacent) break;
+                            if (this[positionBeyond].IsAdjacent) break;
                             else count++;
                         }
                         this[position].NonAdjCellsBeyondCounts[direction] = count;
@@ -155,11 +155,11 @@ namespace Optimizing
                     foreach (var position in GetAllPositions())
                     {
                         int count = 0;
-                        foreach (var otherPosition in GetPositionsBeyond(position, direction))
+                        foreach (var positionBeyond in GetPositionsBeyond(position, direction))
                         {
-                            if (this[otherPosition].IsEmpty) count++;
+                            if (this[positionBeyond].IsEmpty) count++;
                         }
-                        this[position].NonAdjCellsBeyondCounts[direction] = count;
+                        this[position].EmptyCellsBeyondCounts[direction] = count;
                     }
                 }
             }
@@ -185,7 +185,7 @@ namespace Optimizing
         {
             public bool IsAdjacent { get; set; }
             public bool IsEmpty { get; set; }
-            public DirectionIndexedTuple<int> FreeCellsBeyondCounts;
+            public DirectionIndexedTuple<int> EmptyCellsBeyondCounts;
             public DirectionIndexedTuple<int> NonAdjCellsBeyondCounts;
             public DirectionIndexedTuple<IReadOnlyList<Position>> EmptyPositionsBeyond;
             public IReadOnlyList<Position> GetEmptyPositionsBeyond(Direction direction, int length)
