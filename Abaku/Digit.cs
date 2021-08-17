@@ -28,9 +28,12 @@ namespace CommonTypes
         public static implicit operator int (Digit d) => d.Value;
         public static implicit operator byte (Digit d) => d.Value;
 
+
+        public static bool operator ==(Digit a, Digit b) => a.Value == b.Value;
+        public static bool operator !=(Digit a, Digit b) => a.Value != b.Value;
         public bool Equals(Digit other)
         {
-            return this.Value == other.Value;
+            return this == other;
         }
         public override bool Equals(object obj)
         {

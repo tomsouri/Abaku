@@ -161,7 +161,7 @@ namespace Optimizing
     }
     internal static class DigitsEnumerableExtensions
     {
-        private static bool[] digitsUsed = new bool[Digit.DistinctDigits];
+        private static readonly bool[] digitsUsed = new bool[Digit.DistinctDigits];
         /// <summary>
         /// For an enumerable of digits returns only distinct items, that is, ignores repeated items.
         /// Is not thread safe.
