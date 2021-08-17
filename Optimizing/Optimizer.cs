@@ -161,34 +161,30 @@ namespace Optimizing
             }
         }
     }
-    internal static class SortedEnumerableExtensions
+    internal static class DigitsEnumerableExtensions
     {
-        
+        private static bool[] digitsUsed = new bool[Digit.DistinctDigits];
         /// <summary>
-        /// For a sorted enumerable returns only distinct items, that is, ignores repeted items.
+        /// For an enumerable of digits returns only distinct items, that is, ignores repeated items.
+        /// Is not thread safe.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="enumerable"></param>
         /// <returns></returns>
-        public static IEnumerable<T> GetDistinct<T>(this IEnumerable<T> enumerable) where T: IEquatable<T>
+        public static IEnumerable<Digit> GetDistinct(this IEnumerable<Digit> enumerable)
         {
-            bool isFirst = true;
-
-            // assignment only for csc to allow equality comparison in the foreach loop
-            T last = default;
-            foreach (var item in enumerable)
+            for (int i = 0; i < digitsUsed.Length; i++)
             {
-                if (isFirst)
-                {
-                    yield return item;
-                    isFirst = false;
-                }
-                else
-                {
-                    if (!item.Equals(last)) yield return item;
-                }
+                digitsUsed[i] = false;
+            }
 
-                last = item;
+            foreach (Digit digit in enumerable)
+            {
+                if (!digitsUsed[digit])
+                {
+                    yield return digit;
+                    digitsUsed[digit] = true;
+                }
             }
         }
     }
