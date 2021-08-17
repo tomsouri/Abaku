@@ -78,10 +78,21 @@ namespace BoardManaging
         public (Position start, Position end) GetLongestFilledSectionBounds((Position first, Position last) ToBeContained, IEnumerable<Position> ignoreVacancy)
         {
             // vacancy check
-            //return GetLongestFilledSectionBoundsWithoutVacancyCheck(ToBeContained, ToBeContained.first.GetDirectionTo(ToBeContained.last));
+            var (first, last) = ToBeContained;
+            if (first > last) (first, last) = (last, first);
 
-            throw new NotImplementedException();
-            
+            var direction = first.GetDirectionTo(last);
+
+            for (Position position = first + direction; position < last; position += direction)
+            {
+                if (this[position] == null && !ignoreVacancy.Contains(position))
+                {
+                    throw new InvalidOperationException();
+                }
+            }
+
+            return GetLongestFilledSectionBoundsWithoutVacancyCheck(
+                ToBeContained, ToBeContained.first.GetDirectionTo(ToBeContained.last));
         }
 
         public (Position start, Position end) GetLongestFilledSectionBounds(Position ToBeContained, Direction direction)
