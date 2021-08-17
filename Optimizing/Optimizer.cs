@@ -112,18 +112,35 @@ namespace Optimizing
             }
             private static IEnumerable<Move> GetPositionallyValidMoves(IReadOnlyList<Digit> availableDigits, IExtendedBoard board)
             {
-                var OptBoard = new OptimizerBoard(board, availableDigits.Count);
-
-                foreach (Digit[] sequence in DigitsSequenceGenerator.GetAllSequences(availableDigits))
+                if (board.IsEmpty()) 
                 {
-                    foreach (Direction direction in Direction.SimpleDirections)
+                    foreach (var move in GetPositionallyValidFirstMoves(availableDigits, board))
                     {
-                        foreach (Position position in OptBoard.GetPositionsSuitableForDigitsCount(direction,sequence.Length))
+                        yield return move;
+                    } 
+                }
+                else
+                {
+                    var OptBoard = new OptimizerBoard(board, availableDigits.Count);
+
+                    foreach (Digit[] sequence in DigitsSequenceGenerator.GetAllSequences(availableDigits))
+                    {
+                        foreach (Direction direction in Direction.SimpleDirections)
                         {
-                            yield return new Move(sequence, OptBoard.GetEmptyPositionsBeyond(position, direction, sequence.Length));
+                            foreach (Position position in OptBoard.GetPositionsSuitableForDigitsCount(direction, sequence.Length))
+                            {
+                                yield return new Move(sequence, OptBoard.GetEmptyPositionsBeyond(position, direction, sequence.Length));
+                            }
                         }
                     }
                 }
+            }
+            private static IEnumerable<Move> GetPositionallyValidFirstMoves(IReadOnlyList<Digit> availableDigits, IExtendedBoard board)
+            {
+                // TODO: implement finding valid first moves.
+                // This move must contain the starting position, the whole sequence must be placed in one line,
+                // each stone adjacent to another, and the whole sequence must build a valid formula.
+                return Enumerable.Empty<Move>();
             }
         }
 

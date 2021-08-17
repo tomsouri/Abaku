@@ -68,12 +68,12 @@ namespace BoardController
         }
         IReadOnlyList<ISetupTool> IBoardController.GetOperationSetupTools()
         {
-            throw new NotImplementedException();
+            return OpManager.GetOperationSetupTools();
         }
 
         IReadOnlyList<ISetupTool> IBoardController.GetEvaluationSetupTools()
         {
-            throw new NotImplementedException();
+            return EvalManager.GetEvaluationSetupTools();
         }
 
         IReadOnlyList<ISetupTool> IBoardController.GetBoardSetupTools()
@@ -83,7 +83,7 @@ namespace BoardController
 
         public IReadOnlyList<ISetupTool> GetInvalidMoveEvaluationSetupTools()
         {
-            throw new NotImplementedException();
+            return EvalManager.GetInvalidMoveEvaluationSetupTools();
         }
 
         Digit?[][] IBoardController.GetBoardContent()
