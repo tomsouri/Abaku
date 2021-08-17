@@ -18,7 +18,9 @@ namespace BoardController
         private IValidator Validator { get; }
         private IEvaluationManager EvalManager { get; }
         private IOperationManager OpManager { get; }
+        private IFormulaIdentifier FormulaIdentifier => OpManager.FlaIdentifier;
         private IBoardManager BoardManager { get; }
+        private IBoard Board => BoardManager.Board;
         private IOptimizer Optimizer { get; }
         public BoardController()
         {
@@ -30,29 +32,39 @@ namespace BoardController
         }
         bool IBoardController.IsValid(Move move)
         {
-            throw new NotImplementedException();
+            return Validator.IsValid(move, Board, FormulaIdentifier);
         }
         int IBoardController.Evaluate(Move move)
         {
-            throw new NotImplementedException();
+            return EvalManager.Evaluate(move, Board, FormulaIdentifier, Validator.IsValid);
         }
         IReadOnlyList<FormulaRepresentation> IBoardController.AllFormulasIncludedIn(Move move)
         {
-            throw new NotImplementedException();
+            return EvalManager.GetAllFormulasIncludedIn(move, Board, FormulaIdentifier, Validator.IsValid).ToArray();
         }
 
         int IBoardController.EnterMove(Move move)
         {
-            throw new NotImplementedException();
+            var score = ((IBoardController)this).Evaluate(move);
+            if (((IBoardController)this).IsValid(move))
+            {
+                EnterMoveUnsafe(move);
+            }
+            return score;
+        }
+        private void EnterMoveUnsafe(Move move)
+        {
+            BoardManager.EnterMove(move);
         }
 
-        IReadOnlyList<Move> IBoardController.GetBestMoves(IReadOnlyList<Digit> availableStones)
+        EvaluatedMove? IBoardController.GetBestMoves(IReadOnlyList<Digit> availableStones)
         {
-            throw new NotImplementedException();
+            return Optimizer.GetBestMove(availableStones, (IExtendedBoard)Board, FormulaIdentifier,
+                (IUnsafeEvaluator)EvalManager, (IUnsafeValidator)Validator);
         }
         void IBoardController.EnterMoveUnsafe(Move move)
         {
-            throw new NotImplementedException();
+            EnterMoveUnsafe(move);
         }
         IReadOnlyList<ISetupTool> IBoardController.GetOperationSetupTools()
         {
@@ -76,7 +88,7 @@ namespace BoardController
 
         Digit?[][] IBoardController.GetBoardContent()
         {
-            throw new NotImplementedException();
+            return BoardManager.GetBoardContent();
         }
     }
 }

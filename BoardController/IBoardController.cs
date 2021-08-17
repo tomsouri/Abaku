@@ -45,11 +45,11 @@ namespace BoardController
 
 
         /// <summary>
-        /// Method used by smart agent. Finds the best moves in the current situation.
+        /// Method used by smart agent. Finds the best move in the current situation.
         /// </summary>
         /// <param name="availableStones"> Stones on hand (digits that can be used).</param>
-        /// <returns>The best moves, sorted decreasingly by the score value.</returns>
-        IReadOnlyList<Move> GetBestMoves(IReadOnlyList<Digit> availableStones);
+        /// <returns>The best move in the current situation.</returns>
+        EvaluatedMove? GetBestMoves(IReadOnlyList<Digit> availableStones);
 
         /// <summary>
         /// Enters move WITHOUT checking its validity. Do not use in normal game!
