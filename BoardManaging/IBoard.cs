@@ -45,7 +45,8 @@ namespace BoardManaging
         /// Finds the longest part of a specified row/column (specified by positions to be contained in),
         /// which is already filled (with ignoring vacancy of specified positions). 
         /// </summary>
-        /// <param name="ToBeContained">Positions which has to be contained in the section.</param>
+        /// <param name="ToBeContained">Positions which has to be contained 
+        /// in the section and whose vacancy can be ignored.</param>
         /// <param name="ignoreVacancy">Position, whose vacancy can be ignored.</param>
         /// <returns>The starting and the ending position of the section (as value tuple).</returns>
         (Position start, Position end) GetLongestFilledSectionBounds((Position first, Position last) ToBeContained,
@@ -64,7 +65,8 @@ namespace BoardManaging
         /// Finds the longest part of a specified row/column (specified by positions to be contained in),
         /// which is already filled (with ignoring vacancy of specified positions). 
         /// </summary>
-        /// <param name="ToBeContained">Positions (2-tuple) which has to be contained in the section.</param>
+        /// <param name="ToBeContained">Positions (2-tuple) which has to be contained in the section
+        /// and whose vacancy can be ignored.</param>
         /// <param name="ignoreVacancy">Array Positions, whose vacancy can be ignored.</param>
         /// <returns>The starting and the ending position of the section (as value tuple).</returns>
         (Position start, Position end) GetLongestFilledSectionBounds((Position first, Position last) ToBeContained,
