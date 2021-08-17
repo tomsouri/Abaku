@@ -35,7 +35,8 @@ namespace Optimizing
     internal class OptimizerBoard// : IOptimizerBoard
     {
         private Board _board;
-        public OptimizerBoard(IExtendedBoard extendedBoard)
+        private DirectionIndexedTuple<List<Position>[]> SuitablePositionsLists;
+        public OptimizerBoard(IExtendedBoard extendedBoard, int digitsCount)
         {
             _board = Initialize(extendedBoard);
             // TODO: nacist delku availableDigits, abych vedel, jake bunky
