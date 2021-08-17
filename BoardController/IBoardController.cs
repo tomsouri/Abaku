@@ -100,6 +100,6 @@ namespace BoardController
         /// If a digit is null, it means, that no digit is placed on the position.
         /// </summary>
         /// <returns>The copy of the board, 2D array of nullable digits.</returns>
-        Digit?[,] GetBoardContent();
+        Digit?[][] GetBoardContent();
     }
 }

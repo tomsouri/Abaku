@@ -74,7 +74,7 @@ namespace BoardController
             throw new NotImplementedException();
         }
 
-        Digit?[,] IBoardController.GetBoardContent()
+        Digit?[][] IBoardController.GetBoardContent()
         {
             throw new NotImplementedException();
         }
