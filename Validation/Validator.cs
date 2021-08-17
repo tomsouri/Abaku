@@ -10,6 +10,7 @@ using OperationsManaging;
 using EnumerablePositionExtensions;
 using EnumerableExtensions;
 
+
 namespace Validation
 {
     /// <summary>

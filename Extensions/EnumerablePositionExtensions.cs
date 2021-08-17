@@ -9,15 +9,15 @@ using EnumerableExtensions;
 
 namespace EnumerablePositionExtensions
 {
-    internal static class IEnumerablePositionExtensions
+    public static class IEnumerablePositionExtensions
     {
-        internal static bool AllPositionsInSameRowOrColumn(this IEnumerable<Position> positions)
+        public static bool AllPositionsInSameRowOrColumn(this IEnumerable<Position> positions)
         {
             return positions.AllEqual(equalityComparison: Position.HaveSameRow) ||
                     positions.AllEqual(equalityComparison: Position.HaveSameColumn);
         }
 
-        internal static (Position, Position) FindMinAndMax(this IEnumerable<Position> positions)
+        public static (Position, Position) FindMinAndMax(this IEnumerable<Position> positions)
         {
             var min = positions.First();
             var max = min;
