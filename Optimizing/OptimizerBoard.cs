@@ -32,7 +32,7 @@ namespace Optimizing
         IReadOnlyList<Position> GetEmptyPositionsBeyond(Position position, Direction direction, int count);
 
     }
-    internal class OptimizerBoard// : IOptimizerBoard
+    internal class OptimizerBoard : IOptimizerBoard
     {
         private Board _board;
         private DirectionIndexedTuple<List<Position>[]> SuitablePositionsLists;
@@ -65,6 +65,16 @@ namespace Optimizing
             // - vytvor enumerables (spis readonlylists) positions pro dane pocty
             // prazdnych a nonadj bunek za
             return board;
+        }
+
+        public IEnumerable<Position> GetPositionsAvailableForDigitsCount(Direction direction, int digitsCount)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IReadOnlyList<Position> GetEmptyPositionsBeyond(Position position, Direction direction, int count)
+        {
+            return _board[position].GetEmptyPositionsBeyond(direction, count);
         }
 
         private class Board
