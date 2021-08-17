@@ -131,15 +131,13 @@ namespace Optimizing
         {
             public static IEnumerable<Digit[]> GetAllSequences(IReadOnlyList<Digit> availableDigits)
             {
-                var l = new Stack<int>();
-                var p = l.ToArray();
-                
-                
-                // TODO
-                // pomoci rekurzivniho algoritmu vytvori vsechny mozne posloupnosti cifer,
-                // ktere muzeme polozit, mame-li na ruce dane cifry
-                // - kazdou posloupnost chceme vratit prave jednou
-                throw new NotImplementedException();
+                var stack = new Stack<Digit>();
+                var digits = new List<Digit>();
+                foreach (var digit in availableDigits)
+                {
+                    digits.Add(digit);
+                }
+                return GetSequencesFrom(stack, digits);
             }
 
             private static IEnumerable<Digit[]> GetSequencesFrom(Stack<Digit> temporaryResultStack, List<Digit> availableDigits)
