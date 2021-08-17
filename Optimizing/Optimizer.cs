@@ -131,11 +131,45 @@ namespace Optimizing
         {
             public static IEnumerable<Digit[]> GetAllSequences(IReadOnlyList<Digit> availableDigits)
             {
+                var l = new Stack<int>();
+                var p = l.ToArray();
+                
+                
                 // TODO
                 // pomoci rekurzivniho algoritmu vytvori vsechny mozne posloupnosti cifer,
                 // ktere muzeme polozit, mame-li na ruce dane cifry
                 // - kazdou posloupnost chceme vratit prave jednou
                 throw new NotImplementedException();
+            }
+        }
+    }
+    internal static class SortedEnumerableExtensions
+    {
+        /// <summary>
+        /// For a sorted enumerable returns only distinct items, that is, ignores repeted items.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="enumerable"></param>
+        /// <returns></returns>
+        public static IEnumerable<T> GetDistinct<T>(this IEnumerable<T> enumerable) where T: IEquatable<T>
+        {
+            bool isFirst = true;
+
+            // assignment only for csc to allow equality comparison in the foreach loop
+            T last = default;
+            foreach (var item in enumerable)
+            {
+                if (isFirst)
+                {
+                    yield return item;
+                    isFirst = false;
+                }
+                else
+                {
+                    if (!item.Equals(last)) yield return item;
+                }
+
+                last = item;
             }
         }
     }
