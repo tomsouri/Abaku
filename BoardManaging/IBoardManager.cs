@@ -12,6 +12,6 @@ namespace BoardManaging
     {
         IBoard Board { get; }
         void EnterMove(Move move);
-        Digit?[,] GetBoardContent();
+        Digit?[][] GetBoardContent();
     }
 }

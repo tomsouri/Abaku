@@ -26,9 +26,9 @@ namespace BoardManaging
             }
         }
 
-        public Digit?[,] GetBoardContent()
+        public Digit?[][] GetBoardContent()
         {
-            throw new NotImplementedException();
+            return ((IManagableBoard)Board).GetBoardContent();
         }
 
 
