@@ -92,10 +92,6 @@ namespace BoardManaging
         IReadOnlyList<Digit> GetSectionAfterApplyingMove(Position start, Position end, Move move);
 
 
-
-
-        //TODO: je-li auxiliary array null, zavolej puvodni metodu
-
         /// <summary>
         /// Get the part of a board starting and ending on specified positions.
         /// The positions are supposed to be in the same column or row.

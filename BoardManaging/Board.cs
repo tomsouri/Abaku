@@ -120,6 +120,8 @@ namespace BoardManaging
 
         public IReadOnlyList<Digit> GetSectionAfterApplyingMove(Position start, Position end, Move move, Digit[] auxiliaryArray)
         {
+            if (auxiliaryArray == null) return GetSectionAfterApplyingMove(start, end, move);
+
             var direction = start.GetDirectionTo(end);
 
             int index = 0;
