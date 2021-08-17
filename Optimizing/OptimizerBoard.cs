@@ -20,7 +20,7 @@ namespace Optimizing
         /// </summary>
         /// <param name="digitsCount"></param>
         /// <returns></returns>
-        IEnumerable<Position> GetPositionsAvailableForDigitsCount(Direction direction, int digitsCount);
+        IEnumerable<Position> GetPositionsSuitableForDigitsCount(Direction direction, int digitsCount);
 
         /// <summary>
         /// Return the RO list including count empty positions, starting with the given empty position
@@ -67,7 +67,7 @@ namespace Optimizing
             return board;
         }
 
-        public IEnumerable<Position> GetPositionsAvailableForDigitsCount(Direction direction, int digitsCount)
+        public IEnumerable<Position> GetPositionsSuitableForDigitsCount(Direction direction, int digitsCount)
         {
             return SuitablePositionsLists[direction][digitsCount - 1];
         }
