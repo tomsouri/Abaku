@@ -25,64 +25,55 @@ namespace CommonTypes
     /// Represents one move in a game of Abaku, that is the array of placed stones (digits) with their positions.
     /// Supports also the move evaluation, that is adding the point score of the move.
     /// </summary>
-    public struct Move :  IEnumerable<(Digit,Position)>
+    public struct Move: IEnumerable<(Digit, Position)>
     {
-        public Move((Digit digit, Position position)[] placedStones)
+        private readonly IReadOnlyList<Digit> PlacedDigits;
+        private readonly IReadOnlyList<Position> UsedPositions;
+        public Move(IReadOnlyList<Digit> placedDigits, IReadOnlyList<Position> usedPositions)
         {
-            PlacedStones = placedStones;
-            Array.Sort(PlacedStones, (a, b) => a.position.CompareTo(b.position));
+            PlacedDigits = placedDigits;
+            UsedPositions = usedPositions;
         }
-        public Digit this[Position position]
+        public Digit? this[Position position]
         {
             get
             {
-                foreach (var (digit, pos) in PlacedStones)
+                foreach (var (digit, pos) in this)
                 {
                     if (position == pos) return digit;
                 }
-                throw new InvalidOperationException("The move does not contain the specified position.");
+                return null;
             }
         }
-        private readonly (Digit digit, Position position)[] PlacedStones;
-
 
         public bool ContainsPosition(Position position)
         {
-            foreach (var (_, pos) in PlacedStones)
-            {
-                if (position == pos) return true;
-            }
-            return false;
+            return UsedPositions.Contains(position);
         }
-        public IReadOnlyList<Position> PositionsSorted { 
+        public IReadOnlyList<Position> PositionsSorted
+        {
             get
             {
-                var arr = new Position[PlacedStones.Length];
-                for (int i = 0; i < PlacedStones.Length; i++)
-                {
-                    arr[i] = PlacedStones[i].position;
-                }
-                return arr;
-            } 
+                var sorted = UsedPositions.ToArray();
+                Array.Sort(sorted, (a,b) => a.CompareTo(b));
+                return sorted;
+            }
         }
 
         public IEnumerable<Position> GetPositions()
         {
-            foreach (var (_, position) in PlacedStones)
-            {
-                yield return position;
-            }
+            return UsedPositions;
         }
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public IEnumerator<(Digit,Position)> GetEnumerator()
+        public IEnumerator<(Digit, Position)> GetEnumerator()
         {
-            foreach (var (digit, position) in PlacedStones)
+            for (int i = 0; i < PlacedDigits.Count; i++)
             {
-                yield return (digit,position);
+                yield return (PlacedDigits[i], UsedPositions[i]);
             }
         }
-        
+
         /// <summary>
         /// Determines whether the move places zero to the specified position.
         /// </summary>
@@ -90,7 +81,7 @@ namespace CommonTypes
         /// <returns>True if the move contains the position and places zero there.</returns>
         public bool ContainsZero(Position position)
         {
-            foreach (var (digit,pos) in this)
+            foreach (var (digit, pos) in this)
             {
                 if (pos == position) return digit == Digit.ZERO;
             }
