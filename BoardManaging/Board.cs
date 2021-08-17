@@ -15,7 +15,7 @@ namespace BoardManaging
         private int RowsCount => _board.Length;
         private int ColumnsCount => _board[0].Length;
         private Position StartPosition { get; }
-        private Position MinimalContainedPosition => new Position(0, 0);
+        private static Position MinimalContainedPosition => new Position(0, 0);
         private Position MaximalContainedPosition => new Position(RowsCount - 1, ColumnsCount - 1);
         private bool ContainsPosition(Position position) => MinimalContainedPosition <= position && position <= MaximalContainedPosition;
         private bool IsTotallyEmpty { get; set; }
@@ -87,7 +87,7 @@ namespace BoardManaging
             {
                 if (this[position] == null && !ignoreVacancy.Contains(position))
                 {
-                    throw new InvalidOperationException();
+                    throw new InvalidOperationException("There is no filled section containing the given positions, since there is a vacant position in between, whose vacancy is not ignored.");
                 }
             }
 
@@ -114,12 +114,35 @@ namespace BoardManaging
 
         public IReadOnlyList<Digit> GetSectionAfterApplyingMove(Position start, Position end, Move move)
         {
-            throw new NotImplementedException();
+            int length = end - start + 1;
+            return GetSectionAfterApplyingMove(start, end, move, new Digit[length]);
         }
 
         public IReadOnlyList<Digit> GetSectionAfterApplyingMove(Position start, Position end, Move move, Digit[] auxiliaryArray)
         {
-            throw new NotImplementedException();
+            var direction = start.GetDirectionTo(end);
+
+            int index = 0;
+            for (Position currentPosition = start; currentPosition <= end; currentPosition +=direction)
+            {
+                var digit = this[currentPosition] ?? move[currentPosition];
+                if (digit == null)
+                {
+                    // invalid move
+                    throw new InvalidOperationException("This was invalid move, it does not place any digit to a vacant position between other placed digits.");
+                    //return null; 
+                }
+                    
+                else
+                {
+                    auxiliaryArray[index] = (Digit)digit;
+                }
+                index++;
+            }
+
+            int length = index;
+
+            return new ArraySegment<Digit>(auxiliaryArray, 0, length);
         }
 
         public bool IsAdjacentToOccupiedPosition(Position position)
