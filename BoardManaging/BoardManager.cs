@@ -9,11 +9,21 @@ namespace BoardManaging
         private static readonly int defaultRowsCount = defaultColumnsCount;
         private static readonly Position defaultStartPosition = 
                                 new Position((defaultRowsCount - 1) / 2, (defaultColumnsCount - 1) / 2);
+        private bool HasDefaultSetup { get; set; }
+        public BoardManager()
+        {
+            Board = new Board(defaultRowsCount, defaultColumnsCount, defaultStartPosition);
+            HasDefaultSetup = true;
+        }
+
         public IBoard Board { get; private set; }
 
         public void EnterMove(Move move)
         {
-            throw new NotImplementedException();
+            foreach (var (digit,position) in move)
+            {
+                ((IManagableBoard)Board)[position] = digit;
+            }
         }
 
         public Digit?[,] GetBoardContent()
@@ -21,10 +31,15 @@ namespace BoardManaging
             throw new NotImplementedException();
         }
 
+
         void IBoardSetupper.Setup(int columns, int rows, Position startPosition)
         {
-            // TODO: dovolit validni zavolani jenom jednou.
-            throw new NotImplementedException();
+            // valid call only once
+            if (HasDefaultSetup)
+            {
+                HasDefaultSetup = false;
+                Board = new Board(rowsCount: rows,columnsCount: columns, startPosition);
+            }
         }
     }
 }
