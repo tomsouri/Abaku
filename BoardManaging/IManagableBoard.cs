@@ -11,5 +11,6 @@ namespace BoardManaging
     internal interface IManagableBoard
     {
         Digit this[Position position] { set; }
+        Digit?[][] GetBoardContent();
     }
 }
