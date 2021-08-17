@@ -169,6 +169,25 @@ namespace BoardManaging
             return position == StartPosition;
         }
 
+        /// <summary>
+        /// Creates a copy of its internal board. That is the array of rows of nullable digits.
+        /// Null represents an empty cell.
+        /// </summary>
+        /// <returns></returns>
+        Digit?[][] IManagableBoard.GetBoardContent()
+        {
+            var result = new Digit?[RowsCount][];
+            for (int rowNumber = 0; rowNumber < RowsCount; rowNumber++)
+            {
+                var row = new Digit?[ColumnsCount];
+                for (int columnNumber = 0; columnNumber < ColumnsCount; columnNumber++)
+                {
+                    row[columnNumber] = _board[rowNumber][columnNumber];
+                }
+            }
+            return result;
+        }
+
         int IExtendedBoard.RowsCount => RowsCount;
 
         int IExtendedBoard.ColumnsCount => ColumnsCount;
