@@ -14,7 +14,7 @@ using ReadOnlyListExtensions.Bounds;
 
 namespace Evaluation
 {
-    public class EvaluationManager : IEvaluationManager
+    public class EvaluationManager : IEvaluationManager, IUnsafeEvaluator
     {
         public EvaluationManager()
         {
@@ -501,6 +501,11 @@ namespace Evaluation
 
                 yield return new FormulaRepresentation(formulaScore,formulaString);
             }
+        }
+
+        int IUnsafeEvaluator.EvaluateValidMove(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
+        {
+            return EvaluateValidMoveUnsafe(move, board, formulaIdentifier);
         }
 
         /// <summary>
