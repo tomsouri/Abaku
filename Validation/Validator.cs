@@ -120,11 +120,11 @@ namespace Validation
         /// <param name="board"></param>
         /// <param name="formulaIdentifier"></param>
         /// <returns>True if it is ok.</returns>
-        private static bool CheckFormulas(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
+        private static bool CheckFormulas(Move move, IBoard board, IFormulaIdentifier formulaIdentifier, Digit[] auxiliaryArray = null)
         {
-            if (ContainsFormulaFromFirstStoneToLast(move, board, formulaIdentifier))
+            if (ContainsFormulaFromFirstStoneToLast(move, board, formulaIdentifier, auxiliaryArray))
             {
-                return CheckAdjacentOccupiedPositions(move, board, formulaIdentifier);
+                return CheckAdjacentOccupiedPositions(move, board, formulaIdentifier, auxiliaryArray);
             }
             return false;
 
@@ -138,15 +138,15 @@ namespace Validation
         /// <param name="board"></param>
         /// <param name="formulaIdentifier"></param>
         /// <returns>True if it contains the formula.</returns>
-        private static bool ContainsFormulaFromFirstStoneToLast(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
+        private static bool ContainsFormulaFromFirstStoneToLast(Move move, IBoard board, IFormulaIdentifier formulaIdentifier, Digit[] auxiliaryArray)
         {
             var boardAfterMove = new BoardAfterMove(board, move);
 
             var positions = move.GetPositions();
             var (min, max) = positions.FindMinAndMax();
-            return boardAfterMove.ContainsFormulaIncludingPositions(min, max, formulaIdentifier);
+            return boardAfterMove.ContainsFormulaIncludingPositions(min, max, formulaIdentifier, auxiliaryArray);
         }
-
+        /*
         /// <summary>
         /// Every adjacent (and already occupied) position must fulfill some concrete condition.
         /// That is, it contains zero or neighbors with zero, or contains a formula together with
@@ -200,7 +200,7 @@ namespace Validation
             }
             return isSomeOccupiedPositionUsedInFormula;
         }
-
+*/
         /// <summary>
         /// Every adjacent (and already occupied) position must fulfill some concrete condition.
         /// That is, it contains zero or neighbors with zero, or contains a formula together with
@@ -210,7 +210,7 @@ namespace Validation
         /// <param name="board"></param>
         /// <param name="formulaIdentifier"></param>
         /// <returns></returns>
-        private static bool CheckAdjacentOccupiedPositions(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
+        private static bool CheckAdjacentOccupiedPositions(Move move, IBoard board, IFormulaIdentifier formulaIdentifier, Digit[] auxiliaryArray)
         {
             // If it is not the first move, at least one adjacent position must be used in some formula.
             bool isSomeOccupiedPositionUsedInFormula = false;
@@ -238,7 +238,7 @@ namespace Validation
                     {
                         // nothing to do, the adj position neighbors through zero
                     }
-                    else if (boardAfterMove.ContainsFormulaIncludingPositions(position, adjacent, formulaIdentifier))
+                    else if (boardAfterMove.ContainsFormulaIncludingPositions(position, adjacent, formulaIdentifier, auxiliaryArray))
                     {
                         isSomeOccupiedPositionUsedInFormula = true;
                     }
@@ -254,7 +254,7 @@ namespace Validation
                     {
                         if (boardAfterMove.ContainsZero(position) || board.ContainsZero(adjacent))
                         {
-                            if (boardAfterMove.ContainsFormulaIncludingPositions(position, adjacent, formulaIdentifier))
+                            if (boardAfterMove.ContainsFormulaIncludingPositions(position, adjacent, formulaIdentifier, auxiliaryArray))
                             {
                                 return true;
                             }
@@ -301,10 +301,10 @@ namespace Validation
             /// <param name="included2">The other position. It must be in the same row or column as included1.</param>
             /// <param name="formulaIdentifier"></param>
             /// <returns>True if there is such a formula.</returns>
-            public bool ContainsFormulaIncludingPositions(Position included1, Position included2, IFormulaIdentifier formulaIdentifier)
+            public bool ContainsFormulaIncludingPositions(Position included1, Position included2, IFormulaIdentifier formulaIdentifier, Digit[] auxiliaryArray)
             {
                 var (start, end) = Board.GetLongestFilledSectionBounds(ToBeContained:(included1, included2), ignoreVacancy:Move.GetPositions());
-                var digits = Board.GetSectionAfterApplyingMove(start, end, Move);
+                var digits = Board.GetSectionAfterApplyingMove(start, end, Move, auxiliaryArray);
                 var index1 = included1 - start;
                 var index2 = included2 - start;
                 return formulaIdentifier.ContainsFormulaIncludingIndices(digits, index1, index2);
