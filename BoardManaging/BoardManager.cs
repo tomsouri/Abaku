@@ -5,7 +5,11 @@ namespace BoardManaging
 {
     public class BoardManager : IBoardManager, IBoardSetupper
     {
-        public IBoard Board => throw new NotImplementedException();
+        private static readonly int defaultColumnsCount = 15;
+        private static readonly int defaultRowsCount = defaultColumnsCount;
+        private static readonly Position defaultStartPosition = 
+                                new Position((defaultRowsCount - 1) / 2, (defaultColumnsCount - 1) / 2);
+        public IBoard Board { get; private set; }
 
         public void EnterMove(Move move)
         {
