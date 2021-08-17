@@ -35,21 +35,20 @@ namespace Optimizing
     internal class OptimizerBoard : IOptimizerBoard
     {
         private Board _board;
+
+        /// <summary>
+        /// For every simple direction and every length of digit sequence it represents the list of positions
+        /// that are suitable for that length - that is, there is enough empty cells beyond to use all digits
+        /// from the sequence, and there is not so many nonadjacent cells directly following up the cell,
+        /// so the digits won't be totally nonadjacent if placed here.
+        /// </summary>
         private DirectionIndexedTuple<List<Position>[]> SuitablePositionsLists;
         public OptimizerBoard(IExtendedBoard extendedBoard, int digitsCount)
         {
-            _board = Initialize(extendedBoard);
-            // TODO: nacist delku availableDigits, abych vedel, jake bunky
-            // mam vracet v enumerables prazdnych bunek - pro pocet digits 5
-            // chci mit pripravene enumerables (pro kazde direction)
-            // s 5 a vice prazdnymi bunkami za a mene nez 5 nonadj bunkami za,
-            // dale s 4 prazdnymi a 3 non adj
-            // dale s 3 prazdnymi a 2 nonadj
-            // dale s 2 prazdnymi a 1 nonadj
-            // dale s 1 prazdnou a 0 nonadj
-            // Pak pro danou delku digits vratim sjednoceni konkretnich enumerables.
+            _board = CreateBoard(extendedBoard);
+            InitializeSuitablePositionsLists(digitsCount);
         }
-        private Board Initialize(IExtendedBoard extendedBoard)
+        private Board CreateBoard(IExtendedBoard extendedBoard)
         {
             var rowsCount = extendedBoard.RowsCount;
             var colsCount = extendedBoard.ColumnsCount;
@@ -59,14 +58,43 @@ namespace Optimizing
             board.LoadEmptyCellsCounts();
             board.LoadNonAdjacentCellsCounts();
             board.LoadEmptyCellsArrays();
-            // TODO: dalsi inicializace
-            // Pro kazdou direction:
-            
-            // - vytvor enumerables (spis readonlylists) positions pro dane pocty
-            // prazdnych a nonadj bunek za
             return board;
         }
 
+        /// <summary>
+        /// Initializes the lists of suitable positions, for every direction and for every possible
+        /// length of placed digit sequence.
+        /// </summary>
+        /// <param name="digitsCount">Maximal length of the placed digit sequence.</param>
+        private void InitializeSuitablePositionsLists(int digitsCount)
+        {
+            foreach (var direction in Direction.SimpleDirections)
+            {
+                var lists = new List<Position>[digitsCount];
+
+                for (int index = 0; index < digitsCount; index++)
+                {
+                    var sequenceLength = index + 1;
+                    var list = new List<Position>();
+
+                    foreach (var position in _board.GetAllPositions())
+                    {
+                        var cell = _board[position];
+                        if (cell.IsEmpty && // we can start with this position
+                            sequenceLength <= cell.EmptyCellsBeyondCounts[direction] && // the digits fit in
+                            sequenceLength > cell.NonAdjCellsBeyondCounts[direction]) // the placed digits won't be totally
+                                                                                      // nonadjacent if placed here
+                        {
+                            list.Add(position);
+                        }
+                    }
+
+                    lists[index] = list;
+                }
+
+                SuitablePositionsLists[direction] = lists;
+            }
+        }
         public IEnumerable<Position> GetPositionsSuitableForDigitsCount(Direction direction, int digitsCount)
         {
             return SuitablePositionsLists[direction][digitsCount - 1];
@@ -97,7 +125,7 @@ namespace Optimizing
             }
             private Cell[][] _board;
             public Cell this[Position position] => _board[position.Row][position.Column];
-            private IEnumerable<Position> GetAllPositions()
+            public IEnumerable<Position> GetAllPositions()
             {
                 for (int rowNumber = 0; rowNumber < RowsCount; rowNumber++)
                 {
