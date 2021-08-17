@@ -160,14 +160,45 @@ namespace Optimizing
                     }
                 }
             }
+
+
+            /// <summary>
+            /// For every line (that is, for every column and row) and the corresponding direction
+            /// create an array of empty positions in that line. Add the corresponding segment
+            /// of that array to every cell in that line (to represent positions of empty cells
+            /// beyond that cell, including the cell).
+            /// </summary>
             public void LoadEmptyCellsArrays()
             {
-                throw new NotImplementedException();
-                // TODO:
-                // Pro kazdou direction:
-                // - vytvor pole volnych pozic (pro kazdy sloupec a radek)
-                // a kazde volne pozici dej jeji cast (pocinaje jejim indexem)
-                // - kazde obsazene pozici dej prazdne pole
+                Position startingPosition = new Position(0, 0);
+
+                foreach (Direction lineShift in Direction.SimpleDirections)
+                {
+                    Direction cellShift = lineShift.Flipped;
+                    for (Position lineStartPosition = startingPosition; lineStartPosition
+                        <= MaximalContainedPosition; lineStartPosition += lineShift)
+                    {
+                        int emptyPositionsInLineCount = this[lineStartPosition].EmptyCellsBeyondCounts[cellShift];
+                        var emptyPositions = new Position[emptyPositionsInLineCount];
+
+                        int currentIndex = 0;
+
+                        for (Position currentPosition = lineStartPosition; currentPosition
+                            <= MaximalContainedPosition; currentPosition += cellShift)
+                        {
+                            this[currentPosition].EmptyPositionsBeyond[cellShift] = 
+                                new ArraySegment<Position>(emptyPositions, currentIndex, 
+                                    emptyPositions.Length - currentIndex);
+
+                            if (this[currentPosition].IsEmpty)
+                            {
+                                emptyPositions[currentIndex] = currentPosition;
+                                currentIndex++;
+                            }
+                        }
+
+                    }
+                }
             }
         }
         private struct DirectionIndexedTuple<T>
