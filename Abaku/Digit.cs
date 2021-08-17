@@ -9,7 +9,7 @@ namespace CommonTypes
     /// <summary>
     /// Represents a valid digit in a decimal system, that is, can contain bytes 0, 1, ..., 9.
     /// </summary>
-    public struct Digit
+    public struct Digit :IEquatable<Digit>
     {
         private byte Value { get; }
         private static readonly byte zero = 0;
@@ -25,5 +25,19 @@ namespace CommonTypes
         public static explicit operator Digit (int i) => (Digit)i;
         public static implicit operator int (Digit d) => d.Value;
         public static implicit operator byte (Digit d) => d.Value;
+
+        public bool Equals(Digit other)
+        {
+            return this.Value == other.Value;
+        }
+        public override bool Equals(object obj)
+        {
+            if (obj is Digit d) return Equals(d);
+            return base.Equals(obj);
+        }
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
     }
 }
