@@ -15,7 +15,7 @@ namespace Validation
     /// <summary>
     /// Implements singleton pattern.
     /// </summary>
-    public class Validator : IValidator
+    public class Validator : IValidator, IUnsafeValidator
     {
         /// <summary>
         /// The only instance.
@@ -263,6 +263,11 @@ namespace Validation
                 }
             }
             return isSomeOccupiedPositionUsedInFormula;
+        }
+
+        bool IUnsafeValidator.CheckContainedFormulas(Move move, IBoard board, IFormulaIdentifier formulaIdentifier, Digit[] auxiliaryArray)
+        {
+            return CheckFormulas(move, board, formulaIdentifier, auxiliaryArray);
         }
 
         /// <summary>
