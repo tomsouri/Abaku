@@ -103,7 +103,7 @@ namespace Optimizing
                                                     IUnsafeValidator validator)
             {
                 var auxiliaryArray = new Digit[Math.Max(board.ColumnsCount, board.RowsCount)];
-                foreach (var move in GetPosionallyValidMoves(availableDigits, board))
+                foreach (var move in GetPositionallyValidMoves(availableDigits, board))
                 {
                     if (validator.CheckContainedFormulas(move, board, formulaIdentifier, auxiliaryArray))
                     {
@@ -111,16 +111,22 @@ namespace Optimizing
                     }
                 }
             }
-            private static IEnumerable<Move> GetPosionallyValidMoves(IReadOnlyList<Digit> availableDigits, IExtendedBoard board)
+            private static IEnumerable<Move> GetPositionallyValidMoves(IReadOnlyList<Digit> availableDigits, IExtendedBoard board)
             {
-                throw new NotImplementedException();
-                // TODO
-                // vytvor OptimizerBoard
+                var OptBoard = new OptimizerBoard(board, availableDigits.Count);
 
-                // pro kazdou sekvenci
-                //      pro kazdy direction
-                //          pro kazdou bunku(pozici), vhodnou pro danou delku (podle toho, co dostanu od OptBoardu
-                //              yield return new Move(sekvence digits, sekvence positions, kterou dostanu od OptBoardu)
+                foreach (Digit[] sequence in DigitsSequenceGenerator.GetAllSequences(availableDigits))
+                {
+                    foreach (Direction direction in Direction.SimpleDirections)
+                    {
+                        foreach (Position position in OptBoard.GetPositionsSuitableForDigitsCount(direction,sequence.Length))
+                        {
+                            // TODO: dodelat
+                            //yield return new Move(sequence, OptBoard.GetEmptyPositionsBeyond(position, direction, sequence.Length));
+                        }
+                    }
+                }
+                throw new NotImplementedException();
             }
         }
 
