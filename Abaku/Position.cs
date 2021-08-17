@@ -76,6 +76,9 @@ namespace CommonTypes
         public static bool operator <=(Position p1, Position p2) => p1.Row <= p2.Row && p1.Column <= p2.Column;
         public static bool operator >=(Position p1, Position p2) => p1.Row >= p2.Row && p1.Column >= p2.Column;
 
+        public static bool operator <(Position p1, Position p2) => p1 <= p2 && p1 != p2;
+        public static bool operator >(Position p1, Position p2) => p1 >= p2 && p1 != p2;
+
         /// <summary>
         /// The sum of differences of rows and columns of the positions.
         /// Practical usage is for positions with the same column or the same row.
