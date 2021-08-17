@@ -34,7 +34,7 @@ namespace Optimizing
     }
     internal class OptimizerBoard : IOptimizerBoard
     {
-        private Board _board;
+        private readonly Board _board;
 
         /// <summary>
         /// For every simple direction and every length of digit sequence it represents the list of positions
@@ -48,7 +48,7 @@ namespace Optimizing
             _board = CreateBoard(extendedBoard);
             InitializeSuitablePositionsLists(digitsCount);
         }
-        private Board CreateBoard(IExtendedBoard extendedBoard)
+        private static Board CreateBoard(IExtendedBoard extendedBoard)
         {
             var rowsCount = extendedBoard.RowsCount;
             var colsCount = extendedBoard.ColumnsCount;
@@ -123,7 +123,7 @@ namespace Optimizing
                     _board[i] = row;
                 }
             }
-            private Cell[][] _board;
+            private readonly Cell[][] _board;
             public Cell this[Position position] => _board[position.Row][position.Column];
             public IEnumerable<Position> GetAllPositions()
             {
@@ -136,7 +136,7 @@ namespace Optimizing
                     }
                 }
             }
-            private Position MaximalContainedPosition => new Position(RowsCount - 1, ColumnsCount - 1);
+            private Position MaximalContainedPosition => new (RowsCount - 1, ColumnsCount - 1);
 
             /// <summary>
             /// Returns all positions contained in the board that are beyond the given position,
@@ -151,6 +151,7 @@ namespace Optimizing
                 while (currentPosition <= MaximalContainedPosition)
                 {
                     yield return currentPosition;
+                    currentPosition += direction;
                 }
             }
 
@@ -229,7 +230,7 @@ namespace Optimizing
             /// </summary>
             public void LoadEmptyCellsArrays()
             {
-                Position startingPosition = new Position(0, 0);
+                Position startingPosition = new (0, 0);
 
                 foreach (Direction lineShift in Direction.SimpleDirections)
                 {
