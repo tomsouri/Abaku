@@ -115,6 +115,10 @@ namespace Optimizing
                 }
             }
 
+            /// <summary>
+            /// Set the bool property of being empty in every cell in this board, based on the given ExtendedBoard.
+            /// </summary>
+            /// <param name="extendedBoard"></param>
             public void LoadEmptyCells(IExtendedBoard extendedBoard)
             {
                 foreach (var position in GetAllPositions())
@@ -122,6 +126,12 @@ namespace Optimizing
                     this[position].IsEmpty = extendedBoard.IsPositionEmpty(position);
                 }
             }
+
+            /// <summary>
+            /// Set the bool property of being adjacent to some occupied cell in every cell in this board,
+            /// based on the given ExtendedBoard.
+            /// </summary>
+            /// <param name="extendedBoard"></param>
             public void LoadAdjacentCells(IExtendedBoard extendedBoard)
             {
                 foreach (var position in GetAllPositions())
@@ -129,6 +139,11 @@ namespace Optimizing
                     this[position].IsAdjacent = extendedBoard.IsAdjacentToOccupiedPosition(position);
                 }
             }
+
+            /// <summary>
+            /// Set the counts of nonadjacent cells directly following up the concrete cell (including the concrete cell),
+            /// for every cell in this board and for every direction.
+            /// </summary>
             public void LoadNonAdjacentCellsCounts()
             {
                 foreach (var direction in Direction.SimpleDirections)
@@ -145,6 +160,11 @@ namespace Optimizing
                     }
                 }
             }
+
+            /// <summary>
+            /// Set the counts of empty cells following up the concrete cell (including the concrete cell),
+            /// for every cell in this board and for every direction.
+            /// </summary>
             public void LoadEmptyCellsCounts()
             {
                 foreach (var direction in Direction.SimpleDirections)
