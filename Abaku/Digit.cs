@@ -13,10 +13,12 @@ namespace CommonTypes
     {
         private byte Value { get; }
         private static readonly byte zero = 0;
+        private static readonly byte distinctDigits = 10;
+        public static int DistinctDigits => distinctDigits;
         public static Digit ZERO { get => (Digit)zero; }
         public Digit(byte val)
         {
-            if (val >= 10)
+            if (val >= distinctDigits)
             {
                 throw new ArgumentOutOfRangeException(paramName: nameof(val), "The argument must be a valid decimal digit");
             }
