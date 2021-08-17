@@ -69,7 +69,7 @@ namespace Optimizing
 
         public IEnumerable<Position> GetPositionsAvailableForDigitsCount(Direction direction, int digitsCount)
         {
-            throw new NotImplementedException();
+            return SuitablePositionsLists[direction][digitsCount - 1];
         }
 
         public IReadOnlyList<Position> GetEmptyPositionsBeyond(Position position, Direction direction, int count)
