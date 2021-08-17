@@ -88,14 +88,20 @@ namespace BoardManaging
         /// <param name="end">The last position to be contained in the section.</param>
         /// <returns>Array of nullable digits.</returns>
         IReadOnlyList<Digit> GetSectionAfterApplyingMove(Position start, Position end, Move move);
+
+
+
+
+        //TODO: je-li auxiliary array null, zavolej puvodni metodu
+
         /// <summary>
         /// Get the part of a board starting and ending on specified positions.
         /// The positions are supposed to be in the same column or row.
         /// </summary>
         /// <param name="start">The first position to be contained in the section.</param>
         /// <param name="end">The last position to be contained in the section.</param>
-        /// <param name="target">The array in which the section should be copied.</param>
-        void GetSectionAfterApplyingMove(Position start, Position end, Move move, Digit[] target);
+        /// <returns>Array of nullable digits.</returns>
+        IReadOnlyList<Digit> GetSectionAfterApplyingMove(Position start, Position end, Move move, Digit[] auxiliaryArray);
 
         /// <summary>
         /// Determines whether the given position is a starting position 
