@@ -48,7 +48,7 @@ namespace BoardManaging
         /// <param name="ToBeContained">Positions which has to be contained in the section.</param>
         /// <param name="ignoreVacancy">Position, whose vacancy can be ignored.</param>
         /// <returns>The starting and the ending position of the section (as value tuple).</returns>
-        (Position start, Position end) GetLongestFilledSectionBounds((Position, Position) ToBeContained,
+        (Position start, Position end) GetLongestFilledSectionBounds((Position first, Position last) ToBeContained,
                                                                      Position ignoreVacancy);
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace BoardManaging
         /// <param name="ToBeContained">Positions (2-tuple) which has to be contained in the section.</param>
         /// <param name="ignoreVacancy">Array Positions, whose vacancy can be ignored.</param>
         /// <returns>The starting and the ending position of the section (as value tuple).</returns>
-        (Position start, Position end) GetLongestFilledSectionBounds((Position, Position) ToBeContained,
+        (Position start, Position end) GetLongestFilledSectionBounds((Position first, Position last) ToBeContained,
                                                                      IEnumerable<Position> ignoreVacancy);
 
         /// <summary>

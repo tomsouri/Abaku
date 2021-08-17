@@ -5,6 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using EnumerableCreatingExtensions;
+using EnumerablePositionExtensions;
+
 namespace BoardManaging
 {
     internal class Board : IBoard, IExtendedBoard
@@ -62,24 +65,40 @@ namespace BoardManaging
         }
 
 
-        public (Position start, Position end) GetLongestFilledSectionBounds((Position, Position) ToBeContained, Position ignoreVacancy)
+        public (Position start, Position end) GetLongestFilledSectionBounds((Position first, Position last) ToBeContained, Position ignoreVacancy)
         {
-            throw new NotImplementedException();
+            return GetLongestFilledSectionBounds(ToBeContained, ignoreVacancy.GetSingleEnumerable());
         }
 
         public (Position start, Position end) GetLongestFilledSectionBounds(IEnumerable<Position> ignoreVacancy)
         {
-            throw new NotImplementedException();
+            return GetLongestFilledSectionBounds(ignoreVacancy.FindMinAndMax(), ignoreVacancy);
         }
 
-        public (Position start, Position end) GetLongestFilledSectionBounds((Position, Position) ToBeContained, IEnumerable<Position> ignoreVacancy)
+        public (Position start, Position end) GetLongestFilledSectionBounds((Position first, Position last) ToBeContained, IEnumerable<Position> ignoreVacancy)
         {
+            // vacancy check
+            //return GetLongestFilledSectionBoundsWithoutVacancyCheck(ToBeContained, ToBeContained.first.GetDirectionTo(ToBeContained.last));
+
             throw new NotImplementedException();
+            
         }
 
         public (Position start, Position end) GetLongestFilledSectionBounds(Position ToBeContained, Direction direction)
         {
-            throw new NotImplementedException();
+            return GetLongestFilledSectionBoundsWithoutVacancyCheck((ToBeContained, ToBeContained), direction);
+        }
+        private (Position start, Position end) GetLongestFilledSectionBoundsWithoutVacancyCheck
+            ((Position first, Position last) ToBeContained, Direction direction)
+        {
+            var (first, last) = ToBeContained;
+
+            if (first > last) (first, last) = (last, first);
+
+            while (this[first - direction] != null) first -= direction;
+            while (this[last + direction] != null) last += direction;
+
+            return (first, last);
         }
 
         public IReadOnlyList<Digit> GetSectionAfterApplyingMove(Position start, Position end, Move move)
