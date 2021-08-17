@@ -141,10 +141,29 @@ namespace Optimizing
                 // - kazdou posloupnost chceme vratit prave jednou
                 throw new NotImplementedException();
             }
+
+            private static IEnumerable<Digit[]> GetSequencesFrom(Stack<Digit> temporaryResultStack, List<Digit> availableDigits)
+            {
+                foreach (var distinctDigit in availableDigits.GetDistinct())
+                {
+                    temporaryResultStack.Push(distinctDigit);
+                    yield return temporaryResultStack.ToArray();
+
+                    availableDigits.Remove(distinctDigit);
+
+                    foreach (var sequence in GetSequencesFrom(temporaryResultStack, availableDigits))
+                    {
+                        yield return sequence;
+                    }
+                    availableDigits.Add(distinctDigit);
+                    temporaryResultStack.Pop();
+                }
+            }
         }
     }
     internal static class SortedEnumerableExtensions
     {
+        
         /// <summary>
         /// For a sorted enumerable returns only distinct items, that is, ignores repeted items.
         /// </summary>
