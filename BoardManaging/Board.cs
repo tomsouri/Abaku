@@ -10,7 +10,7 @@ using EnumerablePositionExtensions;
 
 namespace BoardManaging
 {
-    internal class Board : IBoard, IExtendedBoard
+    internal class Board : IBoard, IExtendedBoard, IManagableBoard
     {
         private int RowsCount => _board.Length;
         private int ColumnsCount => _board[0].Length;
@@ -172,5 +172,7 @@ namespace BoardManaging
         int IExtendedBoard.RowsCount => RowsCount;
 
         int IExtendedBoard.ColumnsCount => ColumnsCount;
+
+        Digit IManagableBoard.this[Position position] { set => this[position]=value; }
     }
 }
