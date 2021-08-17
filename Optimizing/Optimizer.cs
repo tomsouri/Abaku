@@ -69,7 +69,6 @@ namespace Optimizing
                 int bestScore = 0;
 
                 var evaluatedMoves = GetEvaluatedMoves(availableDigits, board, formulaIdentifier, evaluator, validator);
-                //TODO precomputations
 
                 foreach (var move in evaluatedMoves)
                 {
