@@ -121,12 +121,10 @@ namespace Optimizing
                     {
                         foreach (Position position in OptBoard.GetPositionsSuitableForDigitsCount(direction,sequence.Length))
                         {
-                            // TODO: dodelat
-                            //yield return new Move(sequence, OptBoard.GetEmptyPositionsBeyond(position, direction, sequence.Length));
+                            yield return new Move(sequence, OptBoard.GetEmptyPositionsBeyond(position, direction, sequence.Length));
                         }
                     }
                 }
-                throw new NotImplementedException();
             }
         }
 
