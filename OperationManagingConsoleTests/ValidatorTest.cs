@@ -18,6 +18,16 @@ namespace InteractiveConsoleTests
             var move = Common.ReadMove();
             Console.WriteLine("Is valid: " + validator.IsValid(move,board,formulaIdentifier));
         }
+        public static void ValidateAndEnterMove(IValidator validator, BoardManager bMger, IFormulaIdentifier formulaIdentifier)
+        {
+            var move = Common.ReadMove();
+            var valid = validator.IsValid(move, bMger.Board, formulaIdentifier);
+            Console.WriteLine("Is valid: " + valid);
+            if (valid)
+            {
+                bMger.EnterMove(move);
+            }
+        }
         public static void Test()
         {
             var boardMger = new BoardManager();
@@ -33,6 +43,7 @@ namespace InteractiveConsoleTests
                     Console.WriteLine("e=enter move");
                     Console.WriteLine("v=validate move");
                     Console.WriteLine("def = start with default board");
+                    Console.WriteLine("i=infinite loop in validating and entering moves");
                 }
 
                 var input = Console.ReadLine();
@@ -48,6 +59,12 @@ namespace InteractiveConsoleTests
                     case "v":
                         ValidateMove(validator, boardMger.Board, opMger.FlaIdentifier);
                         break;
+                    case "i":
+                        while (true)
+                        {
+                            boardMger.GetBoardContent().Print();
+                            ValidateAndEnterMove(validator, boardMger, opMger.FlaIdentifier);
+                        }
                     case "def":
                         boardMger = new BoardManager();
                         boardMger.EnterMove(Common.GetInitializingMove());
