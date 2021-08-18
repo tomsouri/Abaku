@@ -17,10 +17,15 @@ namespace InteractiveConsoleTests
         {
             BoardManagingTest.BoardMgerTest();
         }
+        static void Validation()
+        {
+            ValidatorTest.Test();
+        }
         static void Main(string[] args)
         {
             //OpManaging();
-            BoardManaging();
+            //BoardManaging();
+            Validation();
         }
     }
 }

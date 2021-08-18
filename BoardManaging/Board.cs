@@ -81,6 +81,7 @@ namespace BoardManaging
             var (first, last) = ToBeContained;
             if (first > last) (first, last) = (last, first);
 
+            // TODO: co kdyz jsou first a last stejne?
             var direction = first.GetDirectionTo(last);
 
             for (Position position = first + direction; position < last; position += direction)
@@ -121,6 +122,19 @@ namespace BoardManaging
         public IReadOnlyList<Digit> GetSectionAfterApplyingMove(Position start, Position end, Move move, Digit[] auxiliaryArray)
         {
             if (auxiliaryArray == null) return GetSectionAfterApplyingMove(start, end, move);
+
+            // what if start and end are the same?
+            if (start == end)
+            {
+                var digit = this[start];
+                if (digit == null)
+                {
+                    // invalid move
+                    throw new InvalidOperationException("This was invalid move, it does not place any digit to a vacant position between other placed digits.");
+                }
+                auxiliaryArray[0] = (Digit)digit;
+                return new ArraySegment<Digit>(auxiliaryArray, 0, 1);
+            }
 
             var direction = start.GetDirectionTo(end);
 
