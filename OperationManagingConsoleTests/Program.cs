@@ -21,11 +21,16 @@ namespace InteractiveConsoleTests
         {
             ValidatorTest.Test();
         }
+        static void Evaluation()
+        {
+            EvaluatorTest.Test();
+        }
         static void Main(string[] args)
         {
             //OpManaging();
             //BoardManaging();
-            Validation();
+            //Validation();
+            Evaluation();
         }
     }
 }
