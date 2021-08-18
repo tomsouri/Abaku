@@ -6,10 +6,14 @@ namespace InteractiveConsoleTests
 {
     class Program
     {
-        static void Main(string[] args)
+        static void OpManaging()
         {
             OperationManagingTest.UniversalFactorsFormulaIdentifierInteractiveTest();
             OperationManagingTest.FormulaIdentifierInteractiveTest();
+        }
+        static void Main(string[] args)
+        {
+            OpManaging();
         }
     }
 }
