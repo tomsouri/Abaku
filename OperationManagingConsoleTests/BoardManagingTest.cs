@@ -55,24 +55,31 @@ namespace InteractiveConsoleTests
             };
             return new Move(digits, positions);
         }
+        public static Move ReadMove()
+        {
+            Console.WriteLine("How many digits are you going to place?");
+            int count = int.Parse(Console.ReadLine());
+
+            var positions = new Position[count];
+            var digits = new Digit[count];
+
+            for (int i = 0; i < count; i++)
+            {
+                Console.WriteLine("Enter a position: ");
+                positions[i] = ReadPosition();
+                Console.WriteLine("Enter the digit placed on this position: ");
+                digits[i] = (Digit)int.Parse(Console.ReadLine());
+            }
+            return new Move(digits, positions);
+        }
+        public static Position ReadPosition()
+        {
+            var parts = Console.ReadLine().Split(new char[] { ',', ' '});
+            return new Position(int.Parse(parts[0]), int.Parse(parts[1]));
+        }
         public static void EnterMove(BoardManager mger)
         {
-            Console.WriteLine("Enter move, as row1,col1:dig1; row2,col2:dig2...");
-            var tokens = Console.ReadLine().Split("; ");
-
-            var digits = new Digit[tokens.Length];
-            var positions = new Position[tokens.Length];
-
-            for (int i = 0; i < tokens.Length; i++)
-            {
-                var newToken = tokens[i].Split(":");
-                digits[i] = (Digit)int.Parse(newToken[1]);
-                var parts = newToken[0].Split(",");
-                positions[i] = new Position(int.Parse(parts[0]), int.Parse(parts[1]));
-            }
-
-            var move = new Move(placedDigits: digits, usedPositions: positions);
-            mger.EnterMove(move);
+            mger.EnterMove(ReadMove());
             mger.GetBoardContent().Print();
         }
         public static void TotalEmptiness(BoardManager mger)
@@ -82,22 +89,19 @@ namespace InteractiveConsoleTests
         public static void DigitOnPosition(BoardManager mger)
         {
             Console.WriteLine("Enter a position:");
-            var parts = Console.ReadLine().Split(",");
-            var pos = new Position(int.Parse(parts[0]), int.Parse(parts[1]));
+            var pos = ReadPosition();
             Console.WriteLine(mger.Board[pos]);
         }
         public static void ContainsZero(BoardManager mger)
         {
             Console.WriteLine("Enter a position:");
-            var parts = Console.ReadLine().Split(",");
-            var pos = new Position(int.Parse(parts[0]), int.Parse(parts[1]));
+            var pos = ReadPosition();
             Console.WriteLine(mger.Board.ContainsZero(pos));
         }
         public static void OccupiedPositions(BoardManager mger)
         {
             Console.WriteLine("Enter a position:");
-            var parts = Console.ReadLine().Split(",");
-            var pos = new Position(int.Parse(parts[0]), int.Parse(parts[1]));
+            var pos = ReadPosition();
             var occupied = mger.Board.GetAdjacentOccupiedPositions(pos);
             foreach (var oc in occupied)
             {
@@ -108,60 +112,38 @@ namespace InteractiveConsoleTests
         public static void PositionEmpty(BoardManager mger)
         {
             Console.WriteLine("Enter a position:");
-            var parts = Console.ReadLine().Split(",");
-            var pos = new Position(int.Parse(parts[0]), int.Parse(parts[1]));
+            var pos = ReadPosition();
             Console.WriteLine(mger.Board.IsPositionEmpty(pos));
         }
         public static void PositionStarting(BoardManager mger)
         {
             Console.WriteLine("Enter a position:");
-            var parts = Console.ReadLine().Split(",");
-            var pos = new Position(int.Parse(parts[0]), int.Parse(parts[1]));
+            var pos = ReadPosition();
             Console.WriteLine(mger.Board.IsStartingPosition(pos));
         }
         public static void AdjToOccupied(BoardManager mger)
         {
             Console.WriteLine("Enter a position:");
-            var parts = Console.ReadLine().Split(",");
-            var pos = new Position(int.Parse(parts[0]), int.Parse(parts[1]));
+            var pos = ReadPosition();
             Console.WriteLine(mger.Board.IsAdjacentToOccupiedPosition(pos));
         }
         public static void SectionAfterMove(BoardManager mger)
         {
             Console.WriteLine("Enter starting position:");
-            var parts = Console.ReadLine().Split(",");
-            var startPos = new Position(int.Parse(parts[0]), int.Parse(parts[1]));
+            var startPos = ReadPosition();
 
             Console.WriteLine("Enter ending position:");
-            parts = Console.ReadLine().Split(",");
-            var endingPos = new Position(int.Parse(parts[0]), int.Parse(parts[1]));
+            var endingPos = ReadPosition();
 
-            Console.WriteLine("Enter move, as row1,col1:dig1; row2,col2:dig2...");
-            var tokens = Console.ReadLine().Split("; ");
-
-            var digits = new Digit[tokens.Length];
-            var positions = new Position[tokens.Length];
-
-            for (int i = 0; i < tokens.Length; i++)
-            {
-                var newToken = tokens[i].Split(":");
-                digits[i] = (Digit)int.Parse(newToken[1]);
-                parts = newToken[0].Split(",");
-                positions[i] = new Position(int.Parse(parts[0]), int.Parse(parts[1]));
-            }
-            var move = new Move(placedDigits: digits, usedPositions: positions);
-
-            mger.Board.GetSectionAfterApplyingMove(startPos, endingPos, move).Print();
+            mger.Board.GetSectionAfterApplyingMove(startPos, endingPos, ReadMove()).Print();
         }
         public static void LongestFilledSectionBounds(BoardManager mger)
         {
             Console.WriteLine("Enter first position to be included (and to ignore vacancy):");
-            var parts = Console.ReadLine().Split(",");
-            var startPos = new Position(int.Parse(parts[0]), int.Parse(parts[1]));
+            var startPos = ReadPosition();
 
             Console.WriteLine("Enter second position to be included (and to ignore vacancy):");
-            parts = Console.ReadLine().Split(",");
-            var endingPos = new Position(int.Parse(parts[0]), int.Parse(parts[1]));
+            var endingPos = ReadPosition();
 
             Console.WriteLine("Vacancy of how many other positions should be ignored?");
             int posCount = int.Parse(Console.ReadLine());
@@ -169,9 +151,8 @@ namespace InteractiveConsoleTests
 
             for (int i = 0; i < posCount; i++)
             {
-                Console.WriteLine("Enter second position to be included (and to ignore vacancy):");
-                parts = Console.ReadLine().Split(",");
-                ignoreVacancy[i] = new Position(int.Parse(parts[0]), int.Parse(parts[1]));
+                Console.WriteLine("Enter position to ignore vacancy:");
+                ignoreVacancy[i] = ReadPosition();
             }
             mger.Board.GetLongestFilledSectionBounds((startPos,endingPos), ignoreVacancy).Print();
         }
@@ -181,20 +162,21 @@ namespace InteractiveConsoleTests
             while (true)
             {
                 var quit = false;
-                Console.WriteLine("What do you want to do?");
-                Console.WriteLine("q=quit");
-                Console.WriteLine("e=enter move");
-                Console.WriteLine("t=ask for total emptiness");
-                Console.WriteLine("d=ask for a digit on a position");
-                Console.WriteLine("z=contains zero");
-                Console.WriteLine("o=get adjacent occupied positions");
-                Console.WriteLine("pe=position empty");
-                Console.WriteLine("s=is starting position");
-                Console.WriteLine("aop = adj to occupied position");
-                Console.WriteLine("sam = section after move");
-                Console.WriteLine("lfs = longest filled section bounds");
-                Console.WriteLine("def = start with default board");
-
+                {
+                    Console.WriteLine("What do you want to do?");
+                    Console.WriteLine("q=quit");
+                    Console.WriteLine("e=enter move");
+                    Console.WriteLine("t=ask for total emptiness");
+                    Console.WriteLine("d=ask for a digit on a position");
+                    Console.WriteLine("z=contains zero");
+                    Console.WriteLine("o=get adjacent occupied positions");
+                    Console.WriteLine("pe=position empty");
+                    Console.WriteLine("s=is starting position");
+                    Console.WriteLine("aop = adj to occupied position");
+                    Console.WriteLine("sam = section after move");
+                    Console.WriteLine("lfs = longest filled section bounds");
+                    Console.WriteLine("def = start with default board");
+                }
 
                 var input = Console.ReadLine();
                 mger.GetBoardContent().Print();
