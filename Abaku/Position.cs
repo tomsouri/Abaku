@@ -155,6 +155,10 @@ namespace CommonTypes
         {
             return Row.CompareTo(other.Row) + Column.CompareTo(other.Column);
         }
+        public override string ToString()
+        {
+            return string.Format("(row:{0}, column:{1})", this.Row, this.Column);
+        }
     }
     
 }
