@@ -24,7 +24,7 @@ namespace CommonTypes
             }
             Value = val;
         }
-        public static explicit operator Digit (int i) => (Digit)i;
+        public static explicit operator Digit (int i) => new Digit((byte)i);
         public static implicit operator int (Digit d) => d.Value;
         public static implicit operator byte (Digit d) => d.Value;
 
