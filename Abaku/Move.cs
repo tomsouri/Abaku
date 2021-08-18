@@ -87,5 +87,14 @@ namespace CommonTypes
             }
             return false;
         }
+        public override string ToString()
+        {
+            var result = "";
+            foreach (var (digit, position) in this)
+            {
+                result += string.Format("{0}: {1}; ", position,digit);
+            }
+            return result.Substring(0, result.Length - 1);
+        }
     }
 }
