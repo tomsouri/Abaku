@@ -44,5 +44,9 @@ namespace CommonTypes
         {
             return Value.GetHashCode();
         }
+        public override string ToString()
+        {
+            return this.Value.ToString();
+        }
     }
 }
