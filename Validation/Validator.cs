@@ -53,13 +53,11 @@ namespace Validation
         /// <returns>True if the positions are valid.</returns>
         private static bool CheckPositionsValidity(IEnumerable<Position> positions, IBoard board)
         {
-
-            if (!positions.ArePairwiseDistinct()) return false;
-            if (!positions.AllPositionsInSameRowOrColumn()) return false;
-            if (!AllPositionsEmpty(positions, board)) return false;
-            if (!NoGapBetweenFirstAndLastPosition(positions, board)) return false;
-            if (!OccupiesTheRightPositions(positions, board)) return false;
-            return true;
+            return positions.ArePairwiseDistinct() &&
+                positions.AllPositionsInSameRowOrColumn() &&
+                AllPositionsEmpty(positions, board) &&
+                NoGapBetweenFirstAndLastPosition(positions, board) &&
+                OccupiesTheRightPositions(positions, board);
         }
 
         /// <summary>
