@@ -11,79 +11,6 @@ namespace InteractiveConsoleTests
 {
     internal static class BoardManagingTest
     {
-        public static Move GetInitializingMove()
-        {
-            var positions = new Position[]
-            {
-                new(3,9),
-                new(4,9),
-                new(4,10),
-                new(4,11),
-                new(4,12),
-                new(4,13),
-                new(4,14),
-                new(5,7),
-                new(5,8),
-                new(5,9),
-                new(6,7),
-                new(6,9),
-                new(7,7),
-                new(7,8),
-                new(7,9),
-                new(7,10),
-                new(7,11),
-                new(7,12),
-                new(7,13),
-                new(7,14),
-                new(8,8),
-                new(8,10),
-                new(8,12),
-                new(9,8),
-                new(9,10),
-                new(9,12),
-                new(10,8),
-                new(11,8),
-                new(11,9),
-                new(11,10),
-                new(12,10),
-                new(13,10),
-                new(14,10)
-            };
-            var ints = new int[] { 6, 3, 9, 8, 1, 1, 2, 7, 2, 9, 2, 7, 9, 7, 2, 6, 8, 2, 1, 0, 2, 1, 4, 5, 7, 6, 1, 6, 3, 9, 5, 1, 4 };
-            var digits = new Digit[ints.Length];
-            for (int i = 0; i < ints.Length; i++)
-            {
-                digits[i] = (Digit)ints[i];
-            }
-            return new Move(digits, positions);
-        }
-        public static Move ReadMove()
-        {
-            Console.WriteLine("How many digits are you going to place?");
-            int count = int.Parse(Console.ReadLine());
-
-            var positions = new Position[count];
-            var digits = new Digit[count];
-
-            for (int i = 0; i < count; i++)
-            {
-                Console.WriteLine("Enter a position: ");
-                positions[i] = ReadPosition();
-                Console.WriteLine("Enter the digit placed on this position: ");
-                digits[i] = (Digit)int.Parse(Console.ReadLine());
-            }
-            return new Move(digits, positions);
-        }
-        public static Position ReadPosition()
-        {
-            var parts = Console.ReadLine().Split(new char[] { ',', ' '});
-            return new Position(int.Parse(parts[0]), int.Parse(parts[1]));
-        }
-        public static void EnterMove(BoardManager mger)
-        {
-            mger.EnterMove(ReadMove());
-            mger.GetBoardContent().Print();
-        }
         public static void TotalEmptiness(BoardManager mger)
         {
             Console.WriteLine("Is totally empty: {0}", mger.Board.IsEmpty());
@@ -91,19 +18,19 @@ namespace InteractiveConsoleTests
         public static void DigitOnPosition(BoardManager mger)
         {
             Console.WriteLine("Enter a position:");
-            var pos = ReadPosition();
+            var pos = Common.ReadPosition();
             Console.WriteLine(mger.Board[pos]);
         }
         public static void ContainsZero(BoardManager mger)
         {
             Console.WriteLine("Enter a position:");
-            var pos = ReadPosition();
+            var pos = Common.ReadPosition();
             Console.WriteLine(mger.Board.ContainsZero(pos));
         }
         public static void OccupiedPositions(BoardManager mger)
         {
             Console.WriteLine("Enter a position:");
-            var pos = ReadPosition();
+            var pos = Common.ReadPosition();
             var occupied = mger.Board.GetAdjacentOccupiedPositions(pos);
             foreach (var oc in occupied)
             {
@@ -114,38 +41,38 @@ namespace InteractiveConsoleTests
         public static void PositionEmpty(BoardManager mger)
         {
             Console.WriteLine("Enter a position:");
-            var pos = ReadPosition();
+            var pos = Common.ReadPosition();
             Console.WriteLine(mger.Board.IsPositionEmpty(pos));
         }
         public static void PositionStarting(BoardManager mger)
         {
             Console.WriteLine("Enter a position:");
-            var pos = ReadPosition();
+            var pos = Common.ReadPosition();
             Console.WriteLine(mger.Board.IsStartingPosition(pos));
         }
         public static void AdjToOccupied(BoardManager mger)
         {
             Console.WriteLine("Enter a position:");
-            var pos = ReadPosition();
+            var pos = Common.ReadPosition();
             Console.WriteLine(mger.Board.IsAdjacentToOccupiedPosition(pos));
         }
         public static void SectionAfterMove(BoardManager mger)
         {
             Console.WriteLine("Enter starting position:");
-            var startPos = ReadPosition();
+            var startPos = Common.ReadPosition();
 
             Console.WriteLine("Enter ending position:");
-            var endingPos = ReadPosition();
+            var endingPos = Common.ReadPosition();
 
-            mger.Board.GetSectionAfterApplyingMove(startPos, endingPos, ReadMove()).Print();
+            mger.Board.GetSectionAfterApplyingMove(startPos, endingPos, Common.ReadMove()).Print();
         }
         public static void LongestFilledSectionBounds(BoardManager mger)
         {
             Console.WriteLine("Enter first position to be included (and to ignore vacancy):");
-            var startPos = ReadPosition();
+            var startPos = Common.ReadPosition();
 
             Console.WriteLine("Enter second position to be included (and to ignore vacancy):");
-            var endingPos = ReadPosition();
+            var endingPos = Common.ReadPosition();
 
             Console.WriteLine("Vacancy of how many other positions should be ignored?");
             int posCount = int.Parse(Console.ReadLine());
@@ -154,7 +81,7 @@ namespace InteractiveConsoleTests
             for (int i = 0; i < posCount; i++)
             {
                 Console.WriteLine("Enter position to ignore vacancy:");
-                ignoreVacancy[i] = ReadPosition();
+                ignoreVacancy[i] = Common.ReadPosition();
             }
             mger.Board.GetLongestFilledSectionBounds((startPos,endingPos), ignoreVacancy).Print();
         }
@@ -188,7 +115,7 @@ namespace InteractiveConsoleTests
                         quit = true;
                         break;
                     case "e":
-                        EnterMove(mger);
+                        Common.EnterMove(mger);
                         break;
                     case "t":
                         TotalEmptiness(mger);
@@ -219,7 +146,7 @@ namespace InteractiveConsoleTests
                         break;
                     case "def":
                         mger = new BoardManager();
-                        mger.EnterMove(GetInitializingMove());
+                        mger.EnterMove(Common.GetInitializingMove());
                         mger.GetBoardContent().Print();
                         break;
                     default:
