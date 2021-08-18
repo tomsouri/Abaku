@@ -121,6 +121,10 @@ namespace Validation
         /// <returns>True if it is ok.</returns>
         private static bool CheckFormulas(Move move, IBoard board, IFormulaIdentifier formulaIdentifier, Digit[] auxiliaryArray = null)
         {
+            if (move.GetPositions().Count() == 1)
+            {   // the move placed only one digit. No need to check, whether they are all contained in one formula.
+                return CheckAdjacentOccupiedPositions(move, board, formulaIdentifier, auxiliaryArray);
+            }
             return ContainsFormulaFromFirstStoneToLast(move, board, formulaIdentifier, auxiliaryArray) &&
                 CheckAdjacentOccupiedPositions(move, board, formulaIdentifier, auxiliaryArray);
 
@@ -142,61 +146,6 @@ namespace Validation
             var (min, max) = positions.FindMinAndMax();
             return boardAfterMove.ContainsFormulaIncludingPositions(min, max, formulaIdentifier, auxiliaryArray);
         }
-        /*
-        /// <summary>
-        /// Every adjacent (and already occupied) position must fulfill some concrete condition.
-        /// That is, it contains zero or neighbors with zero, or contains a formula together with
-        /// the adjacent placed stone.
-        /// </summary>
-        /// <param name="move"></param>
-        /// <param name="board"></param>
-        /// <param name="formulaIdentifier"></param>
-        /// <returns></returns>
-        private static bool CheckAdjOccupiedPositions(Move move, IBoard board, IFormulaIdentifier formulaIdentifier)
-        {
-            // If it is not the first move, at least one adjacent position must be used in some formula.
-            bool isSomeOccupiedPositionUsedInFormula = false;
-            if (board.IsEmpty())
-            { // it is the first move
-                isSomeOccupiedPositionUsedInFormula = true;
-            }
-
-            var positions = move.GetPositions();
-            var (min, max) = positions.FindMinAndMax();
-
-            var boardAfterMove = new BoardAfterMove(board, move);
-
-            foreach (var position in positions)
-            {
-                foreach (var adjacent in board.GetAdjacentOccupiedPositions(position))
-                {
-                    if ((min <= adjacent) && (adjacent <= max))
-                    {
-                        // The adjacent position is between the first and last placed stone, that is,
-                        // it is already included in the base formula.
-                        isSomeOccupiedPositionUsedInFormula = true;
-                    }
-                    else
-                    {
-                        if (boardAfterMove.ContainsFormulaIncludingPositions(position, adjacent, formulaIdentifier))
-                        {
-                            // It is ok, the adjacent position is included in a formula.
-                            isSomeOccupiedPositionUsedInFormula = true;
-                        }
-                        else
-                        {
-                            // it has to be adjacent through zero number.
-                            if (!boardAfterMove.ContainsZero(position) && !board.ContainsZero(adjacent))
-                            {
-                                return false;
-                            }
-                        }
-                    }
-                }
-            }
-            return isSomeOccupiedPositionUsedInFormula;
-        }
-*/
         /// <summary>
         /// Every adjacent (and already occupied) position must fulfill some concrete condition.
         /// That is, it contains zero or neighbors with zero, or contains a formula together with
