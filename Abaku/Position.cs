@@ -90,7 +90,7 @@ namespace CommonTypes
         /// <param name="p1"></param>
         /// <param name="p2"></param>
         /// <returns>The manhattan distance of the two points.</returns>
-        public static int operator -(Position p1, Position p2) => p2.Row - p1.Row + p2.Column - p1.Column;
+        public static int operator -(Position p1, Position p2) => p1.Row - p2.Row + p1.Column - p2.Column;
         public static Position operator +(Position p1, Position p2) => new(p1.Row + p2.Row, p1.Column + p2.Column);
         public bool Equals(Position other)
         {
