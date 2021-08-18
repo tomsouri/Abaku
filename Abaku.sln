@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Optimizing", "Optimizing\Op
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Extensions", "Extensions\Extensions.csproj", "{948CE076-59D0-408F-A792-1ABF27959390}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OperationManagingConsoleTests", "OperationManagingConsoleTests\OperationManagingConsoleTests.csproj", "{A9C3A151-FFAB-4F55-9379-69EE5E79FE44}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteractiveConsoleTests", "OperationManagingConsoleTests\InteractiveConsoleTests.csproj", "{A9C3A151-FFAB-4F55-9379-69EE5E79FE44}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

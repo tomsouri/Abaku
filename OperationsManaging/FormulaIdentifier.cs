@@ -10,7 +10,6 @@ using ReadOnlyListExtensions.Sections;
 using ReadOnlyListDigitExtensions;
 using EnumerableExtensions;
 
-[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("OperationManagingConsoleTests")]
 
 namespace OperationsManaging
 {
