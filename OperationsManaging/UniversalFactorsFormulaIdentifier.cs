@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 using EnumerableCombineExtensions;
 
+
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("OperationManagingConsoleTests")]
 namespace OperationsManaging
 {
     internal class UniversalFactorsFormulaIdentifier : IUniversalFactorsFormulaIdentifier
