@@ -11,6 +11,50 @@ namespace InteractiveConsoleTests
 {
     internal static class BoardManagingTest
     {
+        public static Move GetInitializingMove()
+        {
+            var positions = new Position[]
+            {
+                new(3,9),
+                new(4,9),
+                new(4,10),
+                new(4,11),
+                new(4,12),
+                new(4,13),
+                new(4,14),
+                new(5,7),
+                new(5,8),
+                new(5,9),
+                new(6,7),
+                new(6,9),
+                new(7,7),
+                new(7,8),
+                new(7,9),
+                new(7,10),
+                new(7,11),
+                new(7,12),
+                new(7,13),
+                new(7,14),
+                new(8,8),
+                new(8,10),
+                new(8,12),
+                new(9,8),
+                new(9,10),
+                new(9,12),
+                new(10,8),
+                new(11,8),
+                new(11,9),
+                new(11,10),
+                new(12,10),
+                new(13,10),
+                new(14,10)
+            };
+            var digits = new Digit[]
+            {
+                6,3,9,8,1,1,2,7,2,9,2,7,9,7,2,6,8,2,1,0,2,1,4,5,7,6,1,6,3,9,5,1,4
+            };
+            return new Move(digits, positions);
+        }
         public static void EnterMove(BoardManager mger)
         {
             Console.WriteLine("Enter move, as row1,col1:dig1; row2,col2:dig2...");
@@ -149,7 +193,7 @@ namespace InteractiveConsoleTests
                 Console.WriteLine("aop = adj to occupied position");
                 Console.WriteLine("sam = section after move");
                 Console.WriteLine("lfs = longest filled section bounds");
-                Console.WriteLine();
+                Console.WriteLine("def = start with default board");
 
 
                 var input = Console.ReadLine();
@@ -188,6 +232,11 @@ namespace InteractiveConsoleTests
                         break;
                     case "lfs":
                         LongestFilledSectionBounds(mger);
+                        break;
+                    case "def":
+                        mger = new BoardManager();
+                        mger.EnterMove(GetInitializingMove());
+                        mger.GetBoardContent().Print();
                         break;
                     default:
                         break;
