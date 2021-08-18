@@ -1,7 +1,7 @@
 ﻿using System;
 
 using OperationsManaging;
-
+using CommonTypes;
 
 namespace OperationManagingConsoleTests
 {
@@ -30,9 +30,35 @@ namespace OperationManagingConsoleTests
                 Console.WriteLine("Press Q + Enter to quit this test.");
             }
         }
+        static void FormulaIdentifierInteractiveTest()
+        {
+            var flaIfier = new FormulaIdentifier(new UniversalFactorsFormulaIdentifier());
+            Console.WriteLine("Formula identifier test.");
+            Console.WriteLine("Enter string of digits (parted by commas) to be considered as formula and press Enter.");
+            while (true)
+            {
+                var input = Console.ReadLine();
+                if (input[0] == 'q') break;
+
+                var digits = new Digit[input.Length];
+                for (int i = 0; i < input.Length; i++)
+                {
+                    digits[i] = (Digit)(int.Parse(input[i].ToString()));
+                }                
+                
+                var isFormula = flaIfier.IsFormula(digits);
+                Console.WriteLine(isFormula);
+                if (isFormula)
+                {
+                    Console.WriteLine(flaIfier.GetFormulaString(digits));
+                }
+                Console.WriteLine("Press Q + Enter to quit this test.");
+            }
+        }
         static void Main(string[] args)
         {
             UniversalFactorsFormulaIdentifierInteractiveTest();
+            FormulaIdentifierInteractiveTest();
         }
     }
 }
