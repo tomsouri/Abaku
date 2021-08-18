@@ -7,7 +7,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Abaku\CommonTypes.csproj" />
+    <ProjectReference Include="..\BoardController\BoardController.csproj" />
+    <ProjectReference Include="..\BoardManaging\BoardManaging.csproj" />
+    <ProjectReference Include="..\Evaluation\Evaluation.csproj" />
+    <ProjectReference Include="..\Extensions\Extensions.csproj" />
     <ProjectReference Include="..\OperationsManaging\OperationsManaging.csproj" />
+    <ProjectReference Include="..\Optimizing\Optimizing.csproj" />
+    <ProjectReference Include="..\Validation\Validation.csproj" />
   </ItemGroup>
 
 </Project>

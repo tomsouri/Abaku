@@ -10,6 +10,18 @@ namespace InteractiveConsoleTests
 {
     public static class PrintingExtension
     {
+        public static void Print<T>(this (T,T) tuple)
+        {
+            Console.WriteLine("{0}; {1}", tuple.Item1, tuple.Item2);
+        }
+        public static void Print(this IEnumerable<Digit> line)
+        {
+            foreach (var digit in line)
+            {
+                Console.Write("{0} ", digit);
+            }
+            Console.WriteLine();
+        }
         public static void Print(this Digit?[][] board)
         {
             Console.WriteLine("-------------------------------------------------");
