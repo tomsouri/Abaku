@@ -126,7 +126,7 @@ namespace BoardManaging
             // what if start and end are the same?
             if (start == end)
             {
-                var digit = this[start];
+                var digit = this[start] ?? move[start];
                 if (digit == null)
                 {
                     // invalid move
