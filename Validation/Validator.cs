@@ -121,11 +121,8 @@ namespace Validation
         /// <returns>True if it is ok.</returns>
         private static bool CheckFormulas(Move move, IBoard board, IFormulaIdentifier formulaIdentifier, Digit[] auxiliaryArray = null)
         {
-            if (ContainsFormulaFromFirstStoneToLast(move, board, formulaIdentifier, auxiliaryArray))
-            {
-                return CheckAdjacentOccupiedPositions(move, board, formulaIdentifier, auxiliaryArray);
-            }
-            return false;
+            return ContainsFormulaFromFirstStoneToLast(move, board, formulaIdentifier, auxiliaryArray) &&
+                CheckAdjacentOccupiedPositions(move, board, formulaIdentifier, auxiliaryArray);
 
         }
 
