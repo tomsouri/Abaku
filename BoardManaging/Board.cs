@@ -92,23 +92,24 @@ namespace BoardManaging
                 }
             }
 
-            return GetLongestFilledSectionBoundsWithoutVacancyCheck(
-                ToBeContained, ToBeContained.first.GetDirectionTo(ToBeContained.last));
+            return GetLongestFilledSectionBoundsWithoutVacancyCheckBetweenContained(
+                ToBeContained, ToBeContained.first.GetDirectionTo(ToBeContained.last), ignoreVacancy);
         }
 
         public (Position start, Position end) GetLongestFilledSectionBounds(Position ToBeContained, Direction direction)
         {
-            return GetLongestFilledSectionBoundsWithoutVacancyCheck((ToBeContained, ToBeContained), direction);
+            return GetLongestFilledSectionBoundsWithoutVacancyCheckBetweenContained((ToBeContained, ToBeContained), direction, Enumerable.Empty<Position>());
         }
-        private (Position start, Position end) GetLongestFilledSectionBoundsWithoutVacancyCheck
-            ((Position first, Position last) ToBeContained, Direction direction)
+        private (Position start, Position end) GetLongestFilledSectionBoundsWithoutVacancyCheckBetweenContained
+            ((Position first, Position last) ToBeContained, Direction direction,
+            IEnumerable<Position> ignoreVacancy)
         {
             var (first, last) = ToBeContained;
 
             if (first > last) (first, last) = (last, first);
 
-            while (this[first - direction] != null) first -= direction;
-            while (this[last + direction] != null) last += direction;
+            while (this[first - direction] != null || ignoreVacancy.Contains(first-direction)) first -= direction;
+            while (this[last + direction] != null || ignoreVacancy.Contains(last+direction)) last += direction;
 
             return (first, last);
         }
