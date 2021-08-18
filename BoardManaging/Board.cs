@@ -186,6 +186,7 @@ namespace BoardManaging
                 {
                     row[columnNumber] = _board[rowNumber][columnNumber];
                 }
+                result[rowNumber] = row;
             }
             return result;
         }
