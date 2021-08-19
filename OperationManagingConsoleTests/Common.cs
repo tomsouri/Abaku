@@ -13,12 +13,28 @@ namespace InteractiveConsoleTests
         public static Digit[] GetDigitsFromHand()
         {
             Console.WriteLine("Enter the digits you have in your hand (separated by space or comma):");
-            var tokens = Console.ReadLine().Split(new char[] { ',', ' ' });
-            var digits = new Digit[tokens.Length];
-            for (int i = 0; i < tokens.Length; i++)
+            Digit[] digits = null;
+            bool isValid = false;
+            while (!isValid)
             {
-                digits[i] = (Digit)int.Parse(tokens[i]);
+                isValid = true;
+                var tokens = Console.ReadLine().Split(new char[] { ',', ' ' });
+                digits = new Digit[tokens.Length];
+                for (int i = 0; i < tokens.Length; i++)
+                {
+                    isValid &= int.TryParse(tokens[i], out int result);
+                    if (result < 0 || result > 9) isValid = false;
+                    if (isValid)
+                    {
+                        digits[i] = (Digit)result;
+                    }   
+                }
+                if (!isValid)
+                {
+                    Console.WriteLine("Please enter correct digits (that is numbers from 0 to 9), separated by space or comma.");
+                }
             }
+
             return digits;
         }
         public static Move GetInitializingMove()
