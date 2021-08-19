@@ -13,8 +13,8 @@ namespace Evaluation
         private DefaultEvaluationBoard()
         {
             // TODO: change to BoardEncoding, when using the complicated basic eval board
-            //var reader = new StringReader(BoardEncoding);
-            var reader = new StringReader(SimpleBoardEncoding);
+            var reader = new StringReader(BoardEncoding);
+            //var reader = new StringReader(SimpleBoardEncoding);
             (_board, StartPosition) = EvaluationBoardBuilder.GetBoardFromReader(reader);
             reader.Dispose();
 
