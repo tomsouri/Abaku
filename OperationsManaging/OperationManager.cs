@@ -66,26 +66,18 @@ namespace OperationsManaging
                 var unaryDescriptionsAndLambdas = 
                     new List<(string description, string operationString, UnaryOperationDelegate operation)>()
                 {
-                    ("Square root", "^1/2", (long factor, long result) => 
-                        factor!=0 && result!=0 && result*result == factor),
-                    ("Cube root", "^1/3", (long factor, long result) => 
-                        factor!=0 && result!=0 && result*result*result == factor),
-                    ("Second power", "^2", (long factor, long result) => 
-                        factor!=0 && result!=0 && factor*factor == result),
-                    ("Third power", "^3", (long factor, long result) =>  
-                        factor!=0 && result!=0 && factor*factor*factor == result)
+                    ("Square root", "^1/2", (long factor, long result) => result*result == factor),
+                    ("Cube root", "^1/3", (long factor, long result) => result*result*result == factor),
+                    ("Second power", "^2", (long factor, long result) => factor*factor == result),
+                    ("Third power", "^3", (long factor, long result) => factor*factor*factor == result)
                 };
                 var binaryDescriptionsAndLambdas = 
                     new List<(string description, string operationString, BinaryOperationDelegate operation)>()
                 {
-                    ("Addition", "+", (long a, long b, long result) =>
-                        a!=0 && b!=0 && result !=0 && a + b == result),
-                    ("Subtraction", "-", (long a, long b, long result) =>
-                        a!=0 && b!=0 && result !=0 && a - b == result),
-                    ("Multiplication", "*", (long a, long b, long result) =>
-                        a!=0 && b!=0 && result !=0 && a * b == result),
-                    ("Division", "/", (long a, long b, long result) =>
-                        a!=0 && b!=0 && result !=0 && a == b * result)
+                    ("Addition", "+", (long a, long b, long result) => a + b == result),
+                    ("Subtraction", "-", (long a, long b, long result) => a - b == result),
+                    ("Multiplication", "*", (long a, long b, long result) => a * b == result),
+                    ("Division", "/", (long a, long b, long result) => a == b * result)
                 };
                 unaryIdentifiers = new List<UnaryIdentifier>();
                 binaryIdentifiers = new List<BinaryIdentifier>();
