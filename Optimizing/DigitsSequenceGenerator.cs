@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using CommonTypes;
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("InteractiveConsoleTests")]
 
 namespace Optimizing
 {

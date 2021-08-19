@@ -11,7 +11,6 @@ using Validation;
 
 using System.Diagnostics;
 
-[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("InteractiveConsoleTests")]
 
 namespace Optimizing
 {
