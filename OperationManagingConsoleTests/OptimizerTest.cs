@@ -21,6 +21,29 @@ namespace InteractiveConsoleTests
             var digits = GetDigitsFromHand();
             var bestMove = optimizer.GetBestMove(digits, (IExtendedBoard)boardMger.Board, formulaIdentifier,
                                                  (IUnsafeEvaluator)evaluator, (IUnsafeValidator)validator);
+
+            if (bestMove == null)
+            {
+                Console.WriteLine("There is no valid move in the current situation.");
+            }
+            else
+            {
+                var evalMove = (EvaluatedMove)bestMove;
+                Console.WriteLine("The best move: ");
+                Console.WriteLine(evalMove.Move);
+                Console.WriteLine("The score you get for it: ", evalMove.Score);
+                Console.WriteLine("To enter the move just press Enter... (to skip press X)");
+                var input = Console.ReadLine();
+                if (input.Length >= 1 && input[0] == 'x')
+                {
+                    // do nothing
+                }
+                else
+                {
+                    boardMger.EnterMove(evalMove.Move);
+                }
+            }
+
         }
         public static Digit[] GetDigitsFromHand()
         {
@@ -66,7 +89,7 @@ namespace InteractiveConsoleTests
                         EvaluatorTest.EvaluateAndEnterMove(boardMger, opMger.FlaIdentifier, validator, evaluator);
                         break;
                     case "b":
-
+                        FindBestMove(boardMger,opMger.FlaIdentifier, validator,evaluator,optimizer);
                         break;
                     case "def":
                         boardMger = new BoardManager();
