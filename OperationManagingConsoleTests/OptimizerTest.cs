@@ -15,6 +15,20 @@ namespace InteractiveConsoleTests
 {
     internal static class OptimizerTest
     {
+        public static void TestSequenceGenerator()
+        {
+            while (true)
+            {
+                var digits = GetDigitsFromHand();
+                var sequences = DigitsSequenceGenerator.GetAllSequences(digits);
+                Console.WriteLine("Generated sequences:");
+                foreach (var seq in sequences)
+                {
+                    seq.Print();
+                }
+                Console.WriteLine("The end of generated sequences.");
+            }
+        }
         public static void FindBestMove(BoardManager boardMger, IFormulaIdentifier formulaIdentifier,
                                         IValidator validator, IEvaluationManager evaluator, IOptimizer optimizer)
         {
