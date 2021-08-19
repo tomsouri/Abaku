@@ -49,12 +49,27 @@ namespace InteractiveConsoleTests
                 new(14,10)
             };
             var ints = new int[] { 6, 3, 9, 8, 1, 1, 2, 7, 2, 9, 2, 7, 9, 7, 2, 6, 8, 2, 1, 0, 2, 1, 4, 5, 7, 6, 1, 6, 3, 9, 5, 1, 4 };
+            return new Move(ints.ConvertToDigits(), positions);
+        }
+        public static Digit[] ConvertToDigits(this int[] ints)
+        {
             var digits = new Digit[ints.Length];
             for (int i = 0; i < ints.Length; i++)
             {
                 digits[i] = (Digit)ints[i];
             }
-            return new Move(digits, positions);
+            return digits;
+        }
+        public static Move GetSimpleInitializingMove()
+        {
+            var positions = new Position[]
+            {
+                new(7,6),
+                new(7,7),
+                new(7,8)
+            };
+            var ints = new int[] { 1, 5, 6 };
+            return new Move(ints.ConvertToDigits(), positions);
         }
         public static Move ReadMove()
         {
