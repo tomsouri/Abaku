@@ -43,9 +43,13 @@ namespace Optimizing
         /// so the digits won't be totally nonadjacent if placed here.
         /// </summary>
         private DirectionIndexedTuple<List<Position>[]> SuitablePositionsLists;
+        private Position StartingPosition { get; }
+        private bool IsTotallyEmpty { get; }
         public OptimizerBoard(IExtendedBoard extendedBoard, int digitsCount)
         {
             _board = CreateBoard(extendedBoard);
+            IsTotallyEmpty = extendedBoard.IsEmpty();
+            StartingPosition = extendedBoard.StartingPosition;
             InitializeSuitablePositionsLists(digitsCount);
         }
         private static Board CreateBoard(IExtendedBoard extendedBoard)
@@ -97,7 +101,23 @@ namespace Optimizing
         }
         public IEnumerable<Position> GetPositionsSuitableForDigitsCount(Direction direction, int digitsCount)
         {
-            return SuitablePositionsLists[direction][digitsCount - 1];
+            if (IsTotallyEmpty)
+            {
+                // totally first move
+                var current = StartingPosition;
+                for (int i = 0; i < digitsCount; i++)
+                {
+                    yield return current;
+                    current -= direction;
+                }
+            }
+            else
+            {
+                foreach (var item in SuitablePositionsLists[direction][digitsCount - 1])
+                {
+                    yield return item;
+                }
+            }
         }
 
         public IReadOnlyList<Position> GetEmptyPositionsBeyond(Position position, Direction direction, int count)
