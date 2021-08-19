@@ -12,7 +12,7 @@ namespace Evaluation
     {
         private DefaultEvaluationBoard()
         {
-            var reader = new StringReader(BoardEncoding);
+            var reader = new StringReader(SimpleBoardEncoding);
             (_board, StartPosition) = EvaluationBoardBuilder.GetBoardFromReader(reader);
             reader.Dispose();
 
@@ -105,6 +105,22 @@ namespace Evaluation
 121111111611131
 113111212111211
 911211191113119";
+        private static string SimpleBoardEncoding = @"111111111111111
+111111111111111
+111111111111111
+111111111111111
+111111111111111
+111111111111111
+111111111111111
+111111111111111
+111111111111111
+111111111111111
+111111111111111
+111111111111111
+111111111111111
+111111111111111
+111111111111111
+";
         private IReadOnlyList<IReadOnlyList<PositionEvaluationInfo>> _board { get; } 
         private int Rows { get; } 
         private int Columns { get; } 
