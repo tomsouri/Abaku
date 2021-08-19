@@ -9,7 +9,7 @@ using ReadOnlyListExtensions.Splitting;
 using ReadOnlyListExtensions.Sections;
 using ReadOnlyListDigitExtensions;
 using EnumerableExtensions;
-
+using TupleAndArrayValidationExtensions;
 
 namespace OperationsManaging
 {
@@ -90,6 +90,7 @@ namespace OperationsManaging
         {
             
             return digits.SplitIntoTwoParts().
+                GetOnlyValidTuples(item => item.RepresentsValidNumber()).
                 GetResults(digitsTuple => digitsTuple.ToLong()).
                 GetResults(FactorsIdentifier.GetFormulaString).
                 FindFirstNotNull();
@@ -105,6 +106,7 @@ namespace OperationsManaging
         private string GetBinaryFormulaString(IReadOnlyList<Digit> digits)
         {
             return digits.SplitIntoThreeParts().
+                GetOnlyValidTuples(item => item.RepresentsValidNumber()).
                 GetResults(digitsTuple => digitsTuple.ToLong()).
                 GetResults(FactorsIdentifier.GetFormulaString).
                 FindFirstNotNull();
@@ -121,6 +123,7 @@ namespace OperationsManaging
         private string GetOtherFormulaString(IReadOnlyList<Digit> digits, int arity)
         {
             return digits.SplitIntoParts(arity).
+                    GetOnlyValidArrays(item => item.RepresentsValidNumber()).
                     GetResults(parts => parts.ToLong()).
                     GetResults(FactorsIdentifier.GetFormulaString).
                     FindFirstNotNull();
@@ -160,6 +163,7 @@ namespace OperationsManaging
         private bool IsUnaryFormula(IReadOnlyList<Digit> digits)
         {
             return digits.SplitIntoTwoParts().
+                GetOnlyValidTuples(item => item.RepresentsValidNumber()).
                 GetResults(digitsTuple => digitsTuple.ToLong()).
                 GetResults(FactorsIdentifier.IsFormula).
                 Contains(true);
@@ -173,6 +177,7 @@ namespace OperationsManaging
         private bool IsBinaryFormula(IReadOnlyList<Digit> digits)
         {
             return digits.SplitIntoThreeParts().
+                GetOnlyValidTuples(item => item.RepresentsValidNumber()).
                 GetResults(digitsTuple => digitsTuple.ToLong()).
                 GetResults(FactorsIdentifier.IsFormula).
                 Contains(true);
@@ -188,6 +193,7 @@ namespace OperationsManaging
         private bool IsOtherFormula(IReadOnlyList<Digit> digits, int arity)
         {
             return digits.SplitIntoParts(arity).
+                GetOnlyValidArrays(item => item.RepresentsValidNumber()).
                 GetResults(parts => parts.ToLong()).
                 GetResults(FactorsIdentifier.IsFormula).
                 Contains(true);
