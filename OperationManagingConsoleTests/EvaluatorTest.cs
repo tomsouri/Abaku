@@ -21,10 +21,9 @@ namespace InteractiveConsoleTests
             Console.WriteLine("Is valid: " + validator.IsValid(move, boardMger.Board, formulaIdentifier));
             Console.WriteLine("Score you get: " + evaluator.Evaluate(move,boardMger.Board,formulaIdentifier,validator.IsValid));
         }
-        public static void EvaluateAndEnterMove(BoardManager boardMger, IFormulaIdentifier formulaIdentifier, IValidator validator,
+        public static void EvaluateAndEnterMove(Move move, BoardManager boardMger, IFormulaIdentifier formulaIdentifier, IValidator validator,
                             IEvaluationManager evaluator)
         {
-            var move = Common.ReadMove();
             var valid = validator.IsValid(move, boardMger.Board, formulaIdentifier);
             Console.WriteLine("Is valid: " + valid);
             Console.WriteLine("Score you get: " + evaluator.Evaluate(move, boardMger.Board, formulaIdentifier, validator.IsValid));
@@ -74,7 +73,7 @@ namespace InteractiveConsoleTests
                         while (true)
                         {
                             boardMger.GetBoardContent().Print();
-                            EvaluateAndEnterMove(boardMger, opMger.FlaIdentifier,validator,evaluator);
+                            EvaluateAndEnterMove(Common.ReadMove(), boardMger, opMger.FlaIdentifier,validator,evaluator);
                             Console.WriteLine("Press Enter to continue...");
                             Console.ReadLine();
                         }

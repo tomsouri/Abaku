@@ -27,8 +27,8 @@ namespace InteractiveConsoleTests
         }
         static void Optimization()
         {
-            //OptimizerTest.Test();
-            OptimizerTest.TestSequenceGenerator();
+            OptimizerTest.Test();
+            //OptimizerTest.TestSequenceGenerator();
         }
         static void Main(string[] args)
         {

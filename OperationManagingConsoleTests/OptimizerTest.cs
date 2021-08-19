@@ -45,7 +45,7 @@ namespace InteractiveConsoleTests
                 var evalMove = (EvaluatedMove)bestMove;
                 Console.WriteLine("The best move: ");
                 Console.WriteLine(evalMove.Move);
-                Console.WriteLine("The score you get for it: ", evalMove.Score);
+                Console.WriteLine("The score you get for it: {0}", evalMove.Score);
                 Console.WriteLine("To enter the move just press Enter... (to skip press X)");
                 var input = Console.ReadLine();
                 if (input.Length >= 1 && input[0] == 'x')
@@ -54,7 +54,7 @@ namespace InteractiveConsoleTests
                 }
                 else
                 {
-                    boardMger.EnterMove(evalMove.Move);
+                    EvaluatorTest.EvaluateAndEnterMove(evalMove.Move, boardMger, formulaIdentifier, validator, evaluator);
                 }
             }
 
@@ -88,6 +88,7 @@ namespace InteractiveConsoleTests
                     Console.WriteLine("s=enter move with evaluation");
                     Console.WriteLine("b=find best move");
                     Console.WriteLine("def = start with default board");
+                    Console.WriteLine("d = start with simple default board");
                 }
                 var input = Console.ReadLine();
                 boardMger.GetBoardContent().Print();
@@ -100,7 +101,7 @@ namespace InteractiveConsoleTests
                         Common.EnterMove(boardMger);
                         break;
                     case "s":
-                        EvaluatorTest.EvaluateAndEnterMove(boardMger, opMger.FlaIdentifier, validator, evaluator);
+                        EvaluatorTest.EvaluateAndEnterMove(Common.ReadMove(),boardMger, opMger.FlaIdentifier, validator, evaluator);
                         break;
                     case "b":
                         FindBestMove(boardMger,opMger.FlaIdentifier, validator,evaluator,optimizer);
@@ -108,6 +109,11 @@ namespace InteractiveConsoleTests
                     case "def":
                         boardMger = new BoardManager();
                         boardMger.EnterMove(Common.GetInitializingMove());
+                        boardMger.GetBoardContent().Print();
+                        break;
+                    case "d":
+                        boardMger = new BoardManager();
+                        boardMger.EnterMove(Common.GetSimpleInitializingMove());
                         boardMger.GetBoardContent().Print();
                         break;
                     default:
