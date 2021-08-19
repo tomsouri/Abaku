@@ -14,6 +14,7 @@ namespace InteractiveConsoleTests
         public static void EvaluateAndEnterMove(Move move, IBoardController bc)
         {
             var valid = bc.IsValid(move);
+            Console.WriteLine("You entered move: {0}", move);
             Console.WriteLine("Is valid: " + valid);
             Console.WriteLine("Formulas included in: ");
             foreach (var flaRepre in bc.AllFormulasIncludedIn(move))
@@ -58,7 +59,8 @@ namespace InteractiveConsoleTests
         public static void Test()
         {
             IBoardController bc = new BoardController.BoardController();
-
+            Console.WriteLine("======= ABAKU =======");
+            bc.GetBoardContent().Print();
             while (true)
             {
                 var quit = false;

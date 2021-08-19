@@ -12,7 +12,7 @@ namespace InteractiveConsoleTests
     {
         public static Digit[] GetDigitsFromHand()
         {
-            Console.WriteLine("Enter the digits you have in your hand:");
+            Console.WriteLine("Enter the digits you have in your hand (separated by space or comma):");
             var tokens = Console.ReadLine().Split(new char[] { ',', ' ' });
             var digits = new Digit[tokens.Length];
             for (int i = 0; i < tokens.Length; i++)
@@ -112,7 +112,7 @@ namespace InteractiveConsoleTests
 
             for (int i = 0; i < count; i++)
             {
-                Console.WriteLine("Enter a position: ");
+                Console.WriteLine("Enter a position (row number, column number, e.i. 2,4 ):");
                 positions[i] = ReadPosition();
                 Console.WriteLine("Enter the digit placed on this position: ");
                 digits[i] = (Digit)int.Parse(Console.ReadLine());
