@@ -65,7 +65,7 @@ namespace ReadOnlyListDigitExtensions
             return (tuple.digits1.ToLong(), tuple.digits2.ToLong(), tuple.digits3.ToLong());
         }
 
-        public static bool RepresentsValidNumber(IReadOnlyList<Digit> digits)
+        public static bool RepresentsValidNumber(this IReadOnlyList<Digit> digits)
         {
             return digits.Count > 0 && digits[0] != Digit.ZERO;
         }
