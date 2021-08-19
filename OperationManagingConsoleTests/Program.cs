@@ -30,13 +30,18 @@ namespace InteractiveConsoleTests
             OptimizerTest.Test();
             //OptimizerTest.TestSequenceGenerator();
         }
+        public static void BoardControl()
+        {
+            BoardControllerTest.Test();
+        }
         static void Main(string[] args)
         {
             //OpManaging();
             //BoardManaging();
             //Validation();
             //Evaluation();
-            Optimization();
+            //Optimization();
+            BoardControl();
         }
     }
 }

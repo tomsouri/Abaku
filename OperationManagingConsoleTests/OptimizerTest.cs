@@ -19,7 +19,7 @@ namespace InteractiveConsoleTests
         {
             while (true)
             {
-                var digits = GetDigitsFromHand();
+                var digits = Common.GetDigitsFromHand();
                 var sequences = DigitsSequenceGenerator.GetAllSequences(digits);
                 Console.WriteLine("Generated sequences:");
                 foreach (var seq in sequences)
@@ -32,7 +32,7 @@ namespace InteractiveConsoleTests
         public static void FindBestMove(BoardManager boardMger, IFormulaIdentifier formulaIdentifier,
                                         IValidator validator, IEvaluationManager evaluator, IOptimizer optimizer)
         {
-            var digits = GetDigitsFromHand();
+            var digits = Common.GetDigitsFromHand();
             var bestMove = optimizer.GetBestMove(digits, (IExtendedBoard)boardMger.Board, formulaIdentifier,
                                                  (IUnsafeEvaluator)evaluator, (IUnsafeValidator)validator);
 
@@ -59,17 +59,7 @@ namespace InteractiveConsoleTests
             }
 
         }
-        public static Digit[] GetDigitsFromHand()
-        {
-            Console.WriteLine("Enter the digits you have in your hand:");
-            var tokens = Console.ReadLine().Split(new char[] { ',', ' ' });
-            var digits = new Digit[tokens.Length];
-            for (int i = 0; i < tokens.Length; i++)
-            {
-                digits[i] = (Digit)int.Parse(tokens[i]);
-            }
-            return digits;
-        }
+       
         public static void Test()
         {
             var boardMger = new BoardManager();

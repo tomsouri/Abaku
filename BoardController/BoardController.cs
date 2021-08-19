@@ -57,7 +57,7 @@ namespace BoardController
             BoardManager.EnterMove(move);
         }
 
-        EvaluatedMove? IBoardController.GetBestMoves(IReadOnlyList<Digit> availableStones)
+        EvaluatedMove? IBoardController.GetBestMove(IReadOnlyList<Digit> availableStones)
         {
             return Optimizer.GetBestMove(availableStones, (IExtendedBoard)Board, FormulaIdentifier,
                 (IUnsafeEvaluator)EvalManager, (IUnsafeValidator)Validator);

@@ -10,6 +10,17 @@ namespace InteractiveConsoleTests
 {
     internal static class Common
     {
+        public static Digit[] GetDigitsFromHand()
+        {
+            Console.WriteLine("Enter the digits you have in your hand:");
+            var tokens = Console.ReadLine().Split(new char[] { ',', ' ' });
+            var digits = new Digit[tokens.Length];
+            for (int i = 0; i < tokens.Length; i++)
+            {
+                digits[i] = (Digit)int.Parse(tokens[i]);
+            }
+            return digits;
+        }
         public static Move GetInitializingMove()
         {
             var positions = new Position[]

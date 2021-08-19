@@ -49,7 +49,7 @@ namespace BoardController
         /// </summary>
         /// <param name="availableStones"> Stones on hand (digits that can be used).</param>
         /// <returns>The best move in the current situation.</returns>
-        EvaluatedMove? GetBestMoves(IReadOnlyList<Digit> availableStones);
+        EvaluatedMove? GetBestMove(IReadOnlyList<Digit> availableStones);
 
         /// <summary>
         /// Enters move WITHOUT checking its validity. Do not use in normal game!
