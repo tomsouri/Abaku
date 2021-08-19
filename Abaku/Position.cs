@@ -161,6 +161,10 @@ namespace CommonTypes
         }
         public override string ToString()
         {
+            return string.Format("({0},{1})", this.Row, this.Column);
+        }
+        public string ToExplicitString()
+        {
             return string.Format("(row:{0}, column:{1})", this.Row, this.Column);
         }
     }

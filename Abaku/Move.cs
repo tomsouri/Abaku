@@ -94,7 +94,7 @@ namespace CommonTypes
             {
                 result += string.Format("{0}: {1}; ", position,digit);
             }
-            return result.Substring(0, result.Length - 1);
+            return result.Substring(0, result.Length - 2);
         }
     }
 }

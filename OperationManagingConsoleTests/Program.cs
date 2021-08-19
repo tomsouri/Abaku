@@ -25,12 +25,17 @@ namespace InteractiveConsoleTests
         {
             EvaluatorTest.Test();
         }
+        static void Optimization()
+        {
+            OptimizerTest.Test();
+        }
         static void Main(string[] args)
         {
             //OpManaging();
             //BoardManaging();
             //Validation();
-            Evaluation();
+            //Evaluation();
+            Optimization();
         }
     }
 }
