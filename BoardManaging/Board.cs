@@ -210,6 +210,8 @@ namespace BoardManaging
 
         int IExtendedBoard.ColumnsCount => ColumnsCount;
 
+        Position IExtendedBoard.StartingPosition => StartPosition;
+
         Digit IManagableBoard.this[Position position] { set => this[position]=value; }
     }
 }
