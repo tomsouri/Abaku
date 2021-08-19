@@ -26,11 +26,17 @@ namespace InteractiveConsoleTests
         {
             var valid = validator.IsValid(move, boardMger.Board, formulaIdentifier);
             Console.WriteLine("Is valid: " + valid);
-            Console.WriteLine("Score you get: " + evaluator.Evaluate(move, boardMger.Board, formulaIdentifier, validator.IsValid));
-
+            Console.WriteLine("Formulas included in: ");
+            foreach (var flaRepre in evaluator.GetAllFormulasIncludedIn(move,boardMger.Board,formulaIdentifier,validator.IsValid))
+            {
+                Console.WriteLine("{0} ### {1} pts", flaRepre.ToString().PadRight(15), flaRepre.Score);
+            }
+            Console.WriteLine("----------------------------");
+            Console.WriteLine("{0} ### {1} pts", "Score you get:".PadRight(15), evaluator.Evaluate(move, boardMger.Board, formulaIdentifier, validator.IsValid));
             if (valid)
             {
                 boardMger.EnterMove(move);
+                boardMger.GetBoardContent().Print();
             }
         }
         public static void Test()
