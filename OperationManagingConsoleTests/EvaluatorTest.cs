@@ -75,6 +75,8 @@ namespace InteractiveConsoleTests
                         {
                             boardMger.GetBoardContent().Print();
                             EvaluateAndEnterMove(boardMger, opMger.FlaIdentifier,validator,evaluator);
+                            Console.WriteLine("Press Enter to continue...");
+                            Console.ReadLine();
                         }
                     case "def":
                         boardMger = new BoardManager();
