@@ -102,10 +102,26 @@ namespace InteractiveConsoleTests
             var ints = new int[] { 6, 9, 6, 9, 1, 8, 6, 2, 5, 2, 5, 7 };
             return new Move(ints.ConvertToDigits(), positions);
         }
+        public static int ReadNumber()
+        {
+            var isValid = false;
+            int result = 0;
+            while (!isValid)
+            {
+                isValid = int.TryParse(Console.ReadLine(), out result);
+                if (!isValid)
+                {
+                    Console.WriteLine("Please enter a valid number.");
+                }
+            }
+            return result;
+        }
         public static Move ReadMove()
         {
             Console.WriteLine("How many digits are you going to place?");
-            int count = int.Parse(Console.ReadLine());
+
+            int count = ReadNumber();
+            
 
             var positions = new Position[count];
             var digits = new Digit[count];
@@ -115,14 +131,44 @@ namespace InteractiveConsoleTests
                 Console.WriteLine("Enter a position (row number, column number, e.i. 2,4 ):");
                 positions[i] = ReadPosition();
                 Console.WriteLine("Enter the digit placed on this position: ");
-                digits[i] = (Digit)int.Parse(Console.ReadLine());
+                digits[i] = ReadDigit();
             }
             return new Move(digits, positions);
         }
         public static Position ReadPosition()
         {
-            var parts = Console.ReadLine().Split(new char[] { ',', ' ' });
-            return new Position(int.Parse(parts[0]), int.Parse(parts[1]));
+            var isValid = false;
+            int row = 0;
+            int column = 0;
+            while (!isValid)
+            {
+                var parts = Console.ReadLine().Split(new char[] { ',', ' ' });
+                if (parts.Length == 2)
+                {
+
+                    isValid = int.TryParse(parts[0], out row) && int.TryParse(parts[1], out column);
+                }
+                if (!isValid)
+                {
+                    Console.WriteLine("Please enter a valid position identificator, that is the row number and the column number, separated by space or by comma, e.i. 2,4 for position with row 2 and column 4.");
+                }
+            }
+            return new Position(row, column);
+        }
+        public static Digit ReadDigit()
+        {
+            var isValid = false;
+            int result = 0;
+            while (!isValid)
+            {
+                isValid = int.TryParse(Console.ReadLine(), out result);
+                if (result < 0 | result > 9) isValid = false;
+                if (!isValid)
+                {
+                    Console.WriteLine("Please enter a valid digit, that is number from 0 to 9.");
+                }
+            }
+            return (Digit)result;
         }
         public static void EnterMove(BoardManager mger)
         {
