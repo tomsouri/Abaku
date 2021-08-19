@@ -9,7 +9,7 @@ namespace CommonTypes
     /// <summary>
     /// Represents a valid digit in a decimal system, that is, can contain bytes 0, 1, ..., 9.
     /// </summary>
-    public struct Digit :IEquatable<Digit>
+    public struct Digit :IEquatable<Digit>, IComparable<Digit>
     {
         private byte Value { get; }
         private static readonly byte zero = 0;
@@ -47,6 +47,11 @@ namespace CommonTypes
         public override string ToString()
         {
             return this.Value.ToString();
+        }
+
+        public int CompareTo(Digit other)
+        {
+            return this.Value.CompareTo(other.Value);
         }
     }
 }
