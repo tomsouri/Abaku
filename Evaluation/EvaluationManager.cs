@@ -583,7 +583,7 @@ namespace Evaluation
             {
                 var unitDelta = new PositionDelta(End, Start).GetUnitDelta();
                 var currentPosition = Start;
-                for (int i = 0; i < End-Start; i++)
+                for (int i = 0; i <= End-Start; i++)
                 {
                     // we expect that the digit is not null!
                     var digit = (Digit)BoardAfterMove[currentPosition];
