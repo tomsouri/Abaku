@@ -77,6 +77,7 @@ namespace InteractiveConsoleTests
             var validator = Validator.Instance;
             var evaluator = new EvaluationManager();
             var optimizer = new Optimizer();
+            //boardMger.EnterMove(Common.GetProblematicInitMove());
 
             while (true)
             {

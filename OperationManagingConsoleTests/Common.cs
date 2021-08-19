@@ -71,6 +71,26 @@ namespace InteractiveConsoleTests
             var ints = new int[] { 1, 5, 6 };
             return new Move(ints.ConvertToDigits(), positions);
         }
+        public static Move GetProblematicInitMove()
+        {
+            var positions = new Position[]
+            {
+                new(3,4),
+                new(4,4),
+                new(5,4),
+                new(6,4),
+                new(7,4),
+                new(7,0),
+                new(7,1),
+                new(7,2),
+                new(7,3),
+                new(7,5),
+                new(7,6),
+                new(7,7)
+            };
+            var ints = new int[] { 6, 9, 6, 9, 1, 8, 6, 2, 5, 2, 5, 7 };
+            return new Move(ints.ConvertToDigits(), positions);
+        }
         public static Move ReadMove()
         {
             Console.WriteLine("How many digits are you going to place?");

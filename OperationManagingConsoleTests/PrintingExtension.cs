@@ -22,29 +22,40 @@ namespace InteractiveConsoleTests
             }
             Console.WriteLine();
         }
-        public static void Print(this Digit?[][] board)
+        public static void PrintColumnInfo(int count)
         {
-            Console.WriteLine("-------------------------------------------------");
             Console.Write("Column: ");
-            for (int i = 0; i < board[0].Length; i++)
+            for (int i = 0; i < count; i++)
             {
-                Console.Write("{0} ",i.ToString("D2"));
+                Console.Write("{0} ", i.ToString("D2"));
             }
             Console.WriteLine();
+        }
+        public static void PrintSeparator()
+        {
+
+            Console.WriteLine("-------------------------------------------------");
+        }
+        public static void Print(this Digit?[][] board)
+        {
+            PrintSeparator();
+            PrintColumnInfo(board[0].Length);
+
             int index = 0;
             foreach (var row in board)
             {
-                Console.Write("row {0}: ", index.ToString("D2"));
+                Console.Write("row {0}:|", index.ToString("D2"));
                 foreach (var digit in row)
                 {
-                    Console.Write(digit == null ? "__" : " "+digit);
-                    Console.Write(" ");
-
+                    Console.Write(digit == null ? "__" : "_"+digit);
+                    Console.Write("|");
                 }
+                Console.Write("{0} row", index.ToString("D2"));
                 Console.WriteLine();
                 index++;
             }
-            Console.WriteLine("--------------------------------------------------");
+            PrintColumnInfo(board[0].Length);
+            PrintSeparator();
         }
     }
 }
