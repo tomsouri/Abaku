@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using CommonTypes;
+using BoardManaging;
 
 namespace BoardController
 {
@@ -101,5 +102,7 @@ namespace BoardController
         /// </summary>
         /// <returns>The copy of the board, 2D array of nullable digits.</returns>
         Digit?[][] GetBoardContent();
+
+        IBoard Board { get; }
     }
 }

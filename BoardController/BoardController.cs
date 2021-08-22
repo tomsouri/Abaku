@@ -90,5 +90,6 @@ namespace BoardController
         {
             return BoardManager.GetBoardContent();
         }
+        IBoard IBoardController.Board => Board;
     }
 }
