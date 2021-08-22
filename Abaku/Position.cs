@@ -13,7 +13,7 @@ namespace CommonTypes
     {
         public byte RowDirection { get; }
         public byte ColumnDirection { get; }
-        internal Direction(int rowDirection, int columnDirection)
+        public Direction(int rowDirection, int columnDirection)
         {
             RowDirection = (byte)(rowDirection == 0 ? 0 : 1);
             ColumnDirection = (byte)(columnDirection == 0 ? 0 : 1);
