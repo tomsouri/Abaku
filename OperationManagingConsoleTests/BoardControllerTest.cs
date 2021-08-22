@@ -31,7 +31,7 @@ namespace InteractiveConsoleTests
         }
         public static void FindBestMove(IBoardController bc)
         {
-            var digits = Common.GetDigitsFromHand();
+            var digits = Common.ReadDigits();
             var bestMove = bc.GetBestMove(digits);
 
             if (bestMove == null)
@@ -78,7 +78,7 @@ namespace InteractiveConsoleTests
                         quit = true;
                         break;
                     case "s":
-                        EvaluateAndEnterMove(Common.ReadMove(), bc);
+                        EvaluateAndEnterMove(Common.ReadMoveSimple(bc.Board), bc);
                         break;
                     case "b":
                         FindBestMove(bc);

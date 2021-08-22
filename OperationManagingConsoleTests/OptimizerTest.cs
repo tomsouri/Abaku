@@ -19,7 +19,7 @@ namespace InteractiveConsoleTests
         {
             while (true)
             {
-                var digits = Common.GetDigitsFromHand();
+                var digits = Common.ReadDigits();
                 var sequences = DigitsSequenceGenerator.GetAllSequences(digits);
                 Console.WriteLine("Generated sequences:");
                 foreach (var seq in sequences)
@@ -32,7 +32,7 @@ namespace InteractiveConsoleTests
         public static void FindBestMove(BoardManager boardMger, IFormulaIdentifier formulaIdentifier,
                                         IValidator validator, IEvaluationManager evaluator, IOptimizer optimizer)
         {
-            var digits = Common.GetDigitsFromHand();
+            var digits = Common.ReadDigits();
             var bestMove = optimizer.GetBestMove(digits, (IExtendedBoard)boardMger.Board, formulaIdentifier,
                                                  (IUnsafeEvaluator)evaluator, (IUnsafeValidator)validator);
 

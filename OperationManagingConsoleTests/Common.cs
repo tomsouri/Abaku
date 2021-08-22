@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 using CommonTypes;
 using BoardManaging;
+
 namespace InteractiveConsoleTests
 {
     internal static class Common
     {
-        public static Digit[] GetDigitsFromHand()
+        public static Digit[] ReadDigits()
         {
-            Console.WriteLine("Enter the digits you have in your hand (separated by space or comma):");
+            Console.WriteLine("Enter the digits (separated by space or comma):");
             Digit[] digits = null;
             bool isValid = false;
             while (!isValid)
@@ -132,15 +133,24 @@ namespace InteractiveConsoleTests
             }
             return result;
         }
-        public static Move ReadMoveSimple()
+        public static Move ReadMoveSimple(IBoard board)
         {
             Console.WriteLine("Enter the starting position:");
-            var startPosition = ReadPosition();
+            var position = ReadPosition();
+            var direction = ReadDirection();
+            var digits = ReadDigits();
+            var positions = new Position[digits.Length];
 
-            
-
-
-            throw new NotImplementedException();
+            for (int i = 0; i < digits.Length; i++)
+            {
+                while (!board.IsPositionEmpty(position))
+                {
+                    position += direction;
+                }
+                positions[i] = position;
+                position += direction;
+            }
+            return new Move(digits, positions);
         }
         public static Direction ReadDirection()
         {
