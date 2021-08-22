@@ -132,6 +132,36 @@ namespace InteractiveConsoleTests
             }
             return result;
         }
+        public static Move ReadMoveSimple()
+        {
+            Console.WriteLine("Enter the starting position:");
+            var startPosition = ReadPosition();
+
+            
+
+
+            throw new NotImplementedException();
+        }
+        public static Direction ReadDirection()
+        {
+            Console.WriteLine("Enter the direction (d/down for down, r/right for right):");
+            while (true)
+            {
+                var input = Console.ReadLine();
+                switch (input)
+                {
+                    case "r":
+                    case "right":
+                        return new Direction(0, 1);
+                    case "d":
+                    case "down":
+                        return new Direction(1, 0);
+                    default:
+                        break;
+                }
+                Console.WriteLine("Please, enter a valid identificator of direction, that is r, d, right, or down.");
+            }
+        }
         public static Move ReadMove()
         {
             Console.WriteLine("How many digits are you going to place?");
