@@ -30,7 +30,7 @@ To make the determination of the validity of the move more efficient, part of it
 - Optimizer - finds the best move that we can play with given numbers on the hand on a given Board
 - BoardController - provides a simple interface for all the "outside-needed" methods of the previous five parts (the only one is therefore explicitly used by the applications that make up the Abaku game environment)
 
-**What wasn't done**
+**Future work**
 
 - The function for generating the best move can't generate the first move.
 - Variability of the game plan - loading from a file
