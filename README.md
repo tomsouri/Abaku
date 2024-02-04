@@ -1,10 +1,10 @@
 # Abaku documentation
 
-**Brief entry (annotation)**
+**Brief intro (annotation)**
 A library prepared for applications forming a virtual environment for Abaku game (https://abaku.org/). It allows you to manage the game plan, enter moves, evaluate moves, determine the validity of moves, recognize examples, and more.
 Support for a smart agent. A function that tells the agent what move to play in a given situation.
 
-**Chosen algorithm**
+**Used algorithm**
 More complex algorithms occur in the library in the parts of move validation, move evaluation, and especially finding the best move.
 A move validation algorithm is based on a more thorough examination of the rules and a systematic determination of when a move is valid and when it is not. Thus, it first examines the validity of occupied positions (if there are such positions, if they are different and free and if they are adjacent to each other, etc.), and then the existence of examples by which newly placed stones follow stones laid previously.
 
